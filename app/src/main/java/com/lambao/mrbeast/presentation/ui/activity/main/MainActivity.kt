@@ -1,13 +1,19 @@
-package com.lambao.mrbeast
+package com.lambao.mrbeast.presentation.ui.activity.main
 
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.lambao.base.presentation.ui.activity.BaseVMActivity
 import com.lambao.mrbeast_anime.R
+import com.lambao.mrbeast_anime.databinding.ActivityMainBinding
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : BaseVMActivity<ActivityMainBinding, MainViewModel>() {
+
+    override fun getLayoutResId() = R.layout.activity_main
+
+    override fun getViewModelClass() = MainViewModel::class.java
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -18,4 +24,13 @@ class MainActivity : AppCompatActivity() {
             insets
         }
     }
+
+    override fun onViewReady(savedInstanceState: Bundle?) {
+
+    }
+
+    override fun initObserve() {
+
+    }
+
 }
