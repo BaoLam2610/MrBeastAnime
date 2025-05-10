@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">MrBeast Anime</string>
+    <string name="home">Trang chủ</string>
+    <string name="search">Tìm kiếm</string>
 </resources>
