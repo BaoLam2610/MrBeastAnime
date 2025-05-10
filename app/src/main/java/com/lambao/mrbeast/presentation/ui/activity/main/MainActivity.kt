@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updatePadding
 import com.lambao.base.extension.findNavController
 import com.lambao.base.extension.setupWithNavController2
 import com.lambao.base.presentation.ui.activity.BaseVMActivity
@@ -44,6 +45,10 @@ class MainActivity : BaseVMActivity<ActivityMainBinding, MainViewModel>() {
     private fun setupNavigation() {
         navController.addOnDestinationChangedListener { _, destination, _ ->
             log("Current destination: ${destination.label}")
+        }
+        binding.bottomMenu.setOnApplyWindowInsetsListener { view, insets ->
+            view.updatePadding(bottom = 0)
+            insets
         }
         binding.bottomMenu.setupWithNavController2(navController)
     }
