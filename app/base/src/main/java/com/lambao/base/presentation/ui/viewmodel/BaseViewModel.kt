@@ -8,7 +8,9 @@ import com.lambao.base.presentation.ui.state.ScreenState
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.launchIn
@@ -25,8 +27,11 @@ open class BaseViewModel(
     private val dispatcherProvider: DispatcherProvider
 ) : ViewModel() {
 
-    private val _screenState = MutableStateFlow<ScreenState>(ScreenState.Idle())
-    val screenState: StateFlow<ScreenState> get() = _screenState
+    private val _screenState = MutableSharedFlow<ScreenState>()
+    val screenState: SharedFlow<ScreenState> get() = _screenState
+
+//    private val _screenState = MutableStateFlow<ScreenState>(ScreenState.Idle())
+//    val screenState: StateFlow<ScreenState> get() = _screenState
 
     /**
      * Sets the screen state to the specified [ScreenState].

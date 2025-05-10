@@ -41,7 +41,7 @@ abstract class BaseRemoteDataSource(
             val response = apiCall()
             emit(
                 when {
-                    response.data != null && response.status == 200 -> {
+                    response.data != null -> {
                         Resource.Success<T>(data = response.data)
                     }
 

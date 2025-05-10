@@ -4,8 +4,8 @@ import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import androidx.navigation.ui.setupWithNavController
 import com.lambao.base.extension.findNavController
+import com.lambao.base.extension.setupWithNavController2
 import com.lambao.base.presentation.ui.activity.BaseVMActivity
 import com.lambao.base.utils.log
 import com.lambao.mrbeast_anime.R
@@ -45,7 +45,7 @@ class MainActivity : BaseVMActivity<ActivityMainBinding, MainViewModel>() {
         navController.addOnDestinationChangedListener { _, destination, _ ->
             log("Current destination: ${destination.label}")
         }
-        binding.bottomMenu.setupWithNavController(navController)
+        binding.bottomMenu.setupWithNavController2(navController)
     }
 
     override fun onSupportNavigateUp(): Boolean {

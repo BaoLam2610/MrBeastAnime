@@ -1,5 +1,6 @@
 package com.lambao.base.extension
 
+import androidx.lifecycle.Lifecycle
 import com.lambao.base.presentation.ui.activity.BaseActivity
 import com.lambao.base.presentation.ui.bottom_sheet.BaseBottomSheet
 import com.lambao.base.presentation.ui.dialog.BaseDialog
@@ -65,9 +66,10 @@ fun <T> BaseFragment<*>.observe(
  */
 fun <T> BaseFragment<*>.observeLatest(
     flow: Flow<T>,
+    lifecycleState: Lifecycle.State = Lifecycle.State.STARTED,
     onChanged: (T) -> Unit
 ) {
-    flow.launchCollectLatest(this) {
+    flow.launchCollectLatest(this, lifecycleState) {
         onChanged.invoke(it)
     }
 }

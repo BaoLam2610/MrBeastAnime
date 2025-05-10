@@ -7,7 +7,15 @@ import androidx.lifecycle.repeatOnLifecycle
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.suspendCancellableCoroutine
+
+fun <T> Throwable.asFlow(): Flow<T> = flow {
+    emit(suspendCancellableCoroutine { cancellableContinuation ->
+        cancellableContinuation.cancel(this@asFlow)
+    })
+}
 
 /**
  * Launches a Flow collection tied to a LifecycleOwner's lifecycle, collecting values when in the specified state.

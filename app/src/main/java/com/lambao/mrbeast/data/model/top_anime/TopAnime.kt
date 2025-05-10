@@ -31,7 +31,7 @@ data class TopAnime(
     @Expose @SerializedName("aired") val aired: Aired? = null,
     @Expose @SerializedName("duration") val duration: String? = null,
     @Expose @SerializedName("rating") val rating: String? = null,
-    @Expose @SerializedName("score") val score: Int? = null,
+    @Expose @SerializedName("score") val score: Double? = null,
     @Expose @SerializedName("scored_by") val scoredBy: Int? = null,
     @Expose @SerializedName("rank") val rank: Int? = null,
     @Expose @SerializedName("popularity") val popularity: Int? = null,
