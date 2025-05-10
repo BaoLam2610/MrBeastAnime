@@ -12,8 +12,10 @@ class NetworkErrorHandlerImpl(
 ) : NetworkErrorHandler {
     override fun handleError(networkException: NetworkException) {
         val message = when (networkException.type) {
+            NetworkErrorType.NOT_MODIFIED -> "Error: 403: Not modified"
             NetworkErrorType.UNAUTHORIZED -> "Error 401: Please login again"
             NetworkErrorType.NOT_FOUND -> "Error 404: Data not found"
+            NetworkErrorType.METHOD_NOT_ALLOWED -> "Error 405: Method not allowed"
             NetworkErrorType.SERVER_ERROR -> "Error 500: Server issue"
             NetworkErrorType.NO_NETWORK -> "No internet connection"
             NetworkErrorType.TOO_MANY_REQUESTS -> "Error 429: Too many requests"

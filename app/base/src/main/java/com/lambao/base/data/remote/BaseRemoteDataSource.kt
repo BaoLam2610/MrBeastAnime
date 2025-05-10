@@ -40,10 +40,14 @@ abstract class BaseRemoteDataSource(
             emit(Resource.Loading())
             val response = apiCall()
             emit(
-                if (response.status == true) {
-                    Resource.Success(data = response.data)
-                } else {
-                    Resource.Error(throwable = parseErrorResponse(response))
+                when {
+                    response.data != null && response.status == 200 -> {
+                        Resource.Success<T>(data = response.data)
+                    }
+
+                    else -> {
+                        Resource.Error<T>(throwable = parseErrorResponse(response))
+                    }
                 }
             )
         }.flowOn(coroutineDispatcher)
@@ -54,8 +58,11 @@ abstract class BaseRemoteDataSource(
             val type = object : TypeToken<ApiResponse<T>>() {}.type
             val errorResponse: ApiResponse<T>? =
                 jsonParser.fromJson(response.errorBody()?.charStream(), type)
-            val code = errorResponse?.code ?: response.code()
-            val message = errorResponse?.message ?: response.message()
+            val code = errorResponse?.status ?: response.code()
+            val message = errorResponse?.error ?: errorResponse?.messages
+                ?.flatMap { it.value }
+                ?.joinToString("\n")
+            ?: response.message()
             mapToNetworkException(code, message)
         } catch (e: Exception) {
             NetworkException(
@@ -67,17 +74,19 @@ abstract class BaseRemoteDataSource(
     }
 
     protected open fun <T> parseErrorResponse(response: ApiResponse<T>): NetworkException {
-        val code = response.code ?: 0
-        val message = response.message ?: getUnknownErrorMessage()
+        val code = response.status ?: 0
+        val message = response.error ?: response.messages?.toString() ?: getUnknownErrorMessage()
         return mapToNetworkException(code, message)
     }
 
     protected open fun mapToNetworkException(code: Int, message: String): NetworkException {
         return when (code) {
+            304 -> NetworkException(NetworkErrorType.NOT_MODIFIED, code, message)
             400 -> NetworkException(NetworkErrorType.BAD_REQUEST, code, message)
             401 -> NetworkException(NetworkErrorType.UNAUTHORIZED, code, message)
             403 -> NetworkException(NetworkErrorType.FORBIDDEN, code, message)
             404 -> NetworkException(NetworkErrorType.NOT_FOUND, code, message)
+            405 -> NetworkException(NetworkErrorType.METHOD_NOT_ALLOWED, code, message)
             429 -> NetworkException(NetworkErrorType.TOO_MANY_REQUESTS, code, message)
             500 -> NetworkException(NetworkErrorType.SERVER_ERROR, code, message)
             502 -> NetworkException(NetworkErrorType.BAD_GATEWAY, code, message)
@@ -90,10 +99,12 @@ abstract class BaseRemoteDataSource(
         return when (e) {
             is HttpException -> NetworkException(
                 type = when (e.code()) {
+                    304 -> NetworkErrorType.NOT_MODIFIED
                     400 -> NetworkErrorType.BAD_REQUEST
                     401 -> NetworkErrorType.UNAUTHORIZED
                     403 -> NetworkErrorType.FORBIDDEN
                     404 -> NetworkErrorType.NOT_FOUND
+                    405 -> NetworkErrorType.METHOD_NOT_ALLOWED
                     429 -> NetworkErrorType.TOO_MANY_REQUESTS
                     500 -> NetworkErrorType.SERVER_ERROR
                     502 -> NetworkErrorType.BAD_GATEWAY
