@@ -3,10 +3,10 @@ package com.lambao.mrbeast.data.remote.request.top_anime
 import com.lambao.mrbeast.data.remote.request.PagingRequest
 
 data class TopAnimeRequest(
-    val type: String?,
-    val filter: String?,
-    val rating: String?,
-    val sfw: String?,
+    val type: String = "",
+    val filter: String = "",
+    val rating: String = "",
+    val sfw: String = "",
     override val page: String?,
     override val limit: String?
 ) : PagingRequest(page, limit) {

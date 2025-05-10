@@ -7,6 +7,7 @@ import com.lambao.base.presentation.handler.dispatcher.DispatcherProvider
 import com.lambao.base.presentation.ui.state.ScreenState
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -40,6 +41,7 @@ open class BaseViewModel(
      */
     fun setScreenState(state: ScreenState) {
         launch {
+            delay(10)
             _screenState.emit(state)
         }
     }

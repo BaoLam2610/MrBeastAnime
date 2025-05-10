@@ -59,10 +59,11 @@ abstract class BaseRemoteDataSource(
             val errorResponse: ApiResponse<T>? =
                 jsonParser.fromJson(response.errorBody()?.charStream(), type)
             val code = errorResponse?.status ?: response.code()
-            val message = errorResponse?.error ?: errorResponse?.messages
+            val message = errorResponse?.error + "\n" + errorResponse?.messages
                 ?.flatMap { it.value }
                 ?.joinToString("\n")
-            ?: response.message()
+                ?.trim()
+                ?.ifEmpty { getUnknownErrorMessage() }
             mapToNetworkException(code, message)
         } catch (e: Exception) {
             NetworkException(
@@ -75,7 +76,11 @@ abstract class BaseRemoteDataSource(
 
     protected open fun <T> parseErrorResponse(response: ApiResponse<T>): NetworkException {
         val code = response.status ?: 0
-        val message = response.error ?: response.messages?.toString() ?: getUnknownErrorMessage()
+        val message = response.error + "\n" + response.messages
+            ?.flatMap { it.value }
+            ?.joinToString("\n")
+            ?.trim()
+            ?.ifEmpty { getUnknownErrorMessage() }
         return mapToNetworkException(code, message)
     }
 

@@ -6,6 +6,8 @@ import android.content.pm.PackageManager
 import android.os.Build
 import android.widget.Toast
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
 
 fun Context.getAppName(): String {
     var applicationName = ""
@@ -49,4 +51,12 @@ fun Context.hasStoragePermission(): Boolean {
 
 fun Context.showToast(message: String, duration: Int = Toast.LENGTH_SHORT) {
     Toast.makeText(this, message, duration).show()
+}
+
+fun FragmentActivity.showToast(message: String) {
+    applicationContext.showToast(message)
+}
+
+fun Fragment.showToast(message: String) {
+    requireContext().showToast(message)
 }

@@ -21,5 +21,6 @@ class HomeFragment : BaseVMFragment<FragmentHomeBinding, HomeViewModel>() {
     }
 
     override fun initObserve() {
+        viewModel.getTopAnime()
     }
 }
