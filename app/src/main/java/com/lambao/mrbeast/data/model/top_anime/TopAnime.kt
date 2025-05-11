@@ -9,6 +9,7 @@ import com.lambao.mrbeast.data.model.Info
 import com.lambao.mrbeast.data.model.Titles
 import com.lambao.mrbeast.data.model.Trailer
 import com.lambao.mrbeast.data.model.images.ImagesRemote
+import com.lambao.mrbeast.domain.model.display.DisplayTopAnimeInfo
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
@@ -49,4 +50,17 @@ data class TopAnime(
     @Expose @SerializedName("explicit_genres") val explicitGenres: List<Info>? = null,
     @Expose @SerializedName("themes") val themes: List<Info>? = null,
     @Expose @SerializedName("demographics") val demographics: List<Info>? = null
-) : Parcelable
+) : Parcelable, DisplayTopAnimeInfo {
+    override fun getId() = malId?.toString()
+
+    override fun displayTitle() = title ?: ""
+
+    override fun displayGenres(): String {
+        if (genres.isNullOrEmpty()) return ""
+        return genres.joinToString { it.name ?: "" }
+    }
+
+    override fun displayScore() = score?.toString() ?: ""
+
+    override fun displayThumbnail() = images?.jpg?.imageUrl ?: ""
+}
