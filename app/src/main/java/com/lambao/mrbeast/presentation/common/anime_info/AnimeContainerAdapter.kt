@@ -7,7 +7,7 @@ import com.lambao.mrbeast_anime.R
 import com.lambao.mrbeast_anime.databinding.ItemAnimeRecyclerBinding
 import com.lambao.mrbeast_anime.databinding.ItemTitleSeeMoreBinding
 
-class AnimeRecyclerAdapter : BaseDiffMultiAdapter<AnimeItem>() {
+class AnimeContainerAdapter : BaseDiffMultiAdapter<AnimeItem>() {
     companion object {
         const val TYPE_TITLE = 0
         const val TYPE_BODY = 1

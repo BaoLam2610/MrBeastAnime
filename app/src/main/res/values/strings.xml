@@ -5,4 +5,7 @@
     <string name="play">Phát</string>
     <string name="info">Chi tiết</string>
     <string name="see_more">Xem thêm</string>
+    <string name="anime_tv_series">Anime bộ</string>
+    <string name="anime_movie">Anime lẻ</string>
+    <string name="upcoming">Sắp chiếu</string>
 </resources>

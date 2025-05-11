@@ -5,7 +5,7 @@ import androidx.viewpager2.widget.ViewPager2
 import com.lambao.base.extension.observeLatest
 import com.lambao.base.presentation.ui.fragment.BaseVMFragment
 import com.lambao.base.presentation.ui.view.recycler_view.linearSpacing
-import com.lambao.mrbeast.presentation.common.anime_info.AnimeRecyclerAdapter
+import com.lambao.mrbeast.presentation.common.anime_info.AnimeContainerAdapter
 import com.lambao.mrbeast_anime.R
 import com.lambao.mrbeast_anime.databinding.FragmentHomeBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -15,8 +15,8 @@ class HomeFragment : BaseVMFragment<FragmentHomeBinding, HomeViewModel>() {
 
     lateinit var topAnimeSliderAdapter: TopAnimeSliderAdapter
 
-    private val animeRecyclerAdapter by lazy {
-        AnimeRecyclerAdapter()
+    private val animeContainerAdapter by lazy {
+        AnimeContainerAdapter()
     }
 
     override fun getLayoutResId() = R.layout.fragment_home
@@ -25,7 +25,7 @@ class HomeFragment : BaseVMFragment<FragmentHomeBinding, HomeViewModel>() {
 
     override fun onViewReady(savedInstanceState: Bundle?) {
         binding.viewModel = viewModel
-        binding.rvInfo.adapter = animeRecyclerAdapter
+        binding.rvInfo.adapter = animeContainerAdapter
         binding.rvInfo.linearSpacing {
             top = 32
             bottom = 16
@@ -38,11 +38,14 @@ class HomeFragment : BaseVMFragment<FragmentHomeBinding, HomeViewModel>() {
             topAnimeSliderAdapter.submitList(it)
         }
 
-        observeLatest(viewModel.popularAnimeList) {
-            animeRecyclerAdapter.submitList(it)
+        observeLatest(viewModel.animeDisplayList) {
+            animeContainerAdapter.submitList(it)
         }
 
         viewModel.getTopAnimeSliders()
+//        viewModel.getTvSeasonNow()
+//        viewModel.getMovieSeasonNow()
+//        viewModel.getSeasonUpcoming()
     }
 
     private fun setupViewPager() {

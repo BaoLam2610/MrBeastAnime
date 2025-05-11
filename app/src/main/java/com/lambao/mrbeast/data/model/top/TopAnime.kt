@@ -1,4 +1,4 @@
-package com.lambao.mrbeast.data.model.top_anime
+package com.lambao.mrbeast.data.model.top
 
 import android.os.Parcelable
 import com.google.gson.annotations.Expose

@@ -1,8 +1,8 @@
-package com.lambao.mrbeast.data.remote.params.top_anime
+package com.lambao.mrbeast.data.remote.params.top
 
 import com.lambao.mrbeast.data.remote.params.PagingRequest
 
-data class TopAnimeParams(
+data class TopParams(
     val type: String = "",
     val filter: String = "",
     val rating: String = "",

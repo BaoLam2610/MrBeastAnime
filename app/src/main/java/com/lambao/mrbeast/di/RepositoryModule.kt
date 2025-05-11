@@ -1,5 +1,7 @@
 package com.lambao.mrbeast.di
 
+import com.lambao.mrbeast.data.repository.seasons.SeasonsRepository
+import com.lambao.mrbeast.data.repository.seasons.SeasonsRepositoryImpl
 import com.lambao.mrbeast.data.repository.top.TopRepository
 import com.lambao.mrbeast.data.repository.top.TopRepositoryImpl
 import dagger.Module
@@ -14,4 +16,8 @@ object RepositoryModule {
     @Provides
     @Singleton
     fun provideTopRepository(impl: TopRepositoryImpl): TopRepository = impl
+
+    @Provides
+    @Singleton
+    fun provideSeasonsRepository(impl: SeasonsRepositoryImpl): SeasonsRepository = impl
 }
