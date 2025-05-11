@@ -1,4 +1,4 @@
-package com.lambao.mrbeast.data.remote.request
+package com.lambao.mrbeast.data.remote.params
 
 abstract class PagingRequest(
     open val page: String?,
