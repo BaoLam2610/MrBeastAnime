@@ -13,6 +13,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginHorizontal="12dp"
         android:gravity="center"
         android:orientation="horizontal">
 
@@ -23,9 +24,8 @@
             android:layout_marginEnd="8dp"
             android:layout_weight="1"
             android:text="@{title}"
-            android:textColor="@color/text_secondary"
-            tools:text="Top 10 this month"
-            tools:textColor="@color/text_primary" />
+            android:textColor="@color/white"
+            tools:text="Top 10 this month" />
 
         <TextView
             style="@style/medium_12"

@@ -21,7 +21,7 @@
             android:id="@+id/bottomMenu"
             android:layout_width="match_parent"
             android:layout_height="60dp"
-            android:background="@color/background_secondary"
+            android:background="@drawable/bg_thumbnail_gradient"
             app:itemActiveIndicatorStyle="@android:color/transparent"
             app:itemIconSize="20dp"
             app:itemIconTint="@color/selector_color_menu_item"

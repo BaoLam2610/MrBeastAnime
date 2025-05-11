@@ -20,7 +20,7 @@
             android:layout_width="180dp"
             android:layout_height="200dp"
             android:adjustViewBounds="true"
-            android:foreground="@drawable/bg_thumbnail_gradient"
+            android:foreground="@drawable/bg_thumbnail_corner_gradient_10"
             android:scaleType="centerCrop"
             app:cornerRadiusDp="@{10}"
             app:imageUrl="@{item.displayThumbnail()}"
