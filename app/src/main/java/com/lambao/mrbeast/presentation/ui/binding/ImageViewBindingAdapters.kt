@@ -2,17 +2,11 @@ package com.lambao.mrbeast.presentation.ui.binding
 
 import android.widget.ImageView
 import androidx.databinding.BindingAdapter
-import com.lambao.base.extension.loadBlurImage
 import com.lambao.base.extension.loadImage
+import com.lambao.base.extension.loadRoundedImage
 
 object ImageViewBindingAdapters {
-    /**
-     * Loads an image from a URL into an ImageView using Glide with customizable options.
-     *
-     * @param url The URL of the image to load.
-     * @param placeholderResId Resource ID of the placeholder image (optional).
-     * @param errorResId Resource ID of the error image (optional).
-     */
+
     @JvmStatic
     @BindingAdapter(
         "imageUrl",
@@ -35,6 +29,41 @@ object ImageViewBindingAdapters {
             placeholder = placeholderResId,
             error = errorResId
         )
+    }
+
+    @JvmStatic
+    @BindingAdapter(
+        "imageUrl",
+        "placeholderResId",
+        "errorResId",
+        "cornerRadiusDp",
+        requireAll = false
+    )
+    fun ImageView.loadRoundedImageUrl(
+        url: String?,
+        placeholderResId: Int? = null,
+        errorResId: Int? = null,
+        cornerRadiusDp: Int? = null
+    ) {
+        if (url.isNullOrBlank()) {
+            placeholderResId?.let { setImageResource(it) }
+            return
+        }
+
+        cornerRadiusDp?.let {
+            loadRoundedImage(
+                url = url,
+                placeholder = placeholderResId,
+                error = errorResId,
+                cornerRadiusDp = it
+            )
+        } ?: run {
+            loadImage(
+                url = url,
+                placeholder = placeholderResId,
+                error = errorResId
+            )
+        }
     }
 
     @JvmStatic

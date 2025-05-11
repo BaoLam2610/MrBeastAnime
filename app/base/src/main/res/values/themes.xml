@@ -69,6 +69,10 @@
     </style>
 
     <!-- Semibold Variants -->
+    <style name="semibold_10" parent="roobert_semibold">
+        <item name="android:textSize">10sp</item>
+    </style>
+
     <style name="semibold_12" parent="roobert_semibold">
         <item name="android:textSize">12sp</item>
     </style>

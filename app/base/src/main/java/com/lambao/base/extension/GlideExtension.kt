@@ -4,7 +4,6 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import android.net.Uri
-import android.util.TypedValue
 import android.widget.ImageView
 import androidx.annotation.DrawableRes
 import com.bumptech.glide.Glide
@@ -12,7 +11,7 @@ import com.bumptech.glide.RequestBuilder
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.engine.GlideException
-import com.bumptech.glide.load.resource.bitmap.CircleCrop
+import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestListener
@@ -202,7 +201,7 @@ fun ImageView.loadCircleImage(
 ) {
     Glide.with(this)
         .load(url)
-        .apply(RequestOptions().transform(CircleCrop()))
+        .apply(RequestOptions().circleCrop())
         .apply {
             placeholder?.let { placeholder(it) }
             error?.let { error(it) }
@@ -226,7 +225,7 @@ fun ImageView.loadCircleImage(
 ) {
     Glide.with(this)
         .load(resourceId)
-        .apply(RequestOptions().transform(CircleCrop()))
+        .apply(RequestOptions().circleCrop())
         .apply {
             placeholder?.let { placeholder(it) }
             error?.let { error(it) }
@@ -250,7 +249,7 @@ fun ImageView.loadCircleImage(
 ) {
     Glide.with(this)
         .load(uri)
-        .apply(RequestOptions().transform(CircleCrop()))
+        .apply(RequestOptions().circleCrop())
         .apply {
             placeholder?.let { placeholder(it) }
             error?.let { error(it) }
@@ -274,7 +273,7 @@ fun ImageView.loadCircleImage(
 ) {
     Glide.with(this)
         .load(bitmap)
-        .apply(RequestOptions().transform(CircleCrop()))
+        .apply(RequestOptions().circleCrop())
         .apply {
             placeholder?.let { placeholder(it) }
             error?.let { error(it) }
@@ -298,7 +297,7 @@ fun ImageView.loadCircleImage(
 ) {
     Glide.with(this)
         .load(file)
-        .apply(RequestOptions().transform(CircleCrop()))
+        .apply(RequestOptions().circleCrop())
         .apply {
             placeholder?.let { placeholder(it) }
             error?.let { error(it) }
@@ -322,7 +321,7 @@ fun ImageView.loadCircleImage(
 ) {
     Glide.with(this)
         .load(bytes)
-        .apply(RequestOptions().transform(CircleCrop()))
+        .apply(RequestOptions().circleCrop())
         .apply {
             placeholder?.let { placeholder(it) }
             error?.let { error(it) }
@@ -346,7 +345,7 @@ fun ImageView.loadCircleImage(
 ) {
     Glide.with(this)
         .load(drawable)
-        .apply(RequestOptions().transform(CircleCrop()))
+        .apply(RequestOptions().circleCrop())
         .apply {
             placeholder?.let { placeholder(it) }
             error?.let { error(it) }
@@ -373,7 +372,12 @@ fun ImageView.loadRoundedImage(
     val cornerRadiusPx = cornerRadiusDp.toDp
     Glide.with(this)
         .load(url)
-        .apply(RequestOptions().transform(RoundedCorners(cornerRadiusPx)))
+        .apply(
+            RequestOptions().transform(
+                CenterCrop(),
+                RoundedCorners(cornerRadiusPx)
+            )
+        )
         .apply {
             placeholder?.let { placeholder(it) }
             error?.let { error(it) }
@@ -400,7 +404,12 @@ fun ImageView.loadRoundedImage(
     val cornerRadiusPx = cornerRadiusDp.toDp
     Glide.with(this)
         .load(resourceId)
-        .apply(RequestOptions().transform(RoundedCorners(cornerRadiusPx)))
+        .apply(
+            RequestOptions().transform(
+                CenterCrop(),
+                RoundedCorners(cornerRadiusPx)
+            )
+        )
         .apply {
             placeholder?.let { placeholder(it) }
             error?.let { error(it) }
@@ -427,7 +436,12 @@ fun ImageView.loadRoundedImage(
     val cornerRadiusPx = cornerRadiusDp.toDp
     Glide.with(this)
         .load(uri)
-        .apply(RequestOptions().transform(RoundedCorners(cornerRadiusPx)))
+        .apply(
+            RequestOptions().transform(
+                CenterCrop(),
+                RoundedCorners(cornerRadiusPx)
+            )
+        )
         .apply {
             placeholder?.let { placeholder(it) }
             error?.let { error(it) }
@@ -454,7 +468,12 @@ fun ImageView.loadRoundedImage(
     val cornerRadiusPx = cornerRadiusDp.toDp
     Glide.with(this)
         .load(bitmap)
-        .apply(RequestOptions().transform(RoundedCorners(cornerRadiusPx)))
+        .apply(
+            RequestOptions().transform(
+                CenterCrop(),
+                RoundedCorners(cornerRadiusPx)
+            )
+        )
         .apply {
             placeholder?.let { placeholder(it) }
             error?.let { error(it) }
@@ -481,7 +500,12 @@ fun ImageView.loadRoundedImage(
     val cornerRadiusPx = cornerRadiusDp.toDp
     Glide.with(this)
         .load(file)
-        .apply(RequestOptions().transform(RoundedCorners(cornerRadiusPx)))
+        .apply(
+            RequestOptions().transform(
+                CenterCrop(),
+                RoundedCorners(cornerRadiusPx)
+            )
+        )
         .apply {
             placeholder?.let { placeholder(it) }
             error?.let { error(it) }
@@ -508,7 +532,12 @@ fun ImageView.loadRoundedImage(
     val cornerRadiusPx = cornerRadiusDp.toDp
     Glide.with(this)
         .load(bytes)
-        .apply(RequestOptions().transform(RoundedCorners(cornerRadiusPx)))
+        .apply(
+            RequestOptions().transform(
+                CenterCrop(),
+                RoundedCorners(cornerRadiusPx)
+            )
+        )
         .apply {
             placeholder?.let { placeholder(it) }
             error?.let { error(it) }
@@ -535,7 +564,12 @@ fun ImageView.loadRoundedImage(
     val cornerRadiusPx = cornerRadiusDp.toDp
     Glide.with(this)
         .load(drawable)
-        .apply(RequestOptions().transform(RoundedCorners(cornerRadiusPx)))
+        .apply(
+            RequestOptions().transform(
+                CenterCrop(),
+                RoundedCorners(cornerRadiusPx)
+            )
+        )
         .apply {
             placeholder?.let { placeholder(it) }
             error?.let { error(it) }
