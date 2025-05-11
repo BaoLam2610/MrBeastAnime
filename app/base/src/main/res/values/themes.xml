@@ -69,6 +69,10 @@
     </style>
 
     <!-- Semibold Variants -->
+    <style name="semibold_12" parent="roobert_semibold">
+        <item name="android:textSize">12sp</item>
+    </style>
+
     <style name="semibold_14" parent="roobert_semibold">
         <item name="android:textSize">14sp</item>
     </style>
@@ -79,6 +83,10 @@
 
     <style name="semibold_18" parent="roobert_semibold">
         <item name="android:textSize">18sp</item>
+    </style>
+
+    <style name="semibold_20" parent="roobert_semibold">
+        <item name="android:textSize">20sp</item>
     </style>
 
     <style name="semibold_24" parent="roobert_semibold">
@@ -107,7 +115,7 @@
     </style>
 
     <style name="medium_24" parent="roobert_medium">
-        <item name="android:textSize">20sp</item>
+        <item name="android:textSize">24sp</item>
     </style>
 
     <!-- Regular Variants -->

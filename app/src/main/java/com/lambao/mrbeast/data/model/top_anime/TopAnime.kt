@@ -62,5 +62,5 @@ data class TopAnime(
 
     override fun displayScore() = score?.toString() ?: ""
 
-    override fun displayThumbnail() = images?.jpg?.imageUrl ?: ""
+    override fun displayThumbnail() = images?.jpg?.largeImageUrl ?: ""
 }

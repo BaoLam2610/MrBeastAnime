@@ -3,6 +3,7 @@ package com.lambao.mrbeast.presentation.ui.binding
 import android.widget.ImageView
 import androidx.databinding.BindingAdapter
 import com.lambao.base.extension.loadBlurImage
+import com.lambao.base.extension.loadImage
 
 object ImageViewBindingAdapters {
     /**
@@ -29,7 +30,7 @@ object ImageViewBindingAdapters {
             return
         }
 
-        loadBlurImage(
+        loadImage(
             url = url,
             placeholder = placeholderResId,
             error = errorResId
