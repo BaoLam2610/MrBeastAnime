@@ -6,6 +6,8 @@ import android.os.Parcelable
 import android.util.SparseArray
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
+import androidx.core.text.HtmlCompat
 import androidx.core.view.children
 import com.lambao.base.presentation.ui.view.OnSingleClickListener
 
@@ -15,6 +17,14 @@ private const val SPARSE_STATE_KEY = "SPARSE_STATE_KEY"
 val Int.toPx: Int get() = (this / getSystem().displayMetrics.density).toInt()
 
 val Int.toDp: Int get() = (this * getSystem().displayMetrics.density).toInt()
+
+fun TextView.setHtml(html: String?) {
+    if (html.isNullOrEmpty()) {
+        text = ""
+        return
+    }
+    this.text = HtmlCompat.fromHtml(html, HtmlCompat.FROM_HTML_MODE_COMPACT)
+}
 
 fun View.click(func: (v: View) -> Unit) {
     setOnClickListener(
