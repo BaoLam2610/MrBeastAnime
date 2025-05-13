@@ -1,13 +1,17 @@
 package com.lambao.mrbeast.presentation.common.anime_info
 
 import androidx.databinding.ViewDataBinding
+import com.lambao.base.extension.click
 import com.lambao.base.presentation.ui.recycler_view.BaseDiffMultiAdapter
 import com.lambao.base.presentation.ui.view.recycler_view.linearSpacing
+import com.lambao.mrbeast.domain.model.type.InfoType
 import com.lambao.mrbeast_anime.R
 import com.lambao.mrbeast_anime.databinding.ItemAnimeRecyclerBinding
 import com.lambao.mrbeast_anime.databinding.ItemTitleSeeMoreBinding
 
-class AnimeContainerAdapter : BaseDiffMultiAdapter<AnimeItem>() {
+class AnimeContainerAdapter(
+    private val onSeeMoreClickListener: (InfoType) -> Unit
+) : BaseDiffMultiAdapter<AnimeItem>() {
     companion object {
         const val TYPE_TITLE = 0
         const val TYPE_BODY = 1
@@ -40,6 +44,9 @@ class AnimeContainerAdapter : BaseDiffMultiAdapter<AnimeItem>() {
             is ItemTitleSeeMoreBinding -> {
                 val itemTitle = item as AnimeItem.Title
                 binding.title = itemTitle.text
+                binding.btnSeeMore.click {
+                    onSeeMoreClickListener.invoke(itemTitle.type)
+                }
             }
 
             is ItemAnimeRecyclerBinding -> {

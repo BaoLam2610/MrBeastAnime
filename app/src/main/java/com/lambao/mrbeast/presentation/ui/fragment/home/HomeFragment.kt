@@ -2,21 +2,27 @@ package com.lambao.mrbeast.presentation.ui.fragment.home
 
 import android.os.Bundle
 import androidx.viewpager2.widget.ViewPager2
+import com.lambao.base.extension.launchWhenCreated
 import com.lambao.base.extension.observeLatest
+import com.lambao.base.extension.showToast
 import com.lambao.base.presentation.ui.fragment.BaseVMFragment
 import com.lambao.base.presentation.ui.view.recycler_view.linearSpacing
+import com.lambao.base.presentation.ui.view.recycler_view.spacing
+import com.lambao.mrbeast.domain.model.type.HomeType
+import com.lambao.mrbeast.domain.model.type.InfoType
 import com.lambao.mrbeast.presentation.common.anime_info.AnimeContainerAdapter
 import com.lambao.mrbeast_anime.R
 import com.lambao.mrbeast_anime.databinding.FragmentHomeBinding
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
 
 @AndroidEntryPoint
 class HomeFragment : BaseVMFragment<FragmentHomeBinding, HomeViewModel>() {
 
-    lateinit var topAnimeSliderAdapter: TopAnimeSliderAdapter
+    private lateinit var topAnimeSliderAdapter: TopAnimeSliderAdapter
 
     private val animeContainerAdapter by lazy {
-        AnimeContainerAdapter()
+        AnimeContainerAdapter(::handleSeeMoreClickListener)
     }
 
     override fun getLayoutResId() = R.layout.fragment_home
@@ -26,7 +32,7 @@ class HomeFragment : BaseVMFragment<FragmentHomeBinding, HomeViewModel>() {
     override fun onViewReady(savedInstanceState: Bundle?) {
         binding.viewModel = viewModel
         binding.rvInfo.adapter = animeContainerAdapter
-        binding.rvInfo.linearSpacing {
+        binding.rvInfo.spacing {
             top = 32
             bottom = 16
         }
@@ -34,7 +40,7 @@ class HomeFragment : BaseVMFragment<FragmentHomeBinding, HomeViewModel>() {
     }
 
     override fun initObserve() {
-        observeLatest(viewModel.topAnimeSliders) {
+        observeLatest(viewModel.getTopAnimeList()) {
             topAnimeSliderAdapter.submitList(it)
         }
 
@@ -42,10 +48,11 @@ class HomeFragment : BaseVMFragment<FragmentHomeBinding, HomeViewModel>() {
             animeContainerAdapter.submitList(it)
         }
 
-        viewModel.getTopAnimeSliders()
-//        viewModel.getTvSeasonNow()
-//        viewModel.getMovieSeasonNow()
-//        viewModel.getSeasonUpcoming()
+        viewModel.fetchAnimeData()
+        launchWhenCreated {
+            delay(3000)
+            viewModel.fetchSeasonUpcoming()
+        }
     }
 
     private fun setupViewPager() {
@@ -59,6 +66,17 @@ class HomeFragment : BaseVMFragment<FragmentHomeBinding, HomeViewModel>() {
                 layoutParams = layoutParams.apply {
                     height = (resources.displayMetrics.heightPixels * 0.28).toInt()
                 }
+            }
+        }
+    }
+
+    private fun handleSeeMoreClickListener(type: InfoType) {
+        if (type is HomeType) {
+            when (type) {
+                HomeType.TopAnime -> showToast(type.toString())
+                HomeType.TvSeasonNow -> showToast(type.toString())
+                HomeType.MovieSeasonNow -> showToast(type.toString())
+                HomeType.SeasonUpcoming -> showToast(type.toString())
             }
         }
     }

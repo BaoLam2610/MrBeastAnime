@@ -7,10 +7,10 @@ data class TopParams(
     val filter: String = "",
     val rating: String = "",
     val sfw: String = "",
-    override val page: String?,
-    override val limit: String?
+    override val page: Int,
+    override val limit: Int
 ) : PagingRequest(page, limit) {
-    override fun toQueryMap(): Map<String, String?> {
+    override fun toQueryMap(): Map<String, String> {
         return super.toQueryMap() + mapOf(
             "type" to type,
             "filter" to filter,

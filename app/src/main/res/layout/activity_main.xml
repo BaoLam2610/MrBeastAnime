@@ -21,7 +21,7 @@
             android:id="@+id/bottomMenu"
             android:layout_width="match_parent"
             android:layout_height="60dp"
-            android:background="@drawable/bg_thumbnail_gradient"
+            android:background="@color/black"
             app:itemActiveIndicatorStyle="@android:color/transparent"
             app:itemIconSize="20dp"
             app:itemIconTint="@color/selector_color_menu_item"
@@ -30,6 +30,7 @@
             app:itemTextAppearanceInactive="@style/regular_12"
             app:itemTextColor="@color/selector_color_menu_item"
             app:labelVisibilityMode="labeled"
+            android:elevation="8dp"
             app:menu="@menu/bottom_menu" />
     </LinearLayout>
 </layout>

@@ -8,4 +8,7 @@
     <string name="anime_tv_series">Anime bộ</string>
     <string name="anime_movie">Anime lẻ</string>
     <string name="upcoming">Sắp chiếu</string>
+    <string name="genres">Thể loại</string>
+    <string name="popular_episode">Anime bộ nổi bật</string>
+    <string name="popular_promo">Phổ biến</string>
 </resources>

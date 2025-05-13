@@ -29,6 +29,10 @@ object Constants {
             const val UPCOMING = "upcoming"
             const val BY_POPULARITY = "bypopularity"
             const val FAVORITE = "favorite"
+            const val GENRES = "genres"
+            const val EXPLICIT_GENRES = "explicit_genres"
+            const val THEMES = "themes"
+            const val DEMOGRAPHICS = "demographics"
         }
 
         /**

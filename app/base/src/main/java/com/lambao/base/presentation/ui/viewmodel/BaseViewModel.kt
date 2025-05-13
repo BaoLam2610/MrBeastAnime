@@ -10,9 +10,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -30,9 +28,6 @@ open class BaseViewModel(
 
     private val _screenState = MutableSharedFlow<ScreenState>()
     val screenState: SharedFlow<ScreenState> get() = _screenState
-
-//    private val _screenState = MutableStateFlow<ScreenState>(ScreenState.Idle())
-//    val screenState: StateFlow<ScreenState> get() = _screenState
 
     /**
      * Sets the screen state to the specified [ScreenState].
@@ -201,6 +196,115 @@ open class BaseViewModel(
     }
 
     /**
+     * Combines two [Flow]s of [Resource] with different data types and processes them when both succeed.
+     * Updates the [screenState] and invokes callbacks based on the combined results.
+     *
+     * @param flow1 The first [Flow] emitting [Resource] objects of type [T1].
+     * @param flow2 The second [Flow] emitting [Resource] objects of type [T2].
+     * @param onError Optional callback invoked when any flow emits an error.
+     * @param onResults Callback invoked with the successful data from both flows.
+     */
+    protected fun <T1, T2> handleMultiData(
+        flow1: Flow<Resource<T1>>,
+        flow2: Flow<Resource<T2>>,
+        onError: ((Throwable) -> Unit)? = null,
+        onResults: (T1, T2) -> Unit
+    ) {
+        combine(flow1, flow2) { resource1, resource2 ->
+            Pair(resource1, resource2)
+        }.onEach { (resource1, resource2) ->
+            setLoadingScreenState()
+            when {
+                resource1 is Resource.Success && resource2 is Resource.Success -> {
+                    val data1 = resource1.data
+                    val data2 = resource2.data
+                    if (data1 != null && data2 != null) {
+                        setSuccessScreenState()
+                        onResults(data1, data2)
+                    } else {
+                        val error = Exception(getDataIsNullMessage())
+                        setErrorScreenState(error)
+                        onError?.invoke(error)
+                    }
+                }
+
+                resource1 is Resource.Error -> {
+                    val throwable = resource1.throwable ?: Exception(getUnknownErrorMessage())
+                    setErrorScreenState(throwable)
+                    onError?.invoke(throwable)
+                }
+
+                resource2 is Resource.Error -> {
+                    val throwable = resource2.throwable ?: Exception(getUnknownErrorMessage())
+                    setErrorScreenState(throwable)
+                    onError?.invoke(throwable)
+                }
+
+                else -> setLoadingScreenState()
+            }
+        }.launchIn(viewModelScope)
+    }
+
+    /**
+     * Combines three [Flow]s of [Resource] with different data types and processes them when all succeed.
+     * Updates the [screenState] and invokes callbacks based on the combined results.
+     *
+     * @param flow1 The first [Flow] emitting [Resource] objects of type [T1].
+     * @param flow2 The second [Flow] emitting [Resource] objects of type [T2].
+     * @param flow3 The third [Flow] emitting [Resource] objects of type [T3].
+     * @param onError Optional callback invoked when any flow emits an error.
+     * @param onResults Callback invoked with the successful data from all flows.
+     */
+    protected fun <T1, T2, T3> handleMultiData(
+        flow1: Flow<Resource<T1>>,
+        flow2: Flow<Resource<T2>>,
+        flow3: Flow<Resource<T3>>,
+        onError: ((Throwable) -> Unit)? = null,
+        onResults: (T1, T2, T3) -> Unit
+    ) {
+        combine(flow1, flow2, flow3) { resource1, resource2, resource3 ->
+            Triple(resource1, resource2, resource3)
+        }.onEach { (resource1, resource2, resource3) ->
+            setLoadingScreenState()
+            when {
+                resource1 is Resource.Success && resource2 is Resource.Success && resource3 is Resource.Success -> {
+                    val data1 = resource1.data
+                    val data2 = resource2.data
+                    val data3 = resource3.data
+                    if (data1 != null && data2 != null && data3 != null) {
+                        setSuccessScreenState()
+                        onResults(data1, data2, data3)
+                    } else {
+                        val error = Exception(getDataIsNullMessage())
+                        setErrorScreenState(error)
+                        onError?.invoke(error)
+                    }
+                }
+
+                resource1 is Resource.Error -> {
+                    val throwable = resource1.throwable ?: Exception(getUnknownErrorMessage())
+                    setErrorScreenState(throwable)
+                    onError?.invoke(throwable)
+                }
+
+                resource2 is Resource.Error -> {
+                    val throwable = resource2.throwable ?: Exception(getUnknownErrorMessage())
+                    setErrorScreenState(throwable)
+                    onError?.invoke(throwable)
+                }
+
+                resource3 is Resource.Error -> {
+                    val throwable = resource3.throwable ?: Exception(getUnknownErrorMessage())
+                    setErrorScreenState(throwable)
+                    onError?.invoke(throwable)
+                }
+
+                else -> setLoadingScreenState()
+            }
+        }.launchIn(viewModelScope)
+    }
+
+    /**
      * Combines multiple [Flow]s of [Resource] and processes them when all succeed.
      * Updates the [screenState] and invokes callbacks based on the combined results.
      *
@@ -208,10 +312,10 @@ open class BaseViewModel(
      * @param onError Optional callback invoked when any flow emits an error.
      * @param onResults Callback invoked with the list of successful data.
      */
-    protected fun <T> handleMultiData(
-        vararg flows: Flow<Resource<T>>,
+    protected fun handleMultiData(
+        vararg flows: Flow<Resource<*>>,
         onError: ((Throwable) -> Unit)? = null,
-        onResults: (List<T>) -> Unit
+        onResults: (List<*>) -> Unit
     ) {
         combine(flows.toList()) { resources ->
             resources.toList()
@@ -240,22 +344,22 @@ open class BaseViewModel(
     }
 
     /**
-     * Combines multiple [Flow]s of [Resource] and processes successful data, ignoring errors.
+     * Combines a list of [Flow]s of [Resource] with potentially different data types and processes successful data, ignoring errors.
      * Updates the [screenState] and invokes the callback with successful data.
      *
      * @param flows Vararg of [Flow]s emitting [Resource] objects.
      * @param onResults Callback invoked with the list of successful data.
      */
-    protected fun <T> handleMultiDataIgnoreErrors(
-        vararg flows: Flow<Resource<T>>,
-        onResults: (List<T>) -> Unit
+    protected fun handleMultiDataIgnoreErrors(
+        vararg flows: Flow<Resource<*>>,
+        onResults: (List<*>) -> Unit
     ) {
         combine(flows.toList()) { resources ->
             resources.toList()
         }.onEach { resources ->
             setLoadingScreenState()
             val successData = resources
-                .filterIsInstance<Resource.Success<T>>()
+                .filterIsInstance<Resource.Success<*>>()
                 .mapNotNull { it.data }
             if (successData.isNotEmpty()) {
                 setSuccessScreenState()

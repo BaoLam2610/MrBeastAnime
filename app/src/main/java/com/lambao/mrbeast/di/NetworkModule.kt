@@ -2,8 +2,10 @@ package com.lambao.mrbeast.di
 
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
+import com.lambao.mrbeast.data.remote.service.GenresService
 import com.lambao.mrbeast.data.remote.service.SeasonsService
 import com.lambao.mrbeast.data.remote.service.TopService
+import com.lambao.mrbeast.data.remote.service.WatchService
 import com.lambao.mrbeast.utils.Constants
 import dagger.Module
 import dagger.Provides
@@ -83,4 +85,14 @@ object NetworkModule {
     @Singleton
     fun provideTopService(retrofit: Retrofit): TopService =
         retrofit.create(TopService::class.java)
+
+    @Provides
+    @Singleton
+    fun provideGenresService(retrofit: Retrofit): GenresService =
+        retrofit.create(GenresService::class.java)
+
+    @Provides
+    @Singleton
+    fun provideWatchService(retrofit: Retrofit): WatchService =
+        retrofit.create(WatchService::class.java)
 }
