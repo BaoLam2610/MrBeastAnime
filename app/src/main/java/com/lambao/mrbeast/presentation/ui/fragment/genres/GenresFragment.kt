@@ -1,11 +1,15 @@
 package com.lambao.mrbeast.presentation.ui.fragment.genres
 
 import android.os.Bundle
+import androidx.core.os.bundleOf
 import com.lambao.base.extension.launchWhenCreated
+import com.lambao.base.extension.navigate
 import com.lambao.base.extension.observeLatest
 import com.lambao.base.presentation.ui.fragment.BaseVMFragment
 import com.lambao.base.presentation.ui.view.recycler_view.spacing
+import com.lambao.mrbeast.domain.model.display.DisplayAnimeInfo
 import com.lambao.mrbeast.presentation.common.anime_info.AnimeContainerAdapter
+import com.lambao.mrbeast.utils.Constants
 import com.lambao.mrbeast_anime.R
 import com.lambao.mrbeast_anime.databinding.FragmentGenresBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -19,9 +23,14 @@ class GenresFragment : BaseVMFragment<FragmentGenresBinding, GenresViewModel>() 
     }
 
     private val animeContainerAdapter by lazy {
-        AnimeContainerAdapter {
+        AnimeContainerAdapter(
+            onSeeMoreClickListener = {
 
-        }
+            },
+            onItemClickListener = { item, _ ->
+                handleOpenDetailScreen(item)
+            }
+        )
     }
 
     override fun getLayoutResId() = R.layout.fragment_genres
@@ -29,7 +38,6 @@ class GenresFragment : BaseVMFragment<FragmentGenresBinding, GenresViewModel>() 
     override fun getViewModelClass(): Class<GenresViewModel> = GenresViewModel::class.java
 
     override fun onViewReady(savedInstanceState: Bundle?) {
-        binding.viewModel = viewModel
         binding.rvGenres.adapter = genresAdapter
         binding.rvGenres.spacing {
             start = 4
@@ -46,6 +54,8 @@ class GenresFragment : BaseVMFragment<FragmentGenresBinding, GenresViewModel>() 
     }
 
     override fun initObserve() {
+        binding.viewModel = viewModel
+
         observeLatest(viewModel.colorfulGenres) {
             genresAdapter.submitList(it)
         }
@@ -59,5 +69,14 @@ class GenresFragment : BaseVMFragment<FragmentGenresBinding, GenresViewModel>() 
             delay(3000)
             viewModel.fetchAnimePopular()
         }
+    }
+
+    private fun handleOpenDetailScreen(item: DisplayAnimeInfo) {
+        navigate(
+            R.id.action_genresFragment_to_animeDetailFragment,
+            bundleOf(
+                Constants.Bundle.ID to item.getId()
+            )
+        )
     }
 }

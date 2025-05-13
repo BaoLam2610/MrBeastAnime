@@ -55,4 +55,8 @@ object Constants {
             const val RX = "rx"
         }
     }
+
+    object Bundle {
+        const val ID = "id"
+    }
 }

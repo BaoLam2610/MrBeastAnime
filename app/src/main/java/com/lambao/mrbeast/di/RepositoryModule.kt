@@ -1,5 +1,7 @@
 package com.lambao.mrbeast.di
 
+import com.lambao.mrbeast.data.repository.anime.AnimeRepository
+import com.lambao.mrbeast.data.repository.anime.AnimeRepositoryImpl
 import com.lambao.mrbeast.data.repository.genres.GenresRepository
 import com.lambao.mrbeast.data.repository.genres.GenresRepositoryImpl
 import com.lambao.mrbeast.data.repository.seasons.SeasonsRepository
@@ -32,4 +34,8 @@ object RepositoryModule {
     @Provides
     @Singleton
     fun provideWatchRepository(impl: WatchRepositoryImpl): WatchRepository = impl
+
+    @Provides
+    @Singleton
+    fun provideAnimeRepository(impl: AnimeRepositoryImpl): AnimeRepository = impl
 }

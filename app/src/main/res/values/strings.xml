@@ -11,4 +11,7 @@
     <string name="genres">Thể loại</string>
     <string name="popular_episode">Anime bộ nổi bật</string>
     <string name="popular_promo">Phổ biến</string>
+    <string name="synopsis">Tóm tắt</string>
+    <string name="seasons">Mùa</string>
+    <string name="review">Đánh giá</string>
 </resources>

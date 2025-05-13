@@ -39,13 +39,15 @@ class MainActivity : BaseVMActivity<ActivityMainBinding, MainViewModel>() {
     }
 
     override fun initObserve() {
-
+        binding.viewModel = viewModel
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            log("Current destination label: ${destination.label}")
+            log("Current destination id: ${destination.id}")
+            viewModel.updateShowBottomNavByFragmentId(destination.id)
+        }
     }
 
     private fun setupNavigation() {
-        navController.addOnDestinationChangedListener { _, destination, _ ->
-            log("Current destination: ${destination.label}")
-        }
         binding.bottomMenu.setOnApplyWindowInsetsListener { view, insets ->
             view.updatePadding(bottom = 0)
             insets

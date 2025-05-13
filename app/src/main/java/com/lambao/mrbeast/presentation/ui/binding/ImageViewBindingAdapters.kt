@@ -2,6 +2,7 @@ package com.lambao.mrbeast.presentation.ui.binding
 
 import android.widget.ImageView
 import androidx.databinding.BindingAdapter
+import com.lambao.base.extension.loadBlurImage
 import com.lambao.base.extension.loadImage
 import com.lambao.base.extension.loadRoundedImage
 
@@ -64,6 +65,33 @@ object ImageViewBindingAdapters {
                 error = errorResId
             )
         }
+    }
+
+    @JvmStatic
+    @BindingAdapter(
+        "blurImageUrl",
+        "placeholderResId",
+        "errorResId",
+        "blurRadius",
+        requireAll = false
+    )
+    fun ImageView.loadBlurImageUrl(
+        url: String?,
+        placeholderResId: Int? = null,
+        errorResId: Int? = null,
+        blurRadius: Int? = null,
+    ) {
+        if (url.isNullOrBlank()) {
+            placeholderResId?.let { setImageResource(it) }
+            return
+        }
+
+        loadBlurImage(
+            url = url,
+            placeholder = placeholderResId,
+            error = errorResId,
+            blurRadius = blurRadius ?: 10
+        )
     }
 
     @JvmStatic
