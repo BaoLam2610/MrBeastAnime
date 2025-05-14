@@ -4,6 +4,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.viewModelScope
 import com.lambao.base.presentation.handler.dispatcher.DispatcherProvider
 import com.lambao.base.presentation.ui.viewmodel.BaseViewModel
+import com.lambao.mrbeast.data.model.anime.Anime
 import com.lambao.mrbeast.data.model.anime.AnimePicture
 import com.lambao.mrbeast.data.remote.params.anime.AnimeParams
 import com.lambao.mrbeast.domain.model.display.DisplayAnimeFullInfo
@@ -12,6 +13,8 @@ import com.lambao.mrbeast.domain.usecase.anime.GetAnimeFullByIdUseCase
 import com.lambao.mrbeast.domain.usecase.anime.GetAnimePicturesUseCase
 import com.lambao.mrbeast.presentation.ui.fragment.anime_detail.episodes.AnimeEpisodesArgument
 import com.lambao.mrbeast.presentation.ui.fragment.anime_detail.episodes.AnimeEpisodesFragment
+import com.lambao.mrbeast.presentation.ui.fragment.anime_detail.more_info.AnimeMoreInfoArgument
+import com.lambao.mrbeast.presentation.ui.fragment.anime_detail.more_info.AnimeMoreInfoFragment
 import com.lambao.mrbeast.presentation.ui.fragment.anime_detail.videos_episodes.AnimeVideosEpisodesArgument
 import com.lambao.mrbeast.presentation.ui.fragment.anime_detail.videos_episodes.AnimeVideosEpisodesFragment
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -55,6 +58,12 @@ class AnimeDetailViewModel @Inject constructor(
                     )
                 )
             }
+
+            add(
+                AnimeMoreInfoFragment.newInstance(
+                    AnimeMoreInfoArgument(it as Anime)
+                )
+            )
         }
     }.stateIn(viewModelScope, SharingStarted.Lazily, emptyList<Fragment>())
     val fragments get() = _fragments

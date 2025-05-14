@@ -19,4 +19,12 @@
     <string name="aired_at">Phát sóng: %s</string>
     <string name="empty_episodes">Chưa có tập phim nào</string>
     <string name="broadcast">Phát sóng</string>
+    <string name="anime_type">Loại Anime</string>
+    <string name="status">Trạng thái</string>
+    <string name="number_of_episodes">Số tập</string>
+    <string name="duration">Thời lượng</string>
+    <string name="suitable_for">Phù hợp</string>
+    <string name="producers">Nhà sản xuất</string>
+    <string name="studios">Studio</string>
+    <string name="favorites">Lượt yêu thích</string>
 </resources>

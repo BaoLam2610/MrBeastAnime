@@ -3,6 +3,7 @@ package com.lambao.mrbeast.data.model.anime
 import android.os.Parcelable
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
+import com.lambao.base.extension.reformatDate
 import com.lambao.mrbeast.data.model.Aired
 import com.lambao.mrbeast.data.model.Broadcast
 import com.lambao.mrbeast.data.model.Info
@@ -68,6 +69,32 @@ data class Anime(
     override fun displayType() = type ?: ""
 
     override fun displaySynopsis() = synopsis ?: ""
+
+    override fun displayAiredFromDate() = aired?.from?.reformatDate(
+        Constants.DateTime.yyyyMMddTHHmmssHHmm,
+        Constants.DateTime.ddMMyyyy
+    ) ?: ""
+
+    override fun displayAiredToDate() = aired?.to?.reformatDate(
+        Constants.DateTime.yyyyMMddTHHmmssHHmm,
+        Constants.DateTime.ddMMyyyy
+    ) ?: ""
+
+    override fun displayProducers(): String {
+        if (producers.isNullOrEmpty()) return ""
+        return producers.joinToString { it.name ?: "" }
+    }
+
+    override fun displayStudios(): String {
+        if (studios.isNullOrEmpty()) return ""
+        return studios.joinToString { it.name ?: "" }
+    }
+
+    override fun displaySeasonYear() =
+        if (!season.isNullOrEmpty() && year != null) "${season?.replaceFirstChar { if (it.isLowerCase()) it.titlecase() else it.toString() }}, $year"
+        else ""
+
+    override fun displayFavorites() = favorites?.toString() ?: ""
 
     override fun isTvType() = type == Constants.Anime.Type.TV
 
