@@ -27,4 +27,8 @@ class AnimeRepositoryImpl @Inject constructor(
     override fun getAnimePictures(params: AnimeParams) = safeApiCall {
         animeService.getAnimePictures(params.id)
     }
+
+    override fun getAnimeCharacters(params: AnimeParams) = safeApiCall {
+        animeService.getAnimeCharacters(params.id)
+    }
 }
