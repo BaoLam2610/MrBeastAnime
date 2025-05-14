@@ -11,6 +11,13 @@ object Constants {
 
     const val PREF_FILE_NAME = "mrbeast_anime_pref"
 
+    object Anime {
+        object Type {
+            const val TV = "TV"
+            const val MOVIE = "Movie"
+        }
+    }
+
     object QueryParams {
         object Type {
             const val TV = "tv"
@@ -58,5 +65,14 @@ object Constants {
 
     object Bundle {
         const val ID = "id"
+        const val STATE = "STATE"
+        const val ARG = "ARG"
+        const val IS_UPCOMING = "IS_UPCOMING"
+    }
+
+    object DateTime {
+        const val yyyyMMddTHHmmssHHmm = "yyyy-MM-dd'T'HH:mm:ss+HH:mm"
+        const val ddMMyyyy = "dd/MM/yyyy"
+        const val ddMMyyyyHHmm = "dd/MM/yyyy HH:mm"
     }
 }

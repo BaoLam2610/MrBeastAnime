@@ -14,4 +14,9 @@
     <string name="synopsis">Tóm tắt</string>
     <string name="seasons">Mùa</string>
     <string name="review">Đánh giá</string>
+    <string name="episode">Tập phim</string>
+    <string name="episode_with_value">Tập %s</string>
+    <string name="aired_at">Phát sóng: %s</string>
+    <string name="empty_episodes">Chưa có tập phim nào</string>
+    <string name="broadcast">Phát sóng</string>
 </resources>

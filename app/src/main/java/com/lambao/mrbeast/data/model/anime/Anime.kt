@@ -10,6 +10,7 @@ import com.lambao.mrbeast.data.model.Titles
 import com.lambao.mrbeast.data.model.Trailer
 import com.lambao.mrbeast.data.model.images.ImagesRemote
 import com.lambao.mrbeast.domain.model.display.DisplayAnimeFullInfo
+import com.lambao.mrbeast.utils.Constants
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
@@ -53,7 +54,7 @@ data class Anime(
 ) : Parcelable, DisplayAnimeFullInfo {
     override fun getId() = malId?.toString()
 
-    override fun displayTitle() = title ?: ""
+    override fun displayTitle() = title + ""
 
     override fun displayGenres(): String {
         if (genres.isNullOrEmpty()) return ""
@@ -64,5 +65,13 @@ data class Anime(
 
     override fun displayThumbnail() = images?.jpg?.largeImageUrl ?: ""
 
+    override fun displayType() = type ?: ""
+
     override fun displaySynopsis() = synopsis ?: ""
+
+    override fun isTvType() = type == Constants.Anime.Type.TV
+
+    override fun isMovieType() = type == Constants.Anime.Type.MOVIE
+
+    override fun hasBroadcast() = broadcast != null && !broadcast.day.isNullOrEmpty()
 }
