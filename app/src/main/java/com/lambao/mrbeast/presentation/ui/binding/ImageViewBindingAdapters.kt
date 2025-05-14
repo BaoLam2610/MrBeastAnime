@@ -3,6 +3,7 @@ package com.lambao.mrbeast.presentation.ui.binding
 import android.widget.ImageView
 import androidx.databinding.BindingAdapter
 import com.lambao.base.extension.loadBlurImage
+import com.lambao.base.extension.loadCircleImage
 import com.lambao.base.extension.loadImage
 import com.lambao.base.extension.loadRoundedImage
 
@@ -65,6 +66,30 @@ object ImageViewBindingAdapters {
                 error = errorResId
             )
         }
+    }
+
+    @JvmStatic
+    @BindingAdapter(
+        "circleImageUrl",
+        "placeholderResId",
+        "errorResId",
+        requireAll = false
+    )
+    fun ImageView.loadCircleImageUrl(
+        url: String?,
+        placeholderResId: Int? = null,
+        errorResId: Int? = null
+    ) {
+        if (url.isNullOrBlank()) {
+            placeholderResId?.let { setImageResource(it) }
+            return
+        }
+
+        loadCircleImage(
+            url = url,
+            placeholder = placeholderResId,
+            error = errorResId
+        )
     }
 
     @JvmStatic

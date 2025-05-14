@@ -5,7 +5,6 @@ import com.lambao.base.presentation.handler.dispatcher.DispatcherProvider
 import com.lambao.base.presentation.ui.viewmodel.BaseViewModel
 import com.lambao.mrbeast.data.model.anime.Anime
 import com.lambao.mrbeast.domain.model.display.AnimeInfoPairTextAttr
-import com.lambao.mrbeast.domain.usecase.anime.GetAnimeCharactersUseCase
 import com.lambao.mrbeast_anime.R
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -16,7 +15,6 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AnimeMoreInfoViewModel @Inject constructor(
-    private val getAnimeCharactersUseCase: GetAnimeCharactersUseCase,
     @ApplicationContext private val context: Context,
     dispatcherProvider: DispatcherProvider
 ) : BaseViewModel(dispatcherProvider) {

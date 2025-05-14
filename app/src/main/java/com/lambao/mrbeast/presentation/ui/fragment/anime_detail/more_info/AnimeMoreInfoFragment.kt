@@ -43,8 +43,8 @@ class AnimeMoreInfoFragment :
     override fun onViewReady(savedInstanceState: Bundle?) {
         binding.rvInfo.adapter = gridInfoAdapter
         binding.rvInfo.spacing {
-            start = 8
-            end = 8
+            start = 12
+            end = 12
             top = 64
             bottom = 64
         }

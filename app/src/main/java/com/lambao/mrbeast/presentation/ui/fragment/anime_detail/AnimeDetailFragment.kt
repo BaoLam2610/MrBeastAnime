@@ -1,7 +1,6 @@
 package com.lambao.mrbeast.presentation.ui.fragment.anime_detail
 
 import android.os.Bundle
-import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayoutMediator
 import com.lambao.base.extension.click
 import com.lambao.base.extension.launchWhenCreated
@@ -54,6 +53,13 @@ class AnimeDetailFragment : BaseVMFragment<FragmentAnimeDetailBinding, AnimeDeta
 
         observeLatest(viewModel.shouldShowFullInfo) {}
 
+        observeLatest(viewModel.screenTypes) {
+            if (it.isEmpty()) return@observeLatest
+            TabLayoutMediator(binding.tabLayout, binding.viewPager) { tab, position ->
+                tab.text = it[position].title
+            }.attach()
+        }
+
         observeLatest(viewModel.fragments) {
             viewPagerAdapter.submitList(it)
         }
@@ -72,15 +78,6 @@ class AnimeDetailFragment : BaseVMFragment<FragmentAnimeDetailBinding, AnimeDeta
         )
         binding.viewPager.adapter = viewPagerAdapter
         binding.viewPager.isUserInputEnabled = false
-        TabLayoutMediator(binding.tabLayout, binding.viewPager) { tab, position ->
-            tab.text = when (position) {
-                0 -> getString(R.string.episode)
-                1 -> getString(R.string.broadcast)
-                2 -> getString(R.string.info)
-                3 -> getString(R.string.review)
-                else -> ""
-            }
-        }.attach()
     }
 
     private fun setupSliderViewPager() {
