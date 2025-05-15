@@ -7,6 +7,8 @@ import com.lambao.mrbeast.data.model.anime.AnimeEpisode
 import com.lambao.mrbeast.data.remote.params.anime.AnimeParams
 import com.lambao.mrbeast.domain.model.display.DisplayAnimeEpisodeInfo
 import com.lambao.mrbeast.domain.usecase.anime.GetAnimeEpisodesUseCase
+import com.lambao.mrbeast.presentation.ui.common.view_model.anime.AnimeDelegate
+import com.lambao.mrbeast.presentation.ui.common.view_model.anime.AnimeViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -19,9 +21,8 @@ import javax.inject.Inject
 class AnimeEpisodesViewModel @Inject constructor(
     private val getAnimeEpisodesUseCase: GetAnimeEpisodesUseCase,
     dispatcherProvider: DispatcherProvider
-) : BaseRemotePagingViewModel<DisplayAnimeEpisodeInfo>(dispatcherProvider) {
-
-    private val _animeId = MutableStateFlow("")
+) : BaseRemotePagingViewModel<DisplayAnimeEpisodeInfo>(dispatcherProvider),
+    AnimeDelegate by AnimeViewModel(dispatcherProvider) {
 
     private val _thumbnail = MutableStateFlow("")
 
@@ -45,7 +46,7 @@ class AnimeEpisodesViewModel @Inject constructor(
     }
 
     fun fetchAnimeEpisodes(id: String) {
-        _animeId.value = id
+        setAnimeId(id)
         fetchData()
     }
 
@@ -53,7 +54,7 @@ class AnimeEpisodesViewModel @Inject constructor(
         handleDataPaging(
             getAnimeEpisodesUseCase.invoke(
                 AnimeParams(
-                    id = _animeId.value,
+                    id = getAnimeId().value,
                     page = currentPage.value
                 )
             ),

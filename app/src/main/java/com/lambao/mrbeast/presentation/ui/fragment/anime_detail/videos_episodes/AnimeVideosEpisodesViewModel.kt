@@ -5,6 +5,8 @@ import com.lambao.base.presentation.ui.viewmodel.paging.BaseRemotePagingViewMode
 import com.lambao.mrbeast.data.remote.params.anime.AnimeParams
 import com.lambao.mrbeast.domain.model.display.DisplayAnimeVideoEpisodeInfo
 import com.lambao.mrbeast.domain.usecase.anime.GetAnimeVideosEpisodesUseCase
+import com.lambao.mrbeast.presentation.ui.common.view_model.anime.AnimeDelegate
+import com.lambao.mrbeast.presentation.ui.common.view_model.anime.AnimeViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -14,22 +16,21 @@ import javax.inject.Inject
 class AnimeVideosEpisodesViewModel @Inject constructor(
     private val getAnimeVideosEpisodesUseCase: GetAnimeVideosEpisodesUseCase,
     dispatcherProvider: DispatcherProvider
-) : BaseRemotePagingViewModel<DisplayAnimeVideoEpisodeInfo>(dispatcherProvider) {
-
-    private val _animeId = MutableStateFlow("")
+) : BaseRemotePagingViewModel<DisplayAnimeVideoEpisodeInfo>(dispatcherProvider),
+    AnimeDelegate by AnimeViewModel(dispatcherProvider) {
 
     private val _shouldShowEmptyEpisode = MutableStateFlow(false)
     val shouldShowEmptyEpisode = _shouldShowEmptyEpisode.asStateFlow()
 
     fun fetchAnimeVideosEpisodes(id: String) {
-        _animeId.value = id
+        setAnimeId(id)
         fetchData()
     }
 
     override fun fetchData() {
         handleDataPaging(
             getAnimeVideosEpisodesUseCase.invoke(
-                AnimeParams(id = _animeId.value, page = currentPage.value)
+                AnimeParams(id = getAnimeId().value, page = currentPage.value)
             ),
             onPaging = ::setPaging,
             onError = {

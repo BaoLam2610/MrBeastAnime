@@ -3,13 +3,12 @@ package com.lambao.mrbeast.presentation.ui.fragment.anime_detail.more_info
 import android.content.Context
 import com.lambao.base.presentation.handler.dispatcher.DispatcherProvider
 import com.lambao.base.presentation.ui.viewmodel.BaseViewModel
-import com.lambao.mrbeast.data.model.anime.Anime
 import com.lambao.mrbeast.domain.model.display.AnimeInfoPairTextAttr
+import com.lambao.mrbeast.presentation.ui.common.view_model.anime.AnimeDelegate
+import com.lambao.mrbeast.presentation.ui.common.view_model.anime.AnimeViewModel
 import com.lambao.mrbeast_anime.R
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
@@ -17,13 +16,12 @@ import javax.inject.Inject
 class AnimeMoreInfoViewModel @Inject constructor(
     @ApplicationContext private val context: Context,
     dispatcherProvider: DispatcherProvider
-) : BaseViewModel(dispatcherProvider) {
+) : BaseViewModel(dispatcherProvider),
+    AnimeDelegate by AnimeViewModel(dispatcherProvider) {
 
-    private val _anime = MutableStateFlow(Anime())
-    val anime = _anime.asStateFlow()
-
-    private val _moreInfos = _anime.map {
+    private val _moreInfos = getAnime().map {
         buildList {
+            if (it == null) return@buildList
             if (it.shouldDisplayType()) {
                 add(
                     AnimeInfoPairTextAttr(
@@ -116,8 +114,4 @@ class AnimeMoreInfoViewModel @Inject constructor(
         }
     }
     val moreInfos get() = _moreInfos
-
-    fun setAnime(anime: Anime) {
-        launch { _anime.emit(anime) }
-    }
 }
