@@ -1,4 +1,4 @@
-package com.lambao.mrbeast.presentation.ui.fragment.anime_detail
+package com.lambao.mrbeast.presentation.ui.fragment.anime_detail.pictures
 
 import com.lambao.base.presentation.ui.recycler_view.BaseDiffAdapter
 import com.lambao.mrbeast.domain.model.display.DisplayAnimePictureInfo

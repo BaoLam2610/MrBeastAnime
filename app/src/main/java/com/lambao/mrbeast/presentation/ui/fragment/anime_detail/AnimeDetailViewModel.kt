@@ -14,6 +14,8 @@ import com.lambao.mrbeast.presentation.ui.fragment.anime_detail.episodes.AnimeEp
 import com.lambao.mrbeast.presentation.ui.fragment.anime_detail.episodes.AnimeEpisodesFragment
 import com.lambao.mrbeast.presentation.ui.fragment.anime_detail.more_info.AnimeMoreInfoArgument
 import com.lambao.mrbeast.presentation.ui.fragment.anime_detail.more_info.AnimeMoreInfoFragment
+import com.lambao.mrbeast.presentation.ui.fragment.anime_detail.pictures.AnimePicturesArgument
+import com.lambao.mrbeast.presentation.ui.fragment.anime_detail.pictures.AnimePicturesFragment
 import com.lambao.mrbeast.presentation.ui.fragment.anime_detail.videos_episodes.AnimeVideosEpisodesArgument
 import com.lambao.mrbeast.presentation.ui.fragment.anime_detail.videos_episodes.AnimeVideosEpisodesFragment
 import com.lambao.mrbeast_anime.R
@@ -77,6 +79,18 @@ class AnimeDetailViewModel @Inject constructor(
                     title = context.getString(R.string.character),
                     fragment = AnimeCharactersFragment.newInstance(
                         AnimeCharactersArgument(it.getId())
+                    )
+                )
+            )
+
+            add(
+                AnimeDetailScreenType(
+                    title = context.getString(R.string.picture),
+                    fragment = AnimePicturesFragment.newInstance(
+                        AnimePicturesArgument(
+                            id = it.getId(),
+                            trailer = it.trailer
+                        )
                     )
                 )
             )

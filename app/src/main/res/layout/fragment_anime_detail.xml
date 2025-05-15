@@ -159,6 +159,7 @@
                     android:visibility="@{viewModel.shouldShowFullInfo ? View.VISIBLE : View.GONE, default=gone}"
                     app:layout_constraintTop_toBottomOf="@id/tvSynopsisDesc"
                     app:tabIndicatorColor="@color/background_primary"
+                    app:tabMode="scrollable"
                     app:tabRippleColor="@color/background_primary"
                     app:tabSelectedTextColor="@color/background_primary"
                     app:tabTextAppearance="@style/semibold_14"

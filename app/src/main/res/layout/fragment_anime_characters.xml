@@ -35,7 +35,7 @@
             android:layout_width="match_parent"
             android:layout_height="100dp"
             android:gravity="center"
-            android:text="@string/empty_episodes"
+            android:text="@string/empty_characters"
             android:textColor="@color/text_secondary"
             android:visibility="gone" />
     </FrameLayout>

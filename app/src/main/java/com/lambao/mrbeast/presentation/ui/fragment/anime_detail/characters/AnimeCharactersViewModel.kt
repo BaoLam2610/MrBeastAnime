@@ -21,10 +21,9 @@ class AnimeCharactersViewModel @Inject constructor(
         handleDataNoLoading(
             getAnimeCharactersUseCase.invoke(
                 AnimeParams(id = getAnimeId().value)
-            )
-        ) {
-            setFullItemList(it)
-        }
+            ),
+            onSuccess = ::setFullItemList
+        )
     }
 
     fun fetchAnimeCharacters(id: String) {

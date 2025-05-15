@@ -18,6 +18,8 @@
     <string name="episode_with_value">Tập %s</string>
     <string name="aired_at">Phát sóng: %s</string>
     <string name="empty_episodes">Chưa có tập phim nào</string>
+    <string name="empty_characters">Chưa có nhân vật nào</string>
+    <string name="empty_pictures">Chưa có ảnh nào</string>
     <string name="broadcast">Phát sóng</string>
     <string name="anime_type">Loại Anime</string>
     <string name="status">Trạng thái</string>
@@ -28,4 +30,7 @@
     <string name="studios">Studio</string>
     <string name="favorites">Lượt yêu thích</string>
     <string name="character">Nhân vật</string>
+    <string name="picture">Hình ảnh</string>
+    <string name="trailer">Trailer</string>
+    <string name="gallery">Bộ sưu tập ảnh</string>
 </resources>

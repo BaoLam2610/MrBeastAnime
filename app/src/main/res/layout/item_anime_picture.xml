@@ -10,27 +10,13 @@
             type="com.lambao.mrbeast.domain.model.display.DisplayAnimePictureInfo" />
     </data>
 
-    <FrameLayout
+    <ImageView
+        android:id="@+id/ivThumbnail"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <ImageView
-            android:id="@+id/ivThumbnailBgr"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:adjustViewBounds="true"
-            android:scaleType="centerCrop"
-            app:blurImageUrl="@{item.displayThumbnail()}"
-            tools:src="@drawable/ic_launcher_background" />
-
-        <ImageView
-            android:id="@+id/ivThumbnail"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:adjustViewBounds="true"
-            android:foreground="@drawable/bg_thumbnail_gradient"
-            android:scaleType="fitCenter"
-            app:imageUrl="@{item.displayThumbnail()}"
-            tools:src="@drawable/ic_launcher_background" />
-    </FrameLayout>
+        android:layout_height="match_parent"
+        android:adjustViewBounds="true"
+        android:scaleType="fitCenter"
+        app:cornerRadiusDp="@{4}"
+        app:imageUrl="@{item.displayThumbnail()}"
+        tools:src="@drawable/ic_launcher_background" />
 </layout>
