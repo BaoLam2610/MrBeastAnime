@@ -83,6 +83,9 @@ dependencies {
     /* Glide */
     implementation(libs.glide)
     implementation(libs.glide.transformations)
+
+    /* Youtube player */
+    implementation(libs.pierfrancescosoffritti.androidyoutubeplayer)
 }
 
 /* Hilt: Allow references to generated code*/

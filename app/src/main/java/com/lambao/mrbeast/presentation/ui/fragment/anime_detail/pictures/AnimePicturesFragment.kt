@@ -2,9 +2,6 @@ package com.lambao.mrbeast.presentation.ui.fragment.anime_detail.pictures
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.webkit.WebResourceRequest
-import android.webkit.WebView
-import android.webkit.WebViewClient
 import com.lambao.base.extension.getParcelableCompat
 import com.lambao.base.extension.observeLatest
 import com.lambao.base.presentation.ui.fragment.BaseVMFragment
@@ -12,6 +9,8 @@ import com.lambao.base.presentation.ui.view.recycler_view.spacing
 import com.lambao.mrbeast.utils.Constants
 import com.lambao.mrbeast_anime.R
 import com.lambao.mrbeast_anime.databinding.FragmentAnimePicturesBinding
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -47,20 +46,7 @@ class AnimePicturesFragment :
             start = 8
             end = 8
         }
-        binding.webView.apply {
-            settings.javaScriptEnabled = true
-            settings.loadWithOverviewMode = true
-            settings.useWideViewPort = true
-
-            webViewClient = object : WebViewClient() {
-                override fun shouldOverrideUrlLoading(
-                    view: WebView?,
-                    request: WebResourceRequest?
-                ): Boolean {
-                    return false
-                }
-            }
-        }
+        lifecycle.addObserver(binding.youtubePlayer)
     }
 
     override fun initObserve() {
@@ -68,15 +54,21 @@ class AnimePicturesFragment :
         argData?.id?.let { viewModel.fetchAnimePictures(it) }
         argData?.trailer?.let { viewModel.setAnimeTrailer(it) }
 
-        observeLatest(viewModel.shouldShowTrailer()) {  }
+        observeLatest(viewModel.shouldShowTrailer()) { }
 
         observeLatest(viewModel.items) {
             picturesAdapter.submitList(it)
         }
 
-        observeLatest(viewModel.getAnimeTrailer()) {
-            it?.embedUrl?.let { url -> binding.webView.loadUrl(url) }
-        }
+        binding.youtubePlayer.addYouTubePlayerListener(object : AbstractYouTubePlayerListener() {
+            override fun onReady(youTubePlayer: YouTubePlayer) {
+                viewModel.getAnimeTrailer().value
+                    ?.youtubeId
+                    ?.let {
+                        youTubePlayer.loadVideo(it, 0f)
+                    }
+            }
+        })
     }
 
     override fun onResume() {
