@@ -42,7 +42,7 @@ abstract class BaseRemoteDataSource(
             emit(
                 when {
                     response.data != null -> {
-                        Resource.Success<T>(data = response.data)
+                        Resource.Success<T>(data = response.data, paging = response.pagination)
                     }
 
                     else -> {

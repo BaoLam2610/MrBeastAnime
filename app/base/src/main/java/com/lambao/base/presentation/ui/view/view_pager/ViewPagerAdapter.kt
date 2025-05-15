@@ -20,6 +20,8 @@ class ViewPagerAdapter(
         notifyDataSetChanged()
     }
 
+    fun getFragment(index: Int) = fragments.getOrNull(index)
+
     override fun getItemCount() = fragments.size
 
     override fun createFragment(position: Int) = fragments[position]

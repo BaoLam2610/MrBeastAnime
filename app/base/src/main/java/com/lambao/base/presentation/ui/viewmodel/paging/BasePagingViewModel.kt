@@ -1,157 +1,40 @@
-package com.lambao.base.presentation.ui.viewmodel
+package com.lambao.base.presentation.ui.viewmodel.paging
 
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.lambao.base.data.Resource
+import com.lambao.base.data.remote.paging.Paging
 import com.lambao.base.presentation.handler.dispatcher.DispatcherProvider
-import com.lambao.base.presentation.ui.state.ScreenState
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.delay
+import com.lambao.base.presentation.ui.viewmodel.BaseViewModel
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.SharedFlow
-import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.flow.stateIn
-import kotlinx.coroutines.launch
 
-/**
- * Base ViewModel providing utilities for managing screen state and launching coroutines with configurable dispatchers.
- * This class simplifies common ViewModel operations like handling data flows, screen states, and coroutine scopes.
- * @param dispatcherProvider The [DispatcherProvider] to use for coroutine dispatchers.
- *
- */
-open class BaseViewModel(
-    private val dispatcherProvider: DispatcherProvider
-) : ViewModel() {
-
-    private val _screenState = MutableSharedFlow<ScreenState>()
-    val screenState: SharedFlow<ScreenState> get() = _screenState
-
-    private val _screenStateFlow = _screenState.map {
-        it
-    }.stateIn(viewModelScope, SharingStarted.Lazily, ScreenState.Idle())
-    val screenStateFlow get() = _screenStateFlow
-
-    /**
-     * Sets the screen state to the specified [ScreenState].
-     *
-     * @param state The [ScreenState] to set (e.g., Idle, Loading, Success, Error).
-     */
-    fun setScreenState(state: ScreenState) {
-        launch {
-            delay(10)
-            _screenState.emit(state)
-        }
-    }
-
-    /** Sets the screen state to [ScreenState.Idle]. */
-    fun setIdleScreenState() {
-        setScreenState(ScreenState.Idle())
-    }
-
-    /** Sets the screen state to [ScreenState.Loading]. */
-    fun setLoadingScreenState() {
-        setScreenState(ScreenState.Loading())
-    }
-
-    /** Sets the screen state to [ScreenState.Success]. */
-    fun setSuccessScreenState() {
-        setScreenState(ScreenState.Success())
-    }
-
-    /**
-     * Sets the screen state to [ScreenState.Error] with the provided [throwable].
-     *
-     * @param throwable The error cause to associate with the error state.
-     */
-    fun setErrorScreenState(throwable: Throwable) {
-        setScreenState(ScreenState.Error(throwable))
-    }
-
-    fun isIdleScreenState() = screenStateFlow.value is ScreenState.Idle
-
-    fun isLoadingScreenState() = screenStateFlow.value is ScreenState.Loading
-
-    fun isSuccessScreenState() = screenStateFlow.value is ScreenState.Success
-
-    fun isErrorScreenState() = screenStateFlow.value is ScreenState.Error
-
-    /**
-     * Provides the default error message when data is null.
-     * Subclasses can override this to customize the message.
-     *
-     * @return The default message for null data errors.
-     */
-    protected open fun getDataIsNullMessage(): String = "Data is null"
-
-    /**
-     * Provides the default error message for unknown errors.
-     * Subclasses can override this to customize the message.
-     *
-     * @return The default message for unknown errors.
-     */
-    protected open fun getUnknownErrorMessage(): String = "Unknown error"
-
-    /**
-     * Launches a coroutine in the [viewModelScope] using the IO dispatcher.
-     * Suitable for IO-bound operations like network calls or database access.
-     *
-     * @param block The suspend function to execute within the coroutine scope.
-     * @return A [Job] representing the launched coroutine.
-     */
-    protected fun launchIo(block: suspend CoroutineScope.() -> Unit): Job {
-        return viewModelScope.launch(dispatcherProvider.ioDispatcher) {
-            block()
-        }
-    }
-
-    /**
-     * Launches a coroutine in the [viewModelScope] using the default dispatcher.
-     * Suitable for general-purpose operations like computations.
-     *
-     * @param block The suspend function to execute within the coroutine scope.
-     * @return A [Job] representing the launched coroutine.
-     */
-    protected fun launchDefault(block: suspend CoroutineScope.() -> Unit): Job {
-        return viewModelScope.launch(dispatcherProvider.defaultDispatcher) {
-            block()
-        }
-    }
-
-    /**
-     * Launches a coroutine in the [viewModelScope] using the main dispatcher.
-     * Suitable for updating UI state or interacting with Android UI components.
-     *
-     * @param block The suspend function to execute within the coroutine scope.
-     * @return A [Job] representing the launched coroutine.
-     */
-    protected fun launch(block: suspend CoroutineScope.() -> Unit): Job {
-        return viewModelScope.launch(dispatcherProvider.mainDispatcher) {
-            block()
-        }
-    }
+abstract class BasePagingViewModel(
+    dispatcherProvider: DispatcherProvider
+) : BaseViewModel(dispatcherProvider) {
 
     /**
      * Handles a [Flow] of [Resource] without emitting a loading state.
      * Updates the [screenState] and invokes callbacks based on the resource state.
      *
      * @param flowUseCase The [Flow] emitting [Resource] objects.
+     * @param onPaging Optional callback invoked with the [Paging] data when the resource is successful.
      * @param onError Optional callback invoked when an error occurs.
      * @param onSuccess Callback invoked with the data when the resource is successful.
      */
-    protected fun <T> handleDataNoLoading(
+    protected fun <T> handleDataPagingNoLoading(
         flowUseCase: Flow<Resource<T>>,
+        onPaging: ((Paging) -> Unit)? = null,
         onError: ((Throwable) -> Unit)? = null,
         onSuccess: suspend (T) -> Unit
     ) {
         flowUseCase.onEach { resource ->
             when (resource) {
                 is Resource.Success -> {
+                    resource.paging?.let {
+                        onPaging?.invoke(it)
+                    }
                     resource.data?.let {
                         setSuccessScreenState()
                         onSuccess(it)
@@ -178,11 +61,13 @@ open class BaseViewModel(
      * Updates the [screenState] and invokes callbacks based on the resource state.
      *
      * @param flowUseCase The [Flow] emitting [Resource] objects.
+     * @param onPaging Optional callback invoked with the [Paging] data when the resource is successful.
      * @param onError Optional callback invoked when an error occurs.
      * @param onSuccess Callback invoked with the data when the resource is successful.
      */
-    protected fun <T> handleData(
+    protected fun <T> handleDataPaging(
         flowUseCase: Flow<Resource<T>>,
+        onPaging: ((Paging) -> Unit)? = null,
         onError: ((Throwable) -> Unit)? = null,
         onSuccess: suspend (T) -> Unit
     ) {
@@ -190,6 +75,9 @@ open class BaseViewModel(
             when (resource) {
                 is Resource.Loading -> setLoadingScreenState()
                 is Resource.Success -> {
+                    resource.paging?.let {
+                        onPaging?.invoke(it)
+                    }
                     resource.data?.let {
                         setSuccessScreenState()
                         onSuccess(it)
@@ -217,12 +105,14 @@ open class BaseViewModel(
      *
      * @param flow1 The first [Flow] emitting [Resource] objects of type [T1].
      * @param flow2 The second [Flow] emitting [Resource] objects of type [T2].
+     * @param onPaging Optional callback invoked with the [Paging] data when the resource is successful.
      * @param onError Optional callback invoked when any flow emits an error.
      * @param onResults Callback invoked with the successful data from both flows.
      */
-    protected fun <T1, T2> handleMultiData(
+    protected fun <T1, T2> handleMultiDataPaging(
         flow1: Flow<Resource<T1>>,
         flow2: Flow<Resource<T2>>,
+        onPaging: ((Paging, Paging) -> Unit)? = null,
         onError: ((Throwable) -> Unit)? = null,
         onResults: (T1, T2) -> Unit
     ) {
@@ -234,6 +124,11 @@ open class BaseViewModel(
                 resource1 is Resource.Success && resource2 is Resource.Success -> {
                     val data1 = resource1.data
                     val data2 = resource2.data
+                    val paging1 = resource1.paging
+                    val paging2 = resource2.paging
+                    if (paging1 != null && paging2 != null) {
+                        onPaging?.invoke(paging1, paging2)
+                    }
                     if (data1 != null && data2 != null) {
                         setSuccessScreenState()
                         onResults(data1, data2)
@@ -268,13 +163,15 @@ open class BaseViewModel(
      * @param flow1 The first [Flow] emitting [Resource] objects of type [T1].
      * @param flow2 The second [Flow] emitting [Resource] objects of type [T2].
      * @param flow3 The third [Flow] emitting [Resource] objects of type [T3].
+     * @param onPaging Optional callback invoked with the [Paging] data when the resource is successful.
      * @param onError Optional callback invoked when any flow emits an error.
      * @param onResults Callback invoked with the successful data from all flows.
      */
-    protected fun <T1, T2, T3> handleMultiData(
+    protected fun <T1, T2, T3> handleMultiDataPaging(
         flow1: Flow<Resource<T1>>,
         flow2: Flow<Resource<T2>>,
         flow3: Flow<Resource<T3>>,
+        onPaging: ((Paging, Paging, Paging) -> Unit)? = null,
         onError: ((Throwable) -> Unit)? = null,
         onResults: (T1, T2, T3) -> Unit
     ) {
@@ -287,6 +184,12 @@ open class BaseViewModel(
                     val data1 = resource1.data
                     val data2 = resource2.data
                     val data3 = resource3.data
+                    val paging1 = resource1.paging
+                    val paging2 = resource2.paging
+                    val paging3 = resource3.paging
+                    if (paging1 != null && paging2 != null && paging3 != null) {
+                        onPaging?.invoke(paging1, paging2, paging3)
+                    }
                     if (data1 != null && data2 != null && data3 != null) {
                         setSuccessScreenState()
                         onResults(data1, data2, data3)
@@ -325,11 +228,13 @@ open class BaseViewModel(
      * Updates the [screenState] and invokes callbacks based on the combined results.
      *
      * @param flows Vararg of [Flow]s emitting [Resource] objects.
+     * @param onPaging Optional callback invoked with the [Paging] data when the resource is successful.
      * @param onError Optional callback invoked when any flow emits an error.
      * @param onResults Callback invoked with the list of successful data.
      */
-    protected fun handleMultiData(
+    protected fun handleMultiDataPaging(
         vararg flows: Flow<Resource<*>>,
+        onPaging: ((List<Paging>) -> Unit)? = null,
         onError: ((Throwable) -> Unit)? = null,
         onResults: (List<*>) -> Unit
     ) {
@@ -340,6 +245,10 @@ open class BaseViewModel(
             val allSuccess = resources.all { it is Resource.Success }
             if (allSuccess) {
                 val dataList = resources.mapNotNull { (it as Resource.Success).data }
+                val pagingList = resources.mapNotNull { (it as Resource.Success).paging }
+                if (pagingList.isNotEmpty()) {
+                    onPaging?.invoke(pagingList)
+                }
                 if (dataList.isNotEmpty()) {
                     setSuccessScreenState()
                     onResults(dataList)
@@ -364,10 +273,12 @@ open class BaseViewModel(
      * Updates the [screenState] and invokes the callback with successful data.
      *
      * @param flows Vararg of [Flow]s emitting [Resource] objects.
+     * @param onPaging Optional callback invoked with the [Paging] data when the resource is successful.
      * @param onResults Callback invoked with the list of successful data.
      */
-    protected fun handleMultiDataIgnoreErrors(
+    protected fun handleMultiDataPagingIgnoreErrors(
         vararg flows: Flow<Resource<*>>,
+        onPaging: ((List<Paging>) -> Unit)? = null,
         onResults: (List<*>) -> Unit
     ) {
         combine(flows.toList()) { resources ->
@@ -377,6 +288,10 @@ open class BaseViewModel(
             val successData = resources
                 .filterIsInstance<Resource.Success<*>>()
                 .mapNotNull { it.data }
+            val pagingList = resources.mapNotNull { (it as Resource.Success).paging }
+            if (pagingList.isNotEmpty()) {
+                onPaging?.invoke(pagingList)
+            }
             if (successData.isNotEmpty()) {
                 setSuccessScreenState()
                 onResults(successData)

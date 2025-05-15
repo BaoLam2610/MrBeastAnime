@@ -5,12 +5,9 @@ import androidx.lifecycle.viewModelScope
 import com.lambao.base.presentation.handler.dispatcher.DispatcherProvider
 import com.lambao.base.presentation.ui.viewmodel.BaseViewModel
 import com.lambao.mrbeast.data.model.anime.Anime
-import com.lambao.mrbeast.data.model.anime.AnimePicture
 import com.lambao.mrbeast.data.remote.params.anime.AnimeParams
 import com.lambao.mrbeast.domain.model.display.DisplayAnimeFullInfo
-import com.lambao.mrbeast.domain.model.display.DisplayAnimePictureInfo
 import com.lambao.mrbeast.domain.usecase.anime.GetAnimeFullByIdUseCase
-import com.lambao.mrbeast.domain.usecase.anime.GetAnimePicturesUseCase
 import com.lambao.mrbeast.presentation.ui.fragment.anime_detail.characters.AnimeCharactersArgument
 import com.lambao.mrbeast.presentation.ui.fragment.anime_detail.characters.AnimeCharactersFragment
 import com.lambao.mrbeast.presentation.ui.fragment.anime_detail.episodes.AnimeEpisodesArgument
@@ -32,16 +29,12 @@ import javax.inject.Inject
 @HiltViewModel
 class AnimeDetailViewModel @Inject constructor(
     private val getAnimeFullByIdUseCase: GetAnimeFullByIdUseCase,
-    private val getAnimePicturesUseCase: GetAnimePicturesUseCase,
     @ApplicationContext private val context: Context,
     dispatcherProvider: DispatcherProvider
 ) : BaseViewModel(dispatcherProvider) {
 
     private val _anime = MutableStateFlow<DisplayAnimeFullInfo?>(null)
     val anime = _anime.asStateFlow()
-
-    private val _animePictures = MutableStateFlow<List<DisplayAnimePictureInfo>>(emptyList())
-    val animePictures = _animePictures.asStateFlow()
 
     private val _screenTypes = _anime.map {
         if (it == null) return@map emptyList()
@@ -104,20 +97,6 @@ class AnimeDetailViewModel @Inject constructor(
     fun fetchAnimeInfo(id: String) {
         handleData(getAnimeFullByIdUseCase.invoke(AnimeParams(id = id))) {
             _anime.emit(it)
-            _animePictures.emit(
-                listOf(
-                    AnimePicture(
-                        it.images?.jpg,
-                        it.images?.webp
-                    )
-                )
-            )
-        }
-    }
-
-    fun fetchAnimePictures(id: String) {
-        handleDataNoLoading(getAnimePicturesUseCase.invoke(AnimeParams(id = id))) {
-            _animePictures.emit(it)
         }
     }
 }

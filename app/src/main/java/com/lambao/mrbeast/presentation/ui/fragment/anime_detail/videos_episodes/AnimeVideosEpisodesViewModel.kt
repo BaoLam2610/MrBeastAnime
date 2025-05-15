@@ -1,7 +1,7 @@
 package com.lambao.mrbeast.presentation.ui.fragment.anime_detail.videos_episodes
 
 import com.lambao.base.presentation.handler.dispatcher.DispatcherProvider
-import com.lambao.base.presentation.ui.viewmodel.BaseViewModel
+import com.lambao.base.presentation.ui.viewmodel.paging.BaseRemotePagingViewModel
 import com.lambao.mrbeast.data.remote.params.anime.AnimeParams
 import com.lambao.mrbeast.domain.model.display.DisplayAnimeVideoEpisodeInfo
 import com.lambao.mrbeast.domain.usecase.anime.GetAnimeVideosEpisodesUseCase
@@ -14,23 +14,30 @@ import javax.inject.Inject
 class AnimeVideosEpisodesViewModel @Inject constructor(
     private val getAnimeVideosEpisodesUseCase: GetAnimeVideosEpisodesUseCase,
     dispatcherProvider: DispatcherProvider
-) : BaseViewModel(dispatcherProvider) {
+) : BaseRemotePagingViewModel<DisplayAnimeVideoEpisodeInfo>(dispatcherProvider) {
 
-    private val _episodes = MutableStateFlow<List<DisplayAnimeVideoEpisodeInfo>>(emptyList())
-    val episodes = _episodes.asStateFlow()
+    private val _animeId = MutableStateFlow("")
 
     private val _shouldShowEmptyEpisode = MutableStateFlow(false)
     val shouldShowEmptyEpisode = _shouldShowEmptyEpisode.asStateFlow()
 
     fun fetchAnimeVideosEpisodes(id: String) {
-        handleDataNoLoading(
-            getAnimeVideosEpisodesUseCase.invoke(AnimeParams(id = id)),
+        _animeId.value = id
+        fetchData()
+    }
+
+    override fun fetchData() {
+        handleDataPaging(
+            getAnimeVideosEpisodesUseCase.invoke(
+                AnimeParams(id = _animeId.value, page = currentPage.value)
+            ),
+            onPaging = ::setPaging,
             onError = {
                 _shouldShowEmptyEpisode.value = true
             }
         ) {
-            _episodes.emit(it)
-            _shouldShowEmptyEpisode.value = it.isEmpty()
+            setItems(it)
+            _shouldShowEmptyEpisode.value = items.value.isEmpty()
         }
     }
 }

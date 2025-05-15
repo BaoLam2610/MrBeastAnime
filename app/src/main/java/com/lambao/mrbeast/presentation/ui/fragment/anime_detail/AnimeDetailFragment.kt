@@ -1,18 +1,18 @@
 package com.lambao.mrbeast.presentation.ui.fragment.anime_detail
 
 import android.os.Bundle
+import androidx.core.widget.NestedScrollView
 import com.google.android.material.tabs.TabLayoutMediator
 import com.lambao.base.extension.click
-import com.lambao.base.extension.launchWhenCreated
 import com.lambao.base.extension.observeLatest
 import com.lambao.base.extension.popBackStack
 import com.lambao.base.presentation.ui.fragment.BaseVMFragment
+import com.lambao.base.presentation.ui.fragment.paging.BasePagingFragment
 import com.lambao.base.presentation.ui.view.view_pager.ViewPagerAdapter
 import com.lambao.mrbeast.utils.Constants
 import com.lambao.mrbeast_anime.R
 import com.lambao.mrbeast_anime.databinding.FragmentAnimeDetailBinding
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.delay
 
 @AndroidEntryPoint
 class AnimeDetailFragment : BaseVMFragment<FragmentAnimeDetailBinding, AnimeDetailViewModel>() {
@@ -21,10 +21,6 @@ class AnimeDetailFragment : BaseVMFragment<FragmentAnimeDetailBinding, AnimeDeta
 
     private val argId by lazy {
         arguments?.getString(Constants.Bundle.ID) ?: ""
-    }
-
-    private val animePicturesAdapter by lazy {
-        AnimePicturesAdapter()
     }
 
     override fun getLayoutResId() = R.layout.fragment_anime_detail
@@ -39,17 +35,13 @@ class AnimeDetailFragment : BaseVMFragment<FragmentAnimeDetailBinding, AnimeDeta
             binding.tvSynopsisDesc.toggle()
         }
         setupViewPager()
-        setupSliderViewPager()
+        setupNestedScrollListener()
     }
 
     override fun initObserve() {
         binding.viewModel = viewModel
 
         observeLatest(viewModel.anime) {}
-
-        observeLatest(viewModel.animePictures) {
-            animePicturesAdapter.submitList(it)
-        }
 
         observeLatest(viewModel.shouldShowFullInfo) {}
 
@@ -65,10 +57,6 @@ class AnimeDetailFragment : BaseVMFragment<FragmentAnimeDetailBinding, AnimeDeta
         }
 
         viewModel.fetchAnimeInfo(argId)
-        launchWhenCreated {
-            delay(3000)
-            viewModel.fetchAnimePictures(argId)
-        }
     }
 
     private fun setupViewPager() {
@@ -80,7 +68,20 @@ class AnimeDetailFragment : BaseVMFragment<FragmentAnimeDetailBinding, AnimeDeta
         binding.viewPager.isUserInputEnabled = false
     }
 
-    private fun setupSliderViewPager() {
-        binding.sliderViewPager.adapter = animePicturesAdapter
+    private fun setupNestedScrollListener() {
+        binding.nestedScrollView.setOnScrollChangeListener { v: NestedScrollView, _: Int, scrollY: Int, _: Int, oldScrollY: Int ->
+            if (v.getChildAt(v.childCount - 1) != null) {
+                if (
+                    (scrollY >= (v.getChildAt(v.childCount - 1).measuredHeight - v.measuredHeight)) &&
+                    scrollY > oldScrollY
+                ) {
+                    val currentFragment =
+                        viewPagerAdapter.getFragment(binding.viewPager.currentItem)
+                    if (currentFragment is BasePagingFragment<*, *>) {
+                        currentFragment.tryLoadMore()
+                    }
+                }
+            }
+        }
     }
 }

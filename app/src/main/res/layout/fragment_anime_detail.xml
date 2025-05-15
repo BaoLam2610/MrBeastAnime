@@ -18,6 +18,7 @@
         android:background="@color/black">
 
         <androidx.core.widget.NestedScrollView
+            android:id="@+id/nestedScrollView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fillViewport="true">
@@ -27,11 +28,24 @@
                 android:layout_height="match_parent"
                 android:animateLayoutChanges="true">
 
-                <androidx.viewpager2.widget.ViewPager2
-                    android:id="@+id/sliderViewPager"
+                <ImageView
+                    android:id="@+id/ivThumbnailBgr"
                     android:layout_width="match_parent"
                     android:layout_height="240dp"
-                    android:orientation="horizontal"
+                    android:adjustViewBounds="true"
+                    android:scaleType="centerCrop"
+                    app:blurImageUrl="@{viewModel.anime.displayThumbnail()}"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:id="@+id/ivThumbnail"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:adjustViewBounds="true"
+                    android:foreground="@drawable/bg_thumbnail_gradient"
+                    android:scaleType="fitCenter"
+                    app:imageUrl="@{viewModel.anime.displayThumbnail()}"
+                    app:layout_constraintBottom_toBottomOf="@id/ivThumbnailBgr"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
@@ -47,7 +61,7 @@
                     app:layout_constraintHorizontal_bias="0"
                     app:layout_constraintHorizontal_chainStyle="packed"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/sliderViewPager"
+                    app:layout_constraintTop_toBottomOf="@id/ivThumbnail"
                     app:layout_constraintWidth_max="wrap"
                     tools:text="One piece" />
 
@@ -62,7 +76,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0"
                     app:layout_constraintStart_toEndOf="@id/tvTitle"
-                    app:layout_constraintTop_toBottomOf="@id/sliderViewPager"
+                    app:layout_constraintTop_toBottomOf="@id/ivThumbnail"
                     app:score="@{viewModel.anime.displayScore()}"
                     tools:visibility="visible" />
 

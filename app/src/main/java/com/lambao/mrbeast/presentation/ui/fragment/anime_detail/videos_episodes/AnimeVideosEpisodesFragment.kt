@@ -7,7 +7,7 @@ import com.google.android.material.divider.MaterialDividerItemDecoration
 import com.lambao.base.extension.getParcelableCompat
 import com.lambao.base.extension.launchWhenCreated
 import com.lambao.base.extension.observeLatest
-import com.lambao.base.presentation.ui.fragment.BaseVMFragment
+import com.lambao.base.presentation.ui.fragment.paging.BasePagingFragment
 import com.lambao.mrbeast.utils.Constants
 import com.lambao.mrbeast_anime.R
 import com.lambao.mrbeast_anime.databinding.FragmentAnimeVideosEpisodesBinding
@@ -16,7 +16,7 @@ import kotlinx.coroutines.delay
 
 @AndroidEntryPoint
 class AnimeVideosEpisodesFragment :
-    BaseVMFragment<FragmentAnimeVideosEpisodesBinding, AnimeVideosEpisodesViewModel>() {
+    BasePagingFragment<FragmentAnimeVideosEpisodesBinding, AnimeVideosEpisodesViewModel>() {
 
     companion object {
         fun newInstance(data: AnimeVideosEpisodesArgument?): AnimeVideosEpisodesFragment {
@@ -63,7 +63,7 @@ class AnimeVideosEpisodesFragment :
     override fun initObserve() {
         binding.viewModel = viewModel
 
-        observeLatest(viewModel.episodes) {
+        observeLatest(viewModel.items) {
             episodesAdapter.submitList(it)
         }
 

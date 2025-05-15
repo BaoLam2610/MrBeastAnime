@@ -6,7 +6,9 @@ import com.lambao.mrbeast_anime.R
 import com.lambao.mrbeast_anime.databinding.ItemAnimeCharacterBinding
 
 class AnimeCharactersAdapter :
-    BaseDiffAdapter<DisplayAnimeCharacterInfo, ItemAnimeCharacterBinding>() {
+    BaseDiffAdapter<DisplayAnimeCharacterInfo, ItemAnimeCharacterBinding>(
+        areItemsTheSame = { old, new -> old.getCharacterId() == new.getCharacterId() }
+    ) {
     override fun getLayoutId(viewType: Int) = R.layout.item_anime_character
 
     override fun bind(

@@ -2,7 +2,7 @@ package com.lambao.mrbeast.presentation.ui.fragment.anime_detail.episodes
 
 import androidx.lifecycle.viewModelScope
 import com.lambao.base.presentation.handler.dispatcher.DispatcherProvider
-import com.lambao.base.presentation.ui.viewmodel.BaseViewModel
+import com.lambao.base.presentation.ui.viewmodel.paging.BaseRemotePagingViewModel
 import com.lambao.mrbeast.data.model.anime.AnimeEpisode
 import com.lambao.mrbeast.data.remote.params.anime.AnimeParams
 import com.lambao.mrbeast.domain.model.display.DisplayAnimeEpisodeInfo
@@ -19,16 +19,15 @@ import javax.inject.Inject
 class AnimeEpisodesViewModel @Inject constructor(
     private val getAnimeEpisodesUseCase: GetAnimeEpisodesUseCase,
     dispatcherProvider: DispatcherProvider
-) : BaseViewModel(dispatcherProvider) {
+) : BaseRemotePagingViewModel<DisplayAnimeEpisodeInfo>(dispatcherProvider) {
+
+    private val _animeId = MutableStateFlow("")
 
     private val _thumbnail = MutableStateFlow("")
 
-    private val _episodes = MutableStateFlow<List<DisplayAnimeEpisodeInfo>>(emptyList())
-    val episodes = _episodes.asStateFlow()
-
     private val _episodesWithThumbnails = combine(
         _thumbnail,
-        _episodes
+        items
     ) { thumbnail, episodes ->
         episodes.map {
             (it as? AnimeEpisode)?.copy(thumbnail = thumbnail)
@@ -46,14 +45,25 @@ class AnimeEpisodesViewModel @Inject constructor(
     }
 
     fun fetchAnimeEpisodes(id: String) {
-        handleDataNoLoading(
-            getAnimeEpisodesUseCase.invoke(AnimeParams(id = id)),
+        _animeId.value = id
+        fetchData()
+    }
+
+    override fun fetchData() {
+        handleDataPaging(
+            getAnimeEpisodesUseCase.invoke(
+                AnimeParams(
+                    id = _animeId.value,
+                    page = currentPage.value
+                )
+            ),
+            onPaging = ::setPaging,
             onError = {
                 _shouldShowEmptyEpisode.value = true
             }
         ) {
-            _episodes.emit(it)
-            _shouldShowEmptyEpisode.value = it.isEmpty()
+            setItems(it)
+            _shouldShowEmptyEpisode.value = items.value.isEmpty()
         }
     }
 }
