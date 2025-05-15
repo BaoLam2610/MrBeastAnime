@@ -1,4 +1,4 @@
-package com.lambao.mrbeast.presentation.ui.common.watch.promos
+package com.lambao.mrbeast.presentation.ui.common.view_model.watch.promos
 
 import com.lambao.base.data.Resource
 import com.lambao.mrbeast.data.model.watch.WatchPromo

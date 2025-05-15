@@ -13,11 +13,11 @@ import com.lambao.mrbeast.domain.usecase.genres.GetAnimeGenresUseCase
 import com.lambao.mrbeast.domain.usecase.genres.GetRandomBackgroundGenreUseCase
 import com.lambao.mrbeast.domain.usecase.watch.GetWatchPopularEpisodesUseCase
 import com.lambao.mrbeast.domain.usecase.watch.GetWatchPopularPromosUseCase
-import com.lambao.mrbeast.presentation.common.anime_info.AnimeItem
-import com.lambao.mrbeast.presentation.ui.common.watch.episodes.WatchPopularEpisodesDelegate
-import com.lambao.mrbeast.presentation.ui.common.watch.episodes.WatchPopularEpisodesViewModel
-import com.lambao.mrbeast.presentation.ui.common.watch.promos.WatchPopularPromosDelegate
-import com.lambao.mrbeast.presentation.ui.common.watch.promos.WatchPopularPromosViewModel
+import com.lambao.mrbeast.presentation.ui.common.adapter.anime_info.AnimeItem
+import com.lambao.mrbeast.presentation.ui.common.view_model.watch.episodes.WatchPopularEpisodesDelegate
+import com.lambao.mrbeast.presentation.ui.common.view_model.watch.episodes.WatchPopularEpisodesViewModel
+import com.lambao.mrbeast.presentation.ui.common.view_model.watch.promos.WatchPopularPromosDelegate
+import com.lambao.mrbeast.presentation.ui.common.view_model.watch.promos.WatchPopularPromosViewModel
 import com.lambao.mrbeast.utils.Constants
 import com.lambao.mrbeast_anime.R
 import dagger.hilt.android.lifecycle.HiltViewModel

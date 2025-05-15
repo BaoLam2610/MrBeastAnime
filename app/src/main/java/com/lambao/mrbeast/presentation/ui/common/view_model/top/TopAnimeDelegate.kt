@@ -1,4 +1,4 @@
-package com.lambao.mrbeast.presentation.ui.common.top
+package com.lambao.mrbeast.presentation.ui.common.view_model.top
 
 import com.lambao.base.data.Resource
 import com.lambao.mrbeast.data.model.top.TopAnime

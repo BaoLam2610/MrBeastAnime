@@ -12,7 +12,7 @@ import com.lambao.base.presentation.ui.view.recycler_view.spacing
 import com.lambao.mrbeast.domain.model.display.DisplayAnimeInfo
 import com.lambao.mrbeast.domain.model.type.HomeType
 import com.lambao.mrbeast.domain.model.type.InfoType
-import com.lambao.mrbeast.presentation.common.anime_info.AnimeContainerAdapter
+import com.lambao.mrbeast.presentation.ui.common.adapter.anime_info.AnimeContainerAdapter
 import com.lambao.mrbeast.utils.Constants
 import com.lambao.mrbeast_anime.R
 import com.lambao.mrbeast_anime.databinding.FragmentHomeBinding

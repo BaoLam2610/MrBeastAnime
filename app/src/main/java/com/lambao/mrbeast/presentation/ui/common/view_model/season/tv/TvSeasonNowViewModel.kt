@@ -1,28 +1,28 @@
-package com.lambao.mrbeast.presentation.ui.common.season.movie
+package com.lambao.mrbeast.presentation.ui.common.view_model.season.tv
 
 import com.lambao.base.presentation.handler.dispatcher.DispatcherProvider
 import com.lambao.mrbeast.data.remote.params.seasons.SeasonsParams
 import com.lambao.mrbeast.domain.model.display.DisplaySeasonAnimeInfo
 import com.lambao.mrbeast.domain.usecase.seasons.GetSeasonNowUseCase
-import com.lambao.mrbeast.presentation.ui.common.season.SeasonAnimeViewModel
+import com.lambao.mrbeast.presentation.ui.common.view_model.season.SeasonAnimeViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class MovieSeasonNowViewModel @Inject constructor(
+class TvSeasonNowViewModel @Inject constructor(
     getSeasonNowUseCase: GetSeasonNowUseCase,
     dispatcherProvider: DispatcherProvider
-) : SeasonAnimeViewModel(getSeasonNowUseCase, dispatcherProvider), MovieSeasonNowDelegate {
-    override fun setMovieSeasonNowList(data: List<DisplaySeasonAnimeInfo>) {
+) : SeasonAnimeViewModel(getSeasonNowUseCase, dispatcherProvider), TvSeasonNowDelegate {
+    override fun setTvSeasonNowList(data: List<DisplaySeasonAnimeInfo>) {
         setSeasonAnimeList(data)
     }
 
-    override fun getMovieSeasonNowList() = getSeasonAnimeList()
+    override fun getTvSeasonNowList() = getSeasonAnimeList()
 
-    override fun getMovieSeasonNowUseCaseFlow(seasonsParams: SeasonsParams) =
+    override fun getTvSeasonNowUseCaseFlow(seasonsParams: SeasonsParams) =
         getSeasonAnimeUseCaseFlow(seasonsParams)
 
-    override fun fetchMovieSeasonNow(seasonsParams: SeasonsParams) {
+    override fun fetchTvSeasonNow(seasonsParams: SeasonsParams) {
         fetchSeasonAnime(seasonsParams)
     }
 }

@@ -1,4 +1,4 @@
-package com.lambao.mrbeast.presentation.common.anime_info
+package com.lambao.mrbeast.presentation.ui.common.adapter.anime_info
 
 import androidx.databinding.ViewDataBinding
 import com.lambao.base.extension.click

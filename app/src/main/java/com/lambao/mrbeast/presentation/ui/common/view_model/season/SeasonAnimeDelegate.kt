@@ -1,4 +1,4 @@
-package com.lambao.mrbeast.presentation.ui.common.season
+package com.lambao.mrbeast.presentation.ui.common.view_model.season
 
 import com.lambao.base.data.Resource
 import com.lambao.mrbeast.data.model.seasons.SeasonAnime

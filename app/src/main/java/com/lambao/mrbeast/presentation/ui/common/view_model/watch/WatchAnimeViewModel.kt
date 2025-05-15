@@ -1,4 +1,4 @@
-package com.lambao.mrbeast.presentation.ui.common.watch
+package com.lambao.mrbeast.presentation.ui.common.view_model.watch
 
 import com.lambao.base.data.Resource
 import com.lambao.base.presentation.handler.dispatcher.DispatcherProvider

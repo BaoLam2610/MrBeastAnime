@@ -1,4 +1,4 @@
-package com.lambao.mrbeast.presentation.ui.common.watch.episodes
+package com.lambao.mrbeast.presentation.ui.common.view_model.watch.episodes
 
 import com.lambao.base.data.Resource
 import com.lambao.mrbeast.data.model.watch.WatchEpisode

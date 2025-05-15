@@ -1,4 +1,4 @@
-package com.lambao.mrbeast.presentation.common
+package com.lambao.mrbeast.presentation.ui.common.adapter
 
 import com.lambao.base.presentation.ui.recycler_view.BaseDiffAdapter
 import com.lambao.mrbeast.domain.model.PairText

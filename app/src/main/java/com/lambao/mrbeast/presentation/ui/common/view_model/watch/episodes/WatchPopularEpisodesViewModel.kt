@@ -1,11 +1,11 @@
-package com.lambao.mrbeast.presentation.ui.common.watch.episodes
+package com.lambao.mrbeast.presentation.ui.common.view_model.watch.episodes
 
 import com.lambao.base.presentation.handler.dispatcher.DispatcherProvider
 import com.lambao.mrbeast.data.model.watch.WatchEpisode
 import com.lambao.mrbeast.data.remote.params.watch.WatchParams
 import com.lambao.mrbeast.domain.model.display.DisplayWatchAnimeInfo
 import com.lambao.mrbeast.domain.usecase.watch.GetWatchPopularEpisodesUseCase
-import com.lambao.mrbeast.presentation.ui.common.watch.WatchAnimeViewModel
+import com.lambao.mrbeast.presentation.ui.common.view_model.watch.WatchAnimeViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
