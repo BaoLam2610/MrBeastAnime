@@ -2,7 +2,7 @@ package com.lambao.mrbeast.presentation.ui.fragment.anime_detail.episodes
 
 import androidx.lifecycle.viewModelScope
 import com.lambao.base.presentation.handler.dispatcher.DispatcherProvider
-import com.lambao.base.presentation.ui.viewmodel.paging.BaseRemotePagingViewModel
+import com.lambao.base.presentation.ui.viewmodel.paging.RemotePagingViewModel
 import com.lambao.mrbeast.data.model.anime.AnimeEpisode
 import com.lambao.mrbeast.data.remote.params.anime.AnimeParams
 import com.lambao.mrbeast.domain.model.display.DisplayAnimeEpisodeInfo
@@ -21,7 +21,7 @@ import javax.inject.Inject
 class AnimeEpisodesViewModel @Inject constructor(
     private val getAnimeEpisodesUseCase: GetAnimeEpisodesUseCase,
     dispatcherProvider: DispatcherProvider
-) : BaseRemotePagingViewModel<DisplayAnimeEpisodeInfo>(dispatcherProvider),
+) : RemotePagingViewModel<DisplayAnimeEpisodeInfo>(dispatcherProvider),
     AnimeDelegate by AnimeViewModel(dispatcherProvider) {
 
     private val _thumbnail = MutableStateFlow("")
@@ -63,7 +63,7 @@ class AnimeEpisodesViewModel @Inject constructor(
                 _shouldShowEmptyEpisode.value = true
             }
         ) {
-            setItems(it)
+            appendItems(it)
             _shouldShowEmptyEpisode.value = items.value.isEmpty()
         }
     }

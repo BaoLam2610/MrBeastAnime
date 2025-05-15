@@ -1,7 +1,7 @@
 package com.lambao.mrbeast.presentation.ui.fragment.anime_detail.characters
 
 import com.lambao.base.presentation.handler.dispatcher.DispatcherProvider
-import com.lambao.base.presentation.ui.viewmodel.paging.BaseClientPagingViewModel
+import com.lambao.base.presentation.ui.viewmodel.paging.ClientPagingViewModel
 import com.lambao.mrbeast.data.remote.params.anime.AnimeParams
 import com.lambao.mrbeast.domain.model.display.DisplayAnimeCharacterInfo
 import com.lambao.mrbeast.domain.usecase.anime.GetAnimeCharactersUseCase
@@ -14,7 +14,7 @@ import javax.inject.Inject
 class AnimeCharactersViewModel @Inject constructor(
     private val getAnimeCharactersUseCase: GetAnimeCharactersUseCase,
     dispatcherProvider: DispatcherProvider
-) : BaseClientPagingViewModel<DisplayAnimeCharacterInfo>(dispatcherProvider),
+) : ClientPagingViewModel<DisplayAnimeCharacterInfo>(dispatcherProvider),
     AnimeDelegate by AnimeViewModel(dispatcherProvider) {
 
     override fun fetchData() {
