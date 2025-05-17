@@ -7,6 +7,8 @@ import com.lambao.mrbeast.domain.model.display.DisplayAnimeCharacterInfo
 import com.lambao.mrbeast.domain.usecase.anime.GetAnimeCharactersUseCase
 import com.lambao.mrbeast.presentation.ui.common.view_model.anime.AnimeDelegate
 import com.lambao.mrbeast.presentation.ui.common.view_model.anime.AnimeViewModel
+import com.lambao.mrbeast.presentation.ui.common.view_model.empty_data.EmptyDataDelegate
+import com.lambao.mrbeast.presentation.ui.common.view_model.empty_data.EmptyDataViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
@@ -15,15 +17,21 @@ class AnimeCharactersViewModel @Inject constructor(
     private val getAnimeCharactersUseCase: GetAnimeCharactersUseCase,
     dispatcherProvider: DispatcherProvider
 ) : ClientPagingViewModel<DisplayAnimeCharacterInfo>(dispatcherProvider),
-    AnimeDelegate by AnimeViewModel(dispatcherProvider) {
+    AnimeDelegate by AnimeViewModel(dispatcherProvider),
+    EmptyDataDelegate by EmptyDataViewModel(dispatcherProvider) {
 
     override fun fetchData() {
-        handleDataNoLoading(
+        handleData(
             getAnimeCharactersUseCase.invoke(
                 AnimeParams(id = getAnimeId().value)
             ),
-            onSuccess = ::setFullItemList
-        )
+            onError = {
+                setShowEmptyData(true)
+            }
+        ) {
+            setFullItemList(it)
+            setShowEmptyData(it.isEmpty())
+        }
     }
 
     fun fetchAnimeCharacters(id: String) {

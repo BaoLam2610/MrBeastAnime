@@ -2,6 +2,7 @@ package com.lambao.mrbeast.presentation.ui.fragment.anime_detail.characters
 
 import android.os.Bundle
 import com.lambao.base.extension.getParcelableCompat
+import com.lambao.base.extension.launchWhenCreated
 import com.lambao.base.extension.observeLatest
 import com.lambao.base.presentation.ui.fragment.paging.BasePagingFragment
 import com.lambao.base.presentation.ui.view.recycler_view.spacing
@@ -9,6 +10,7 @@ import com.lambao.mrbeast.utils.Constants
 import com.lambao.mrbeast_anime.R
 import com.lambao.mrbeast_anime.databinding.FragmentAnimeCharactersBinding
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
 
 @AndroidEntryPoint
 class AnimeCharactersFragment :
@@ -53,7 +55,9 @@ class AnimeCharactersFragment :
             charactersAdapter.submitList(it)
         }
 
-        argData?.id?.let { viewModel.fetchAnimeCharacters(it) }
+        launchWhenCreated {
+            argData?.id?.let { viewModel.fetchAnimeCharacters(it) }
+        }
     }
 
     override fun onResume() {

@@ -3,6 +3,7 @@ package com.lambao.mrbeast.presentation.ui.fragment.anime_detail.pictures
 import android.annotation.SuppressLint
 import android.os.Bundle
 import com.lambao.base.extension.getParcelableCompat
+import com.lambao.base.extension.launchWhenCreated
 import com.lambao.base.extension.observeLatest
 import com.lambao.base.presentation.ui.fragment.BaseVMFragment
 import com.lambao.base.presentation.ui.view.recycler_view.spacing
@@ -51,10 +52,8 @@ class AnimePicturesFragment :
 
     override fun initObserve() {
         binding.viewModel = viewModel
-        argData?.id?.let { viewModel.fetchAnimePictures(it) }
-        argData?.trailer?.let { viewModel.setAnimeTrailer(it) }
 
-        observeLatest(viewModel.shouldShowTrailer()) { }
+        observeLatest(viewModel.shouldShowTrailer())
 
         observeLatest(viewModel.items) {
             picturesAdapter.submitList(it)
@@ -62,17 +61,33 @@ class AnimePicturesFragment :
 
         binding.youtubePlayer.addYouTubePlayerListener(object : AbstractYouTubePlayerListener() {
             override fun onReady(youTubePlayer: YouTubePlayer) {
-                viewModel.getAnimeTrailer().value
-                    ?.youtubeId
-                    ?.let {
-                        youTubePlayer.loadVideo(it, 0f)
-                    }
+                viewModel.setYoutubePlayer(youTubePlayer)
+                viewModel.loadYoutubeVideo(
+                    viewModel.getAnimeTrailer().value
+                        ?.youtubeId
+                )
             }
         })
+
+        launchWhenCreated {
+            argData?.trailer?.let { viewModel.setAnimeTrailer(it) }
+            argData?.id?.let { viewModel.fetchAnimePictures(it) }
+        }
+    }
+
+    override fun onHiddenChanged(hidden: Boolean) {
+        super.onHiddenChanged(hidden)
+        if (hidden) {
+            viewModel.pauseYoutubeVideo()
+        }
     }
 
     override fun onResume() {
         super.onResume()
         binding.root.requestLayout()
     }
+
+    override fun showLoading() = Unit
+
+    override fun hideLoading() = Unit
 }

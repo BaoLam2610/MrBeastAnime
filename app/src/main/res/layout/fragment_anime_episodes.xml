@@ -12,7 +12,7 @@
         <import type="android.view.View" />
     </data>
 
-    <FrameLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/black">
@@ -24,9 +24,18 @@
             android:layout_marginTop="12dp"
             android:orientation="vertical"
             android:paddingHorizontal="12dp"
-            android:visibility="@{viewModel.shouldShowEmptyEpisode ? View.GONE : View.VISIBLE, default=gone}"
+            android:visibility="@{viewModel.shouldShowEmptyData() ? View.GONE : View.VISIBLE, default=gone}"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintTop_toTopOf="parent"
             tools:visibility="visible" />
+
+        <include
+            android:id="@+id/layoutLoading"
+            layout="@layout/layout_loading_dialog"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="@{viewModel.shouldShowLoadingState() ? View.VISIBLE : View.GONE, default=gone}"
+            app:layout_constraintTop_toBottomOf="@id/rvEpisodes" />
 
         <TextView
             android:id="@+id/tvEmpty"
@@ -34,9 +43,10 @@
             android:layout_width="match_parent"
             android:layout_height="100dp"
             android:gravity="center"
-            android:text="@string/empty_episodes"
+            android:text="@string/empty_broadcast"
             android:textColor="@color/text_secondary"
-            android:visibility="@{viewModel.shouldShowEmptyEpisode ? View.VISIBLE : View.GONE, default=gone}"
+            android:visibility="@{viewModel.shouldShowEmptyData ? View.VISIBLE : View.GONE, default=gone}"
+            app:layout_constraintTop_toTopOf="parent"
             tools:visibility="visible" />
-    </FrameLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

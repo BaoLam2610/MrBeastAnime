@@ -166,8 +166,8 @@
                     app:tabTextColor="@color/background_disabled"
                     tools:visibility="visible" />
 
-                <androidx.viewpager2.widget.ViewPager2
-                    android:id="@+id/viewPager"
+                <FrameLayout
+                    android:id="@+id/frameLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:visibility="@{viewModel.shouldShowFullInfo ? View.VISIBLE : View.GONE, default=gone}"

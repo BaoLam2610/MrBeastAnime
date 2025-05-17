@@ -12,7 +12,6 @@ import com.lambao.mrbeast.utils.Constants
 import com.lambao.mrbeast_anime.R
 import com.lambao.mrbeast_anime.databinding.FragmentAnimeEpisodesBinding
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.delay
 
 @AndroidEntryPoint
 class AnimeEpisodesFragment :
@@ -68,7 +67,6 @@ class AnimeEpisodesFragment :
         }
 
         launchWhenCreated {
-            delay(1500)
             argData?.let { state ->
                 viewModel.fetchAnimeEpisodes(state.id ?: "")
                 viewModel.setThumbnail(state.thumbnail ?: "")

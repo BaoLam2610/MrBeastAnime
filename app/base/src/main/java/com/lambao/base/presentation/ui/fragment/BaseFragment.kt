@@ -156,15 +156,15 @@ abstract class BaseFragment<B : ViewDataBinding> : Fragment() {
         onViewReady(savedInstanceState)
     }
 
-    fun showLoading() {
+    protected open fun showLoading() {
         loadingHandler.showLoading()
     }
 
-    fun hideLoading() {
+    protected open fun hideLoading() {
         loadingHandler.hideLoading()
     }
 
-    fun handleNetworkError(networkException: NetworkException) {
+    protected open fun handleNetworkError(networkException: NetworkException) {
         networkErrorHandler.handleError(networkException)
     }
 

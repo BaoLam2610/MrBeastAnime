@@ -16,8 +16,8 @@ import kotlinx.coroutines.flow.Flow
  */
 fun <T> BaseActivity<*>.observe(
     flow: Flow<T>,
-    lifecycleState: Lifecycle.State = Lifecycle.State.STARTED,
-    onChanged: (T) -> Unit
+    lifecycleState: Lifecycle.State = Lifecycle.State.CREATED,
+    onChanged: (T) -> Unit = {}
 ) {
     flow.launchCollect(this, lifecycleState) {
         onChanged.invoke(it)
@@ -34,8 +34,8 @@ fun <T> BaseActivity<*>.observe(
  */
 fun <T> BaseActivity<*>.observeLatest(
     flow: Flow<T>,
-    lifecycleState: Lifecycle.State = Lifecycle.State.STARTED,
-    onChanged: (T) -> Unit
+    lifecycleState: Lifecycle.State = Lifecycle.State.CREATED,
+    onChanged: (T) -> Unit = {}
 ) {
     flow.launchCollectLatest(this, lifecycleState) {
         onChanged.invoke(it)
@@ -51,8 +51,8 @@ fun <T> BaseActivity<*>.observeLatest(
  */
 fun <T> BaseFragment<*>.observe(
     flow: Flow<T>,
-    lifecycleState: Lifecycle.State = Lifecycle.State.STARTED,
-    onChanged: (T) -> Unit
+    lifecycleState: Lifecycle.State = Lifecycle.State.CREATED,
+    onChanged: (T) -> Unit = {}
 ) {
     flow.launchCollect(this, lifecycleState) {
         onChanged.invoke(it)
@@ -69,8 +69,8 @@ fun <T> BaseFragment<*>.observe(
  */
 fun <T> BaseFragment<*>.observeLatest(
     flow: Flow<T>,
-    lifecycleState: Lifecycle.State = Lifecycle.State.STARTED,
-    onChanged: (T) -> Unit
+    lifecycleState: Lifecycle.State = Lifecycle.State.CREATED,
+    onChanged: (T) -> Unit = {}
 ) {
     flow.launchCollectLatest(this, lifecycleState) {
         onChanged.invoke(it)
@@ -86,8 +86,8 @@ fun <T> BaseFragment<*>.observeLatest(
  */
 fun <T> BaseDialog<*>.observe(
     flow: Flow<T>,
-    lifecycleState: Lifecycle.State = Lifecycle.State.STARTED,
-    onChanged: (T) -> Unit
+    lifecycleState: Lifecycle.State = Lifecycle.State.CREATED,
+    onChanged: (T) -> Unit = {}
 ) {
     flow.launchCollect(this, lifecycleState) {
         onChanged.invoke(it)
@@ -104,8 +104,8 @@ fun <T> BaseDialog<*>.observe(
  */
 fun <T> BaseDialog<*>.observeLatest(
     flow: Flow<T>,
-    lifecycleState: Lifecycle.State = Lifecycle.State.STARTED,
-    onChanged: (T) -> Unit
+    lifecycleState: Lifecycle.State = Lifecycle.State.CREATED,
+    onChanged: (T) -> Unit = {}
 ) {
     flow.launchCollectLatest(this, lifecycleState) {
         onChanged.invoke(it)
@@ -121,8 +121,8 @@ fun <T> BaseDialog<*>.observeLatest(
  */
 fun <T> BaseBottomSheet<*>.observe(
     flow: Flow<T>,
-    lifecycleState: Lifecycle.State = Lifecycle.State.STARTED,
-    onChanged: (T) -> Unit
+    lifecycleState: Lifecycle.State = Lifecycle.State.CREATED,
+    onChanged: (T) -> Unit = {}
 ) {
     flow.launchCollect(this, lifecycleState) {
         onChanged.invoke(it)
@@ -139,8 +139,8 @@ fun <T> BaseBottomSheet<*>.observe(
  */
 fun <T> BaseBottomSheet<*>.observeLatest(
     flow: Flow<T>,
-    lifecycleState: Lifecycle.State = Lifecycle.State.STARTED,
-    onChanged: (T) -> Unit
+    lifecycleState: Lifecycle.State = Lifecycle.State.CREATED,
+    onChanged: (T) -> Unit = {}
 ) {
     flow.launchCollectLatest(this, lifecycleState) {
         onChanged.invoke(it)

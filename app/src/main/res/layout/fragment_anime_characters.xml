@@ -12,7 +12,7 @@
         <import type="android.view.View" />
     </data>
 
-    <FrameLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/black">
@@ -25,9 +25,19 @@
             android:nestedScrollingEnabled="false"
             android:orientation="vertical"
             android:paddingHorizontal="12dp"
+            android:visibility="@{viewModel.shouldShowEmptyData() ? View.GONE : View.VISIBLE, default=gone}"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            app:layout_constraintTop_toTopOf="parent"
             app:spanCount="2"
             tools:visibility="visible" />
+
+        <include
+            android:id="@+id/layoutLoading"
+            layout="@layout/layout_loading_dialog"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="@{viewModel.shouldShowLoadingState() ? View.VISIBLE : View.GONE, default=gone}"
+            app:layout_constraintTop_toBottomOf="@id/rvCharacters" />
 
         <TextView
             android:id="@+id/tvEmpty"
@@ -37,6 +47,7 @@
             android:gravity="center"
             android:text="@string/empty_characters"
             android:textColor="@color/text_secondary"
-            android:visibility="gone" />
-    </FrameLayout>
+            android:visibility="@{viewModel.shouldShowEmptyData() ? View.VISIBLE : View.GONE, default=gone}"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

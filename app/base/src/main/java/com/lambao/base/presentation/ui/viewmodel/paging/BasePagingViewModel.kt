@@ -32,9 +32,6 @@ abstract class BasePagingViewModel(
         flowUseCase.onEach { resource ->
             when (resource) {
                 is Resource.Success -> {
-                    resource.paging?.let {
-                        onPaging?.invoke(it)
-                    }
                     resource.data?.let {
                         setSuccessScreenState()
                         onSuccess(it)
@@ -42,6 +39,9 @@ abstract class BasePagingViewModel(
                         val error = Exception(getDataIsNullMessage())
                         setErrorScreenState(error)
                         onError?.invoke(error)
+                    }
+                    resource.paging?.let {
+                        onPaging?.invoke(it)
                     }
                 }
 
@@ -75,9 +75,6 @@ abstract class BasePagingViewModel(
             when (resource) {
                 is Resource.Loading -> setLoadingScreenState()
                 is Resource.Success -> {
-                    resource.paging?.let {
-                        onPaging?.invoke(it)
-                    }
                     resource.data?.let {
                         setSuccessScreenState()
                         onSuccess(it)
@@ -85,6 +82,9 @@ abstract class BasePagingViewModel(
                         val error = Exception(getDataIsNullMessage())
                         setErrorScreenState(error)
                         onError?.invoke(error)
+                    }
+                    resource.paging?.let {
+                        onPaging?.invoke(it)
                     }
                 }
 
@@ -126,9 +126,6 @@ abstract class BasePagingViewModel(
                     val data2 = resource2.data
                     val paging1 = resource1.paging
                     val paging2 = resource2.paging
-                    if (paging1 != null && paging2 != null) {
-                        onPaging?.invoke(paging1, paging2)
-                    }
                     if (data1 != null && data2 != null) {
                         setSuccessScreenState()
                         onResults(data1, data2)
@@ -136,6 +133,9 @@ abstract class BasePagingViewModel(
                         val error = Exception(getDataIsNullMessage())
                         setErrorScreenState(error)
                         onError?.invoke(error)
+                    }
+                    if (paging1 != null && paging2 != null) {
+                        onPaging?.invoke(paging1, paging2)
                     }
                 }
 
@@ -187,9 +187,6 @@ abstract class BasePagingViewModel(
                     val paging1 = resource1.paging
                     val paging2 = resource2.paging
                     val paging3 = resource3.paging
-                    if (paging1 != null && paging2 != null && paging3 != null) {
-                        onPaging?.invoke(paging1, paging2, paging3)
-                    }
                     if (data1 != null && data2 != null && data3 != null) {
                         setSuccessScreenState()
                         onResults(data1, data2, data3)
@@ -197,6 +194,9 @@ abstract class BasePagingViewModel(
                         val error = Exception(getDataIsNullMessage())
                         setErrorScreenState(error)
                         onError?.invoke(error)
+                    }
+                    if (paging1 != null && paging2 != null && paging3 != null) {
+                        onPaging?.invoke(paging1, paging2, paging3)
                     }
                 }
 
@@ -246,9 +246,6 @@ abstract class BasePagingViewModel(
             if (allSuccess) {
                 val dataList = resources.mapNotNull { (it as Resource.Success).data }
                 val pagingList = resources.mapNotNull { (it as Resource.Success).paging }
-                if (pagingList.isNotEmpty()) {
-                    onPaging?.invoke(pagingList)
-                }
                 if (dataList.isNotEmpty()) {
                     setSuccessScreenState()
                     onResults(dataList)
@@ -256,6 +253,9 @@ abstract class BasePagingViewModel(
                     val error = Exception(getDataIsNullMessage())
                     setErrorScreenState(error)
                     onError?.invoke(error)
+                }
+                if (pagingList.isNotEmpty()) {
+                    onPaging?.invoke(pagingList)
                 }
             } else {
                 resources.firstOrNull { it is Resource.Error }?.let { errorResource ->
@@ -289,14 +289,14 @@ abstract class BasePagingViewModel(
                 .filterIsInstance<Resource.Success<*>>()
                 .mapNotNull { it.data }
             val pagingList = resources.mapNotNull { (it as Resource.Success).paging }
-            if (pagingList.isNotEmpty()) {
-                onPaging?.invoke(pagingList)
-            }
             if (successData.isNotEmpty()) {
                 setSuccessScreenState()
                 onResults(successData)
             } else {
                 setIdleScreenState()
+            }
+            if (pagingList.isNotEmpty()) {
+                onPaging?.invoke(pagingList)
             }
         }.launchIn(viewModelScope)
     }

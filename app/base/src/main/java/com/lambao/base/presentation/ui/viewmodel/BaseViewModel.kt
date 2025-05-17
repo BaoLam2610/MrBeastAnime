@@ -10,8 +10,10 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
@@ -32,17 +34,22 @@ open class BaseViewModel(
     private val _screenState = MutableSharedFlow<ScreenState>()
     val screenState: SharedFlow<ScreenState> get() = _screenState
 
-    private val _screenStateFlow = _screenState.map {
-        it
-    }.stateIn(viewModelScope, SharingStarted.Lazily, ScreenState.Idle())
+    private val _screenStateFlow = MutableStateFlow<ScreenState>(ScreenState.Idle())
     val screenStateFlow get() = _screenStateFlow
+
+    private val _shouldShowLoadingState = _screenStateFlow.map {
+        it is ScreenState.Loading
+    }.stateIn(viewModelScope, SharingStarted.Lazily, false)
+
+    fun shouldShowLoadingState(): StateFlow<Boolean> = _shouldShowLoadingState
 
     /**
      * Sets the screen state to the specified [ScreenState].
      *
      * @param state The [ScreenState] to set (e.g., Idle, Loading, Success, Error).
      */
-    fun setScreenState(state: ScreenState) {
+    protected open fun setScreenState(state: ScreenState) {
+        _screenStateFlow.value = state
         launch {
             delay(10)
             _screenState.emit(state)
@@ -50,17 +57,17 @@ open class BaseViewModel(
     }
 
     /** Sets the screen state to [ScreenState.Idle]. */
-    fun setIdleScreenState() {
+    protected open fun setIdleScreenState() {
         setScreenState(ScreenState.Idle())
     }
 
     /** Sets the screen state to [ScreenState.Loading]. */
-    fun setLoadingScreenState() {
+    protected open fun setLoadingScreenState() {
         setScreenState(ScreenState.Loading())
     }
 
     /** Sets the screen state to [ScreenState.Success]. */
-    fun setSuccessScreenState() {
+    protected open fun setSuccessScreenState() {
         setScreenState(ScreenState.Success())
     }
 
@@ -69,11 +76,11 @@ open class BaseViewModel(
      *
      * @param throwable The error cause to associate with the error state.
      */
-    fun setErrorScreenState(throwable: Throwable) {
+    protected open fun setErrorScreenState(throwable: Throwable) {
         setScreenState(ScreenState.Error(throwable))
     }
 
-    fun isIdleScreenState() = screenStateFlow.value is ScreenState.Idle
+    fun isIdleScreenState() = _screenStateFlow.value is ScreenState.Idle
 
     fun isLoadingScreenState() = screenStateFlow.value is ScreenState.Loading
 

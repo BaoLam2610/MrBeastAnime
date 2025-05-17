@@ -19,10 +19,6 @@ abstract class RemotePagingViewModel<T : Any>(
     // Buffer to store items fetched from API
     private val _bufferedItems = MutableStateFlow<List<T>>(emptyList())
 
-    // Tracks the display page for client-side sub-pagination
-    private val _displayPage = MutableStateFlow(1)
-    val displayPage = _displayPage.asStateFlow()
-
     // Desired number of items to display per page (client-side)
     protected open val displayPageSize = 10
 
@@ -48,7 +44,6 @@ abstract class RemotePagingViewModel<T : Any>(
             val itemsToDisplay = _bufferedItems.value.take(displayPageSize)
             updateItems(itemsToDisplay, append = true)
             _bufferedItems.value = _bufferedItems.value.drop(displayPageSize)
-            _displayPage.value += 1 // Increase display page for sub-pagination
         } else {
             // Buffer empty, fetch new page from API
             fetchData()
@@ -71,9 +66,9 @@ abstract class RemotePagingViewModel<T : Any>(
      */
     fun appendItems(data: List<T>) {
         _bufferedItems.value = data
-        _displayPage.value = 1 // Reset display page for new buffer
         increaseCurrentPage() // Increase API page
         // Load first chunk immediately
+        if (data.isEmpty() && _paging.value?.hasNextPage != true) return
         loadMoreItems()
     }
 
@@ -84,6 +79,5 @@ abstract class RemotePagingViewModel<T : Any>(
         super.resetPaging()
         _paging.value = null
         _bufferedItems.value = emptyList()
-        _displayPage.value = 1
     }
 }

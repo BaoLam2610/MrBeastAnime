@@ -12,4 +12,8 @@ abstract class BasePagingFragment<B : ViewDataBinding, VM> :
             viewModel.loadMoreItems()
         }
     }
+
+    override fun showLoading() = Unit
+
+    override fun hideLoading() = Unit
 }

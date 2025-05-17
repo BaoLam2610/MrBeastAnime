@@ -22,13 +22,13 @@ fun <T> Throwable.asFlow(): Flow<T> = flow {
  *
  * @param T The type of data emitted by the Flow
  * @param lifecycleOwner The LifecycleOwner whose lifecycle will control the collection
- * @param lifecycleState The Lifecycle state when collection should be active (defaults to STARTED)
+ * @param lifecycleState The Lifecycle state when collection should be active (defaults to CREATED)
  * @param collect The suspend function to handle each emitted value
  * @return A Job representing the launched coroutine
  */
 fun <T> Flow<T>.launchCollect(
     lifecycleOwner: LifecycleOwner,
-    lifecycleState: Lifecycle.State = Lifecycle.State.STARTED,
+    lifecycleState: Lifecycle.State = Lifecycle.State.CREATED,
     collect: suspend (T) -> Unit
 ) = lifecycleOwner.lifecycleScope.launch {
     lifecycleOwner.repeatOnLifecycle(lifecycleState) {
@@ -43,13 +43,13 @@ fun <T> Flow<T>.launchCollect(
  *
  * @param T The type of data emitted by the Flow
  * @param lifecycleOwner The LifecycleOwner whose lifecycle will control the collection
- * @param lifecycleState The Lifecycle state when collection should be active (defaults to [Lifecycle.State.STARTED])
+ * @param lifecycleState The Lifecycle state when collection should be active (defaults to [Lifecycle.State.CREATED])
  * @param collect The suspend function to handle each emitted value
  * @return A Job representing the launched coroutine, which can be used to cancel the collection if needed
  */
 fun <T> Flow<T>.launchCollectLatest(
     lifecycleOwner: LifecycleOwner,
-    lifecycleState: Lifecycle.State = Lifecycle.State.STARTED,
+    lifecycleState: Lifecycle.State = Lifecycle.State.CREATED,
     collect: suspend (T) -> Unit
 ) = lifecycleOwner.lifecycleScope.launch {
     lifecycleOwner.repeatOnLifecycle(lifecycleState) {
@@ -60,12 +60,12 @@ fun <T> Flow<T>.launchCollectLatest(
 /**
  * Launches a coroutine tied to a LifecycleOwner's lifecycle, executing the block when in the specified state.
  *
- * @param lifecycleState The Lifecycle state when the block should be active (defaults to STARTED)
+ * @param lifecycleState The Lifecycle state when the block should be active (defaults to CREATED)
  * @param block The suspend function to execute within the coroutine scope
  * @return A Job representing the launched coroutine
  */
 fun LifecycleOwner.launchWhen(
-    lifecycleState: Lifecycle.State = Lifecycle.State.STARTED,
+    lifecycleState: Lifecycle.State = Lifecycle.State.CREATED,
     block: suspend CoroutineScope.() -> Unit
 ) {
     lifecycleScope.launch {
@@ -86,7 +86,7 @@ fun LifecycleOwner.launchWhenCreated(block: suspend CoroutineScope.() -> Unit) {
 }
 
 /**
- * Launches a coroutine tied to a LifecycleOwner's lifecycle, executing the block when in STARTED state.
+ * Launches a coroutine tied to a LifecycleOwner's lifecycle, executing the block when in CREATED state.
  *
  * @param block The suspend function to execute within the coroutine scope
  * @return A Job representing the launched coroutine

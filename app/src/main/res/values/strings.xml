@@ -18,6 +18,7 @@
     <string name="episode_with_value">Tập %s</string>
     <string name="aired_at">Phát sóng: %s</string>
     <string name="empty_episodes">Chưa có tập phim nào</string>
+    <string name="empty_broadcast">Chưa có phát sóng nào</string>
     <string name="empty_characters">Chưa có nhân vật nào</string>
     <string name="empty_pictures">Chưa có ảnh nào</string>
     <string name="broadcast">Phát sóng</string>

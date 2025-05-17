@@ -9,10 +9,11 @@ import com.lambao.mrbeast.domain.model.display.DisplayAnimeEpisodeInfo
 import com.lambao.mrbeast.domain.usecase.anime.GetAnimeEpisodesUseCase
 import com.lambao.mrbeast.presentation.ui.common.view_model.anime.AnimeDelegate
 import com.lambao.mrbeast.presentation.ui.common.view_model.anime.AnimeViewModel
+import com.lambao.mrbeast.presentation.ui.common.view_model.empty_data.EmptyDataDelegate
+import com.lambao.mrbeast.presentation.ui.common.view_model.empty_data.EmptyDataViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import javax.inject.Inject
@@ -22,7 +23,8 @@ class AnimeEpisodesViewModel @Inject constructor(
     private val getAnimeEpisodesUseCase: GetAnimeEpisodesUseCase,
     dispatcherProvider: DispatcherProvider
 ) : RemotePagingViewModel<DisplayAnimeEpisodeInfo>(dispatcherProvider),
-    AnimeDelegate by AnimeViewModel(dispatcherProvider) {
+    AnimeDelegate by AnimeViewModel(dispatcherProvider),
+    EmptyDataDelegate by EmptyDataViewModel(dispatcherProvider) {
 
     private val _thumbnail = MutableStateFlow("")
 
@@ -35,9 +37,6 @@ class AnimeEpisodesViewModel @Inject constructor(
         }
     }.stateIn(viewModelScope, SharingStarted.Lazily, emptyList<DisplayAnimeEpisodeInfo>())
     val episodesWithThumbnails get() = _episodesWithThumbnails
-
-    private val _shouldShowEmptyEpisode = MutableStateFlow(false)
-    val shouldShowEmptyEpisode = _shouldShowEmptyEpisode.asStateFlow()
 
     fun setThumbnail(thumbnail: String) {
         launch {
@@ -59,12 +58,9 @@ class AnimeEpisodesViewModel @Inject constructor(
                 )
             ),
             onPaging = ::setPaging,
-            onError = {
-                _shouldShowEmptyEpisode.value = true
-            }
         ) {
             appendItems(it)
-            _shouldShowEmptyEpisode.value = items.value.isEmpty()
+            setShowEmptyData(items.value.isEmpty())
         }
     }
 }
