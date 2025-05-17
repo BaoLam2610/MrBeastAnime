@@ -1,11 +1,11 @@
 package com.lambao.mrbeast.presentation.ui.fragment.anime_detail
 
 import android.os.Bundle
-import androidx.core.widget.NestedScrollView
 import com.google.android.material.tabs.TabLayout
 import com.lambao.base.extension.click
 import com.lambao.base.extension.observeLatest
 import com.lambao.base.extension.popBackStack
+import com.lambao.base.extension.setOnLoadMoreListener
 import com.lambao.base.presentation.ui.fragment.BaseVMFragment
 import com.lambao.base.presentation.ui.fragment.paging.BasePagingFragment
 import com.lambao.mrbeast.utils.Constants
@@ -89,17 +89,10 @@ class AnimeDetailFragment : BaseVMFragment<FragmentAnimeDetailBinding, AnimeDeta
     override fun onTabReselected(tab: TabLayout.Tab?) = Unit
 
     private fun setupNestedScrollListener() {
-        binding.nestedScrollView.setOnScrollChangeListener { v: NestedScrollView, _: Int, scrollY: Int, _: Int, oldScrollY: Int ->
-            if (v.getChildAt(v.childCount - 1) != null) {
-                if (
-                    (scrollY >= (v.getChildAt(v.childCount - 1).measuredHeight - v.measuredHeight)) &&
-                    scrollY > oldScrollY
-                ) {
-                    val currentFragment = childFragmentManager.fragments.find { it.isVisible }
-                    if (currentFragment is BasePagingFragment<*, *>) {
-                        currentFragment.tryLoadMore()
-                    }
-                }
+        binding.nestedScrollView.setOnLoadMoreListener {
+            val currentFragment = childFragmentManager.fragments.find { it.isVisible }
+            if (currentFragment is BasePagingFragment<*, *>) {
+                currentFragment.tryLoadMore()
             }
         }
     }

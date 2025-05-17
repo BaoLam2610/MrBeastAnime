@@ -20,6 +20,7 @@
             android:id="@+id/rvData"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:nestedScrollingEnabled="false"
             android:orientation="vertical"
             android:paddingHorizontal="4dp"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"

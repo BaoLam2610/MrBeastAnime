@@ -1,8 +1,8 @@
 package com.lambao.mrbeast.presentation.ui.fragment.tops
 
 import android.os.Bundle
-import com.lambao.base.extension.launchWhenCreated
 import com.lambao.base.extension.observeLatest
+import com.lambao.base.extension.setOnLoadMoreListener
 import com.lambao.base.presentation.ui.view.recycler_view.spacing
 import com.lambao.mrbeast.presentation.ui.common.navigator.NavigatorDetail
 import com.lambao.mrbeast.presentation.ui.common.navigator.NavigatorDetailImpl
@@ -39,6 +39,7 @@ class TopAnimeListFragment :
             start = 8
             end = 8
         }
+        setupNestedScrollListener()
     }
 
     override fun initObserve() {
@@ -47,8 +48,16 @@ class TopAnimeListFragment :
         observeLatest(viewModel.getTopAnimeList()) {
             topAnimeAdapter.submitList(it)
         }
-        launchWhenCreated {
-            viewModel.fetchTopAnime()
+
+        viewModel.fetchTopAnime()
+//        viewModel.setLoadingScreenState()
+    }
+
+    private fun setupNestedScrollListener() {
+        binding.nestedScrollView.setOnLoadMoreListener {
+            if (viewModel.hasMoreItems()) {
+                viewModel.loadMoreItems()
+            }
         }
     }
 }

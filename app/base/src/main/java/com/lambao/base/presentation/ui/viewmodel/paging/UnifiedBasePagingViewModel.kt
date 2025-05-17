@@ -21,10 +21,10 @@ abstract class UnifiedBasePagingViewModel<T : Any>(
 
     // Common pagination configuration
     private val _currentPage = MutableStateFlow(1)
-    val currentPage = _currentPage.asStateFlow()
+    override val currentPage = _currentPage.asStateFlow()
 
     private val _pageSize = MutableStateFlow(20)
-    protected val pageSize = _pageSize.asStateFlow()
+    override val pageSize = _pageSize.asStateFlow()
 
     /**
      * Abstract method to load data based on the specific pagination strategy

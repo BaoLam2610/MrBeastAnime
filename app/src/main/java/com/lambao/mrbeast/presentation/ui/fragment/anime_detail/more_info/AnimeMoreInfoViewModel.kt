@@ -44,12 +44,12 @@ class AnimeMoreInfoViewModel @Inject constructor(
                 add(
                     AnimeInfoPairTextAttr(
                         key = context.getString(R.string.broadcast),
-                        value = "${it.displayAiredFromDate()} - ${it.displayAiredToDate()}"
+                        value = it.displayAiredDate()
                     )
                 )
             }
 
-            if (it.episodes != null && it.episodes > 0) {
+            if (it.episodes != null && it.episodes > 0 && !it.isMovieType()) {
                 add(
                     AnimeInfoPairTextAttr(
                         key = context.getString(R.string.number_of_episodes),
@@ -76,20 +76,11 @@ class AnimeMoreInfoViewModel @Inject constructor(
                 )
             }
 
-            if (it.shouldDisplayProducers()) {
+            if (it.shouldDisplayFavorites()) {
                 add(
                     AnimeInfoPairTextAttr(
-                        key = context.getString(R.string.producers),
-                        value = it.displayProducers()
-                    )
-                )
-            }
-
-            if (it.shouldDisplayStudios()) {
-                add(
-                    AnimeInfoPairTextAttr(
-                        key = context.getString(R.string.studios),
-                        value = it.displayStudios()
+                        key = context.getString(R.string.favorites),
+                        value = it.displayFavorites()
                     )
                 )
             }
@@ -103,11 +94,20 @@ class AnimeMoreInfoViewModel @Inject constructor(
                 )
             }
 
-            if (it.shouldDisplayFavorites()) {
+            if (it.shouldDisplayStudios()) {
                 add(
                     AnimeInfoPairTextAttr(
-                        key = context.getString(R.string.favorites),
-                        value = it.displayFavorites()
+                        key = context.getString(R.string.studios),
+                        value = it.displayStudios()
+                    )
+                )
+            }
+
+            if (it.shouldDisplayProducers()) {
+                add(
+                    AnimeInfoPairTextAttr(
+                        key = context.getString(R.string.producers),
+                        value = it.displayProducers()
                     )
                 )
             }

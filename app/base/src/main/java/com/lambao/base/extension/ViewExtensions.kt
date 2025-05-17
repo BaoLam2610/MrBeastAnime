@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.core.text.HtmlCompat
 import androidx.core.view.children
+import androidx.core.widget.NestedScrollView
 import com.lambao.base.presentation.ui.view.OnSingleClickListener
 
 private const val SUPER_STATE = "SUPER_STATE"
@@ -74,4 +75,18 @@ fun View.invisible() {
 
 fun View.gone() {
     visibility = View.GONE
+}
+
+fun NestedScrollView.setOnLoadMoreListener(onLoadMore: () -> Unit) {
+    setOnScrollChangeListener { v: NestedScrollView, _: Int, scrollY: Int, _: Int, oldScrollY: Int ->
+        if (scrollY > oldScrollY) { // Check if scrolling down
+            val lastChild = v.getChildAt(v.childCount - 1)
+            if (lastChild != null) {
+                if (scrollY >= (lastChild.measuredHeight - v.measuredHeight)) {
+                    // Scrolled to the bottom (or very close)
+                    onLoadMore()
+                }
+            }
+        }
+    }
 }

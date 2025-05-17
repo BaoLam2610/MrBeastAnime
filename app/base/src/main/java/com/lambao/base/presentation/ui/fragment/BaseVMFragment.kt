@@ -8,6 +8,7 @@ import com.lambao.base.data.remote.NetworkException
 import com.lambao.base.extension.observeLatest
 import com.lambao.base.presentation.ui.state.ScreenState
 import com.lambao.base.presentation.ui.viewmodel.BaseViewModel
+import com.lambao.base.utils.log
 
 abstract class BaseVMFragment<B : ViewDataBinding, VM : BaseViewModel> : BaseFragment<B>() {
 
@@ -30,6 +31,7 @@ abstract class BaseVMFragment<B : ViewDataBinding, VM : BaseViewModel> : BaseFra
 
     protected open fun initScreenState() {
         observeLatest(viewModel.screenState) { state ->
+            log("Current screen state: $state")
             when (state) {
                 is ScreenState.Loading -> showLoading()
                 is ScreenState.Error -> {
