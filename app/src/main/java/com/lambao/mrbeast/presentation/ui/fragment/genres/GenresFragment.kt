@@ -6,8 +6,8 @@ import com.lambao.base.extension.observeLatest
 import com.lambao.base.presentation.ui.fragment.BaseVMFragment
 import com.lambao.base.presentation.ui.view.recycler_view.spacing
 import com.lambao.mrbeast.presentation.ui.common.adapter.anime_info.AnimeContainerAdapter
-import com.lambao.mrbeast.presentation.ui.common.navigator.NavigatorDetail
-import com.lambao.mrbeast.presentation.ui.common.navigator.NavigatorDetailImpl
+import com.lambao.mrbeast.presentation.ui.common.navigator.NavigatorDelegate
+import com.lambao.mrbeast.presentation.ui.common.navigator.NavigatorDelegateImpl
 import com.lambao.mrbeast_anime.R
 import com.lambao.mrbeast_anime.databinding.FragmentGenresBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -16,8 +16,8 @@ import kotlinx.coroutines.delay
 @AndroidEntryPoint
 class GenresFragment : BaseVMFragment<FragmentGenresBinding, GenresViewModel>() {
 
-    private val navigator: NavigatorDetail by lazy {
-        NavigatorDetailImpl(this)
+    private val navigator: NavigatorDelegate by lazy {
+        NavigatorDelegateImpl(this)
     }
 
     private val genresAdapter by lazy {

@@ -11,8 +11,8 @@ import com.lambao.base.presentation.ui.view.recycler_view.spacing
 import com.lambao.mrbeast.domain.model.type.HomeType
 import com.lambao.mrbeast.domain.model.type.InfoType
 import com.lambao.mrbeast.presentation.ui.common.adapter.anime_info.AnimeContainerAdapter
-import com.lambao.mrbeast.presentation.ui.common.navigator.NavigatorDetail
-import com.lambao.mrbeast.presentation.ui.common.navigator.NavigatorDetailImpl
+import com.lambao.mrbeast.presentation.ui.common.navigator.NavigatorDelegate
+import com.lambao.mrbeast.presentation.ui.common.navigator.NavigatorDelegateImpl
 import com.lambao.mrbeast_anime.R
 import com.lambao.mrbeast_anime.databinding.FragmentHomeBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -23,8 +23,8 @@ class HomeFragment : BaseVMFragment<FragmentHomeBinding, HomeViewModel>() {
 
     private lateinit var topAnimeSliderAdapter: TopAnimeSliderAdapter
 
-    private val navigator: NavigatorDetail by lazy {
-        NavigatorDetailImpl(this)
+    private val navigator: NavigatorDelegate by lazy {
+        NavigatorDelegateImpl(this)
     }
 
     private val animeContainerAdapter by lazy {

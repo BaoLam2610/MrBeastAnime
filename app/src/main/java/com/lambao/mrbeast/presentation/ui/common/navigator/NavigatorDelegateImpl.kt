@@ -7,9 +7,9 @@ import com.lambao.mrbeast.domain.model.display.DisplayAnimeInfo
 import com.lambao.mrbeast.utils.Constants
 import com.lambao.mrbeast_anime.R
 
-class NavigatorDetailImpl(
+class NavigatorDelegateImpl(
     val fragment: Fragment
-) : NavigatorDetail {
+) : NavigatorDelegate {
     override fun navigateHomeToDetail(item: DisplayAnimeInfo) {
         fragment.navigate(
             R.id.action_homeFragment_to_animeDetailFragment,

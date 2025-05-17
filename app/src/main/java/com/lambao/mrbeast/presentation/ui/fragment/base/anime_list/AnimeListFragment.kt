@@ -10,7 +10,7 @@ import com.lambao.base.presentation.ui.fragment.BaseVMFragment
 import com.lambao.mrbeast_anime.R
 import com.lambao.mrbeast_anime.databinding.FragmentAnimeListBinding
 
-abstract class AnimeListFragment<B : ViewDataBinding, VM : AnimeListViewModel> :
+abstract class AnimeListFragment<T : Any, B : ViewDataBinding, VM : AnimeListViewModel<T>> :
     BaseVMFragment<FragmentAnimeListBinding, VM>() {
 
     private var _childBinding: B? = null

@@ -4,19 +4,37 @@ import android.os.Bundle
 import com.lambao.base.extension.observeLatest
 import com.lambao.base.extension.setOnLoadMoreListener
 import com.lambao.base.presentation.ui.view.recycler_view.spacing
-import com.lambao.mrbeast.presentation.ui.common.navigator.NavigatorDetail
-import com.lambao.mrbeast.presentation.ui.common.navigator.NavigatorDetailImpl
+import com.lambao.mrbeast.domain.model.display.DisplayTopAnimeInfo
+import com.lambao.mrbeast.presentation.ui.common.navigator.NavigatorDelegate
+import com.lambao.mrbeast.presentation.ui.common.navigator.NavigatorDelegateImpl
 import com.lambao.mrbeast.presentation.ui.fragment.base.anime_list.AnimeListFragment
+import com.lambao.mrbeast.utils.Constants
 import com.lambao.mrbeast_anime.R
 import com.lambao.mrbeast_anime.databinding.FragmentTopAnimeListBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class TopAnimeListFragment :
-    AnimeListFragment<FragmentTopAnimeListBinding, TopAnimeListViewModel>() {
+    AnimeListFragment<DisplayTopAnimeInfo, FragmentTopAnimeListBinding, TopAnimeListViewModel>() {
 
-    private val navigator: NavigatorDetail by lazy {
-        NavigatorDetailImpl(this)
+    private val argTitle by lazy {
+        arguments?.getString(Constants.Bundle.TITLE) ?: ""
+    }
+
+    private val argType by lazy {
+        arguments?.getString(Constants.Bundle.TYPE) ?: ""
+    }
+
+    private val argFilter by lazy {
+        arguments?.getString(Constants.Bundle.FILTER) ?: ""
+    }
+
+    private val argRating by lazy {
+        arguments?.getString(Constants.Bundle.RATING) ?: ""
+    }
+
+    private val navigator: NavigatorDelegate by lazy {
+        NavigatorDelegateImpl(this)
     }
 
     private val topAnimeAdapter by lazy {
@@ -29,7 +47,7 @@ class TopAnimeListFragment :
 
     override fun getViewModelClass() = TopAnimeListViewModel::class.java
 
-    override fun getTitleScreen() = getString(R.string.anime_movie)
+    override fun getTitleScreen() = argTitle
 
     override fun onChildViewReady(savedInstanceState: Bundle?) {
         childBinding.rvData.adapter = topAnimeAdapter
@@ -45,12 +63,16 @@ class TopAnimeListFragment :
     override fun initObserve() {
         childBinding.viewModel = viewModel
 
-        observeLatest(viewModel.getTopAnimeList()) {
+        observeLatest(viewModel.items) {
             topAnimeAdapter.submitList(it)
         }
 
-        viewModel.fetchTopAnime()
-//        viewModel.setLoadingScreenState()
+        with(viewModel) {
+            setType(argType)
+            setFilter(argFilter)
+            setRating(argRating)
+            fetchData()
+        }
     }
 
     private fun setupNestedScrollListener() {

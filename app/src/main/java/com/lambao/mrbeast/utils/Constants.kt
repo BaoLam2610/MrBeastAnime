@@ -68,6 +68,10 @@ object Constants {
         const val STATE = "STATE"
         const val ARG = "ARG"
         const val IS_UPCOMING = "IS_UPCOMING"
+        const val TITLE = "TITLE"
+        const val TYPE = "TYPE"
+        const val FILTER = "FILTER"
+        const val RATING = "RATING"
     }
 
     object DateTime {
