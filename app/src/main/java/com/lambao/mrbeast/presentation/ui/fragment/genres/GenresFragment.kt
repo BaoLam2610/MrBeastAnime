@@ -69,7 +69,10 @@ class GenresFragment : BaseVMFragment<FragmentGenresBinding, GenresViewModel>() 
         viewModel.getAnimeGenres()
         launchWhenCreated {
             delay(3000)
-            viewModel.fetchAnimePopular()
+            if (viewModel.shouldLoadData().value) {
+                viewModel.fetchAnimePopular()
+                viewModel.setLoadData(false)
+            }
         }
     }
 }

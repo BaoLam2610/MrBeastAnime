@@ -9,8 +9,8 @@ import com.lambao.mrbeast.domain.model.display.DisplayAnimeEpisodeInfo
 import com.lambao.mrbeast.domain.usecase.anime.GetAnimeEpisodesUseCase
 import com.lambao.mrbeast.presentation.ui.common.view_model.anime.AnimeDelegate
 import com.lambao.mrbeast.presentation.ui.common.view_model.anime.AnimeViewModel
-import com.lambao.mrbeast.presentation.ui.common.view_model.empty_data.EmptyDataDelegate
-import com.lambao.mrbeast.presentation.ui.common.view_model.empty_data.EmptyDataViewModel
+import com.lambao.mrbeast.presentation.ui.common.view_model.data_handler.DataHandlerDelegate
+import com.lambao.mrbeast.presentation.ui.common.view_model.data_handler.DataHandlerViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -24,7 +24,7 @@ class AnimeEpisodesViewModel @Inject constructor(
     dispatcherProvider: DispatcherProvider
 ) : RemotePagingViewModel<DisplayAnimeEpisodeInfo>(dispatcherProvider),
     AnimeDelegate by AnimeViewModel(dispatcherProvider),
-    EmptyDataDelegate by EmptyDataViewModel(dispatcherProvider) {
+    DataHandlerDelegate by DataHandlerViewModel(dispatcherProvider) {
 
     private val _thumbnail = MutableStateFlow("")
 

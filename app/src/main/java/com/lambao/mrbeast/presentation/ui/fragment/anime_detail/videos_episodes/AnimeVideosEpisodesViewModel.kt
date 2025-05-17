@@ -7,8 +7,8 @@ import com.lambao.mrbeast.domain.model.display.DisplayAnimeVideoEpisodeInfo
 import com.lambao.mrbeast.domain.usecase.anime.GetAnimeVideosEpisodesUseCase
 import com.lambao.mrbeast.presentation.ui.common.view_model.anime.AnimeDelegate
 import com.lambao.mrbeast.presentation.ui.common.view_model.anime.AnimeViewModel
-import com.lambao.mrbeast.presentation.ui.common.view_model.empty_data.EmptyDataDelegate
-import com.lambao.mrbeast.presentation.ui.common.view_model.empty_data.EmptyDataViewModel
+import com.lambao.mrbeast.presentation.ui.common.view_model.data_handler.DataHandlerDelegate
+import com.lambao.mrbeast.presentation.ui.common.view_model.data_handler.DataHandlerViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
@@ -18,7 +18,7 @@ class AnimeVideosEpisodesViewModel @Inject constructor(
     dispatcherProvider: DispatcherProvider
 ) : RemotePagingViewModel<DisplayAnimeVideoEpisodeInfo>(dispatcherProvider),
     AnimeDelegate by AnimeViewModel(dispatcherProvider),
-    EmptyDataDelegate by EmptyDataViewModel(dispatcherProvider) {
+    DataHandlerDelegate by DataHandlerViewModel(dispatcherProvider) {
 
     fun fetchAnimeVideosEpisodes(id: String) {
         setAnimeId(id)

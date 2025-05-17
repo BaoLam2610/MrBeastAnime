@@ -1,4 +1,4 @@
-package com.lambao.mrbeast.presentation.ui.common.view_model.empty_data
+package com.lambao.mrbeast.presentation.ui.common.view_model.data_handler
 
 import com.lambao.base.presentation.handler.dispatcher.DispatcherProvider
 import com.lambao.base.presentation.ui.viewmodel.BaseViewModel
@@ -8,14 +8,22 @@ import kotlinx.coroutines.flow.StateFlow
 import javax.inject.Inject
 
 @HiltViewModel
-class EmptyDataViewModel @Inject constructor(
+class DataHandlerViewModel @Inject constructor(
     dispatcherProvider: DispatcherProvider
-) : BaseViewModel(dispatcherProvider), EmptyDataDelegate {
+) : BaseViewModel(dispatcherProvider), DataHandlerDelegate {
     private val _shouldShowEmptyData = MutableStateFlow(false)
 
+    private val _shouldLoadData = MutableStateFlow(true)
+
     override fun setShowEmptyData(isShow: Boolean) {
-        launch { _shouldShowEmptyData }
+        launch { _shouldShowEmptyData.emit(isShow) }
+    }
+
+    override fun setLoadData(isLoad: Boolean) {
+        launch { _shouldLoadData.emit(isLoad) }
     }
 
     override fun shouldShowEmptyData(): StateFlow<Boolean> = _shouldShowEmptyData
+
+    override fun shouldLoadData(): StateFlow<Boolean> = _shouldLoadData
 }

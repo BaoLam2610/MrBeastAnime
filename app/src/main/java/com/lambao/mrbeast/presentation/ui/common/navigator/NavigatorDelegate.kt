@@ -5,5 +5,6 @@ import com.lambao.mrbeast.domain.model.display.DisplayAnimeInfo
 interface NavigatorDelegate {
     fun navigateHomeToDetail(item: DisplayAnimeInfo)
     fun navigateTopAnimeToDetail(item: DisplayAnimeInfo)
+    fun navigateSeasonAnimeToDetail(item: DisplayAnimeInfo)
     fun navigateGenreToDetail(item: DisplayAnimeInfo)
 }

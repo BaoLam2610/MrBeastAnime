@@ -18,6 +18,12 @@ class QueryParamsViewModel @Inject constructor(
 
     private val _rating = MutableStateFlow("")
 
+    private val _unApproved = MutableStateFlow<Boolean?>(null)
+
+    private val _continuing = MutableStateFlow<Boolean?>(null)
+
+    private val _sfw = MutableStateFlow<Boolean?>(null)
+
     override fun setType(type: String) {
         _type.value = type
     }
@@ -30,9 +36,27 @@ class QueryParamsViewModel @Inject constructor(
         _rating.value = rating
     }
 
+    override fun setUnApproved(unApproved: Boolean?) {
+        _unApproved.value = unApproved
+    }
+
+    override fun setContinuing(continuing: Boolean?) {
+        _continuing.value = continuing
+    }
+
+    override fun setSfw(sfw: Boolean?) {
+        _sfw.value = sfw
+    }
+
     override fun getType(): StateFlow<String> = _type
 
     override fun getFilter(): StateFlow<String> = _filter
 
     override fun getRating(): StateFlow<String> = _rating
+
+    override fun getUnApproved(): StateFlow<Boolean?> = _unApproved
+
+    override fun getContinuing(): StateFlow<Boolean?> = _continuing
+
+    override fun getSfw(): StateFlow<Boolean?> = _sfw
 }

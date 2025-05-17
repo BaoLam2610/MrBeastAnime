@@ -4,9 +4,9 @@ import com.lambao.mrbeast.data.remote.params.PagingRequest
 
 data class SeasonsParams(
     val filter: String = "", // "tv" "movie" "ova" "special" "ona" "music"
-    val unapproved: Boolean? = null, // Boolean
-    val continuing: Boolean? = null, // Boolean
-    val sfw: String = "",
+    val unapproved: Boolean? = null,
+    val continuing: Boolean? = null,
+    val sfw: Boolean? = null,
     override val page: Int,
     override val limit: Int
 ) : PagingRequest(page, limit) {
@@ -15,7 +15,7 @@ data class SeasonsParams(
             "filter" to filter,
             "unapproved" to (unapproved?.toString() ?: ""),
             "continuing" to (continuing?.toString() ?: ""),
-            "sfw" to sfw
+            "sfw" to (sfw?.toString() ?: "")
         )
     }
 }

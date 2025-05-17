@@ -16,6 +16,9 @@
         <action
             android:id="@+id/action_homeFragment_to_topAnimeListFragment"
             app:destination="@id/topAnimeListFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_seasonAnimeListFragment"
+            app:destination="@id/seasonAnimeListFragment" />
     </fragment>
 
     <fragment
@@ -44,9 +47,19 @@
         android:id="@+id/topAnimeListFragment"
         android:name="com.lambao.mrbeast.presentation.ui.fragment.tops.TopAnimeListFragment"
         android:label="TopAnimeListFragment"
-        tools:layout="@layout/fragment_top_anime_list" >
+        tools:layout="@layout/fragment_top_anime_list">
         <action
             android:id="@+id/action_topAnimeListFragment_to_animeDetailFragment"
+            app:destination="@id/animeDetailFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/seasonAnimeListFragment"
+        android:name="com.lambao.mrbeast.presentation.ui.fragment.seasons.SeasonAnimeListFragment"
+        android:label="SeasonAnimeListFragment"
+        tools:layout="@layout/fragment_season_anime_list">
+        <action
+            android:id="@+id/action_seasonAnimeListFragment_to_animeDetailFragment"
             app:destination="@id/animeDetailFragment" />
     </fragment>
 </navigation>

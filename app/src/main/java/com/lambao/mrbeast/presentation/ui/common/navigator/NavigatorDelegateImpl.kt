@@ -28,6 +28,15 @@ class NavigatorDelegateImpl(
         )
     }
 
+    override fun navigateSeasonAnimeToDetail(item: DisplayAnimeInfo) {
+        fragment.navigate(
+            R.id.action_seasonAnimeListFragment_to_animeDetailFragment,
+            bundleOf(
+                Constants.Bundle.ID to item.getId()
+            )
+        )
+    }
+
     override fun navigateGenreToDetail(item: DisplayAnimeInfo) {
         fragment.navigate(
             R.id.action_genresFragment_to_animeDetailFragment,

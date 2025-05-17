@@ -1,18 +1,20 @@
 package com.lambao.mrbeast.presentation.ui.fragment.home
 
 import android.os.Bundle
+import androidx.core.os.bundleOf
 import androidx.viewpager2.widget.ViewPager2
 import com.lambao.base.extension.launchWhenCreated
 import com.lambao.base.extension.navigate
 import com.lambao.base.extension.observeLatest
-import com.lambao.base.extension.showToast
 import com.lambao.base.presentation.ui.fragment.BaseVMFragment
 import com.lambao.base.presentation.ui.view.recycler_view.spacing
 import com.lambao.mrbeast.domain.model.type.HomeType
 import com.lambao.mrbeast.domain.model.type.InfoType
+import com.lambao.mrbeast.domain.model.type.SeasonType
 import com.lambao.mrbeast.presentation.ui.common.adapter.anime_info.AnimeContainerAdapter
 import com.lambao.mrbeast.presentation.ui.common.navigator.NavigatorDelegate
 import com.lambao.mrbeast.presentation.ui.common.navigator.NavigatorDelegateImpl
+import com.lambao.mrbeast.utils.Constants
 import com.lambao.mrbeast_anime.R
 import com.lambao.mrbeast_anime.databinding.FragmentHomeBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -60,7 +62,7 @@ class HomeFragment : BaseVMFragment<FragmentHomeBinding, HomeViewModel>() {
             animeContainerAdapter.submitList(it)
         }
 
-        if (viewModel.shouldLoadDataValue) {
+        if (viewModel.shouldLoadData().value) {
             viewModel.fetchAnimeData()
             launchWhenCreated {
                 delay(3000)
@@ -91,15 +93,40 @@ class HomeFragment : BaseVMFragment<FragmentHomeBinding, HomeViewModel>() {
         if (type is HomeType) {
             when (type) {
                 HomeType.TopAnime -> {
-                    navigate(R.id.action_homeFragment_to_topAnimeListFragment)
+                    navigate(
+                        R.id.action_homeFragment_to_topAnimeListFragment
+                    )
                 }
 
                 HomeType.TvSeasonNow -> {
-                    navigate(R.id.action_homeFragment_to_topAnimeListFragment)
+                    navigate(
+                        R.id.action_homeFragment_to_topAnimeListFragment,
+                        bundleOf(
+                            Constants.Bundle.TITLE to getString(R.string.anime_tv_series),
+                            Constants.Bundle.TYPE to Constants.QueryParams.Type.TV
+                        )
+                    )
                 }
 
-                HomeType.MovieSeasonNow -> showToast(type.toString())
-                HomeType.SeasonUpcoming -> showToast(type.toString())
+                HomeType.MovieSeasonNow -> {
+                    navigate(
+                        R.id.action_homeFragment_to_seasonAnimeListFragment,
+                        bundleOf(
+                            Constants.Bundle.TITLE to getString(R.string.anime_movie),
+                            Constants.Bundle.SEASON_TYPE to SeasonType.NOW
+                        )
+                    )
+                }
+
+                HomeType.SeasonUpcoming -> {
+                    navigate(
+                        R.id.action_homeFragment_to_seasonAnimeListFragment,
+                        bundleOf(
+                            Constants.Bundle.TITLE to getString(R.string.upcoming),
+                            Constants.Bundle.SEASON_TYPE to SeasonType.UPCOMING
+                        )
+                    )
+                }
             }
         }
     }

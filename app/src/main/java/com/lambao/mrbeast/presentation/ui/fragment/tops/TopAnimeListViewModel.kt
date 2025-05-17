@@ -20,6 +20,7 @@ class TopAnimeListViewModel @Inject constructor(
                     type = getType().value,
                     filter = getFilter().value,
                     rating = getRating().value,
+                    sfw = getSfw().value,
                     page = currentPage.value,
                     limit = pageSize.value
                 )

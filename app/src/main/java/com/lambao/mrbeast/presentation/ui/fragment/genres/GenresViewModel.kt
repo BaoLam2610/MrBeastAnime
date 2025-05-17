@@ -14,6 +14,8 @@ import com.lambao.mrbeast.domain.usecase.genres.GetRandomBackgroundGenreUseCase
 import com.lambao.mrbeast.domain.usecase.watch.GetWatchPopularEpisodesUseCase
 import com.lambao.mrbeast.domain.usecase.watch.GetWatchPopularPromosUseCase
 import com.lambao.mrbeast.presentation.ui.common.adapter.anime_info.AnimeItem
+import com.lambao.mrbeast.presentation.ui.common.view_model.data_handler.DataHandlerDelegate
+import com.lambao.mrbeast.presentation.ui.common.view_model.data_handler.DataHandlerViewModel
 import com.lambao.mrbeast.presentation.ui.common.view_model.watch.episodes.WatchPopularEpisodesDelegate
 import com.lambao.mrbeast.presentation.ui.common.view_model.watch.episodes.WatchPopularEpisodesViewModel
 import com.lambao.mrbeast.presentation.ui.common.view_model.watch.promos.WatchPopularPromosDelegate
@@ -39,6 +41,7 @@ class GenresViewModel @Inject constructor(
     getWatchPopularPromosUseCase: GetWatchPopularPromosUseCase,
     dispatcherProvider: DispatcherProvider
 ) : BaseViewModel(dispatcherProvider),
+    DataHandlerDelegate by DataHandlerViewModel(dispatcherProvider),
     WatchPopularEpisodesDelegate by WatchPopularEpisodesViewModel(
         getWatchPopularEpisodesUseCase,
         dispatcherProvider

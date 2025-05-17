@@ -25,7 +25,8 @@ class MainViewModel @Inject constructor(
     fun updateShowBottomNavByFragmentId(fragmentId: Int) {
         val listFragmentIdHideShowBottomNav = listOf(
             R.id.animeDetailFragment,
-            R.id.topAnimeListFragment
+            R.id.topAnimeListFragment,
+            R.id.seasonAnimeListFragment
         )
         setShowBottomNav(fragmentId !in listFragmentIdHideShowBottomNav)
     }

@@ -8,8 +8,8 @@ import com.lambao.mrbeast.domain.model.display.DisplayAnimePictureInfo
 import com.lambao.mrbeast.domain.usecase.anime.GetAnimePicturesUseCase
 import com.lambao.mrbeast.presentation.ui.common.view_model.anime.AnimeDelegate
 import com.lambao.mrbeast.presentation.ui.common.view_model.anime.AnimeViewModel
-import com.lambao.mrbeast.presentation.ui.common.view_model.empty_data.EmptyDataDelegate
-import com.lambao.mrbeast.presentation.ui.common.view_model.empty_data.EmptyDataViewModel
+import com.lambao.mrbeast.presentation.ui.common.view_model.data_handler.DataHandlerDelegate
+import com.lambao.mrbeast.presentation.ui.common.view_model.data_handler.DataHandlerViewModel
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -25,7 +25,7 @@ class AnimePicturesViewModel @Inject constructor(
     dispatcherProvider: DispatcherProvider
 ) : ClientPagingViewModel<DisplayAnimePictureInfo>(dispatcherProvider),
     AnimeDelegate by AnimeViewModel(dispatcherProvider),
-    EmptyDataDelegate by EmptyDataViewModel(dispatcherProvider) {
+    DataHandlerDelegate by DataHandlerViewModel(dispatcherProvider) {
 
     private val _youtubePlayer = MutableStateFlow<YouTubePlayer?>(null)
     val youTubePlayer = _youtubePlayer.asStateFlow()

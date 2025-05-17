@@ -72,6 +72,10 @@ object Constants {
         const val TYPE = "TYPE"
         const val FILTER = "FILTER"
         const val RATING = "RATING"
+        const val UNAPPROVED = "UNAPPROVED"
+        const val CONTINUING = "CONTINUING"
+        const val SFW = "SFW"
+        const val SEASON_TYPE = "SEASON_TYPE"
     }
 
     object DateTime {

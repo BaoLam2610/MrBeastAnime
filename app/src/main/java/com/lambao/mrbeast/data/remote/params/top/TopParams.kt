@@ -6,7 +6,7 @@ data class TopParams(
     val type: String = "",
     val filter: String = "",
     val rating: String = "",
-    val sfw: String = "",
+    val sfw: Boolean? = null,
     override val page: Int,
     override val limit: Int
 ) : PagingRequest(page, limit) {
@@ -15,7 +15,7 @@ data class TopParams(
             "type" to type,
             "filter" to filter,
             "rating" to rating,
-            "sfw" to sfw
+            "sfw" to (sfw?.toString() ?: "")
         )
     }
 }

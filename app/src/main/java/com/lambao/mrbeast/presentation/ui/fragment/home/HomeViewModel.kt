@@ -12,6 +12,8 @@ import com.lambao.mrbeast.domain.usecase.GetTopAnimeUseCase
 import com.lambao.mrbeast.domain.usecase.seasons.GetSeasonNowUseCase
 import com.lambao.mrbeast.domain.usecase.seasons.GetSeasonUpcomingUseCase
 import com.lambao.mrbeast.presentation.ui.common.adapter.anime_info.AnimeItem
+import com.lambao.mrbeast.presentation.ui.common.view_model.data_handler.DataHandlerDelegate
+import com.lambao.mrbeast.presentation.ui.common.view_model.data_handler.DataHandlerViewModel
 import com.lambao.mrbeast.presentation.ui.common.view_model.season.movie.MovieSeasonNowDelegate
 import com.lambao.mrbeast.presentation.ui.common.view_model.season.movie.MovieSeasonNowViewModel
 import com.lambao.mrbeast.presentation.ui.common.view_model.season.tv.TvSeasonNowDelegate
@@ -24,9 +26,7 @@ import com.lambao.mrbeast_anime.R
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import javax.inject.Inject
@@ -39,6 +39,7 @@ class HomeViewModel @Inject constructor(
     @ApplicationContext private val context: Context,
     dispatcherProvider: DispatcherProvider
 ) : BaseViewModel(dispatcherProvider),
+    DataHandlerDelegate by DataHandlerViewModel(dispatcherProvider),
     TopAnimeDelegate by TopAnimeViewModel(getTopAnimeUseCase, dispatcherProvider),
     TvSeasonNowDelegate by TvSeasonNowViewModel(getSeasonNowUseCase, dispatcherProvider),
     MovieSeasonNowDelegate by MovieSeasonNowViewModel(getSeasonNowUseCase, dispatcherProvider),
@@ -46,10 +47,6 @@ class HomeViewModel @Inject constructor(
         getSeasonUpcomingUseCase,
         dispatcherProvider
     ) {
-
-    private val _shouldLoadData = MutableStateFlow(true)
-    val shouldLoadData = _shouldLoadData.asStateFlow()
-    val shouldLoadDataValue get() = _shouldLoadData.value
 
     private val _animeDisplayList = combine(
         getTvSeasonNowList(),
@@ -89,10 +86,6 @@ class HomeViewModel @Inject constructor(
         }
     }.stateIn(viewModelScope, SharingStarted.Lazily, emptyList())
     val animeDisplayList get() = _animeDisplayList
-
-    fun setLoadData(isLoad: Boolean) {
-        _shouldLoadData.value = isLoad
-    }
 
     fun fetchAnimeData() {
         val flows = listOf<Flow<Resource<*>>>(

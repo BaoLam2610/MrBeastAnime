@@ -5,8 +5,8 @@ import com.lambao.base.presentation.ui.viewmodel.paging.RemotePagingViewModel
 import com.lambao.mrbeast.data.remote.params.top.TopParams
 import com.lambao.mrbeast.domain.model.display.DisplayTopAnimeInfo
 import com.lambao.mrbeast.domain.usecase.GetTopAnimeUseCase
-import com.lambao.mrbeast.presentation.ui.common.view_model.empty_data.EmptyDataDelegate
-import com.lambao.mrbeast.presentation.ui.common.view_model.empty_data.EmptyDataViewModel
+import com.lambao.mrbeast.presentation.ui.common.view_model.data_handler.DataHandlerDelegate
+import com.lambao.mrbeast.presentation.ui.common.view_model.data_handler.DataHandlerViewModel
 import com.lambao.mrbeast.presentation.ui.common.view_model.query_params.QueryParamsDelegate
 import com.lambao.mrbeast.presentation.ui.common.view_model.query_params.QueryParamsViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -18,7 +18,7 @@ class TopAnimePagingViewModel @Inject constructor(
     dispatcherProvider: DispatcherProvider
 ) : RemotePagingViewModel<DisplayTopAnimeInfo>(dispatcherProvider), TopAnimePagingDelegate,
     QueryParamsDelegate by QueryParamsViewModel(dispatcherProvider),
-    EmptyDataDelegate by EmptyDataViewModel(dispatcherProvider) {
+    DataHandlerDelegate by DataHandlerViewModel(dispatcherProvider) {
 
     override fun getTopAnimeList() = items
 
