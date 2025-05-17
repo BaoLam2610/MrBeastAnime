@@ -8,6 +8,8 @@ import androidx.navigation.NavOptions
 import androidx.navigation.fragment.FragmentNavigator
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.navOptions
+import com.lambao.base.R
 import kotlinx.coroutines.launch
 
 
@@ -29,7 +31,17 @@ fun Fragment.navigate(
         if (currentDestination is FragmentNavigator.Destination &&
             currentDestination.className == this::class.java.name
         ) {
-            navController.navigate(actionId, args, navOptions)
+            navController.navigate(
+                actionId, args,
+                navOptions ?: navOptions {
+                    anim {
+                        enter = R.anim.fade_in
+                        exit = R.anim.fade_out
+                        popExit = R.anim.fade_out
+                        popEnter = R.anim.fade_in
+                    }
+                }
+            )
         }
     } catch (e: Exception) {
         e.printStackTrace()
@@ -104,7 +116,8 @@ fun <T> Fragment.navigateForResult(
         val navController = findNavController()
         val currentDestination = navController.currentDestination
         if (currentDestination is FragmentNavigator.Destination &&
-            currentDestination.className == this::class.java.name) {
+            currentDestination.className == this::class.java.name
+        ) {
             val currentBackStackEntry = navController.currentBackStackEntry
             currentBackStackEntry?.let { entry ->
                 val resultFlow = entry.savedStateHandle.getStateFlow<T?>(resultKey, null)
