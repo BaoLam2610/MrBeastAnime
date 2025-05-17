@@ -48,7 +48,7 @@ open class BaseViewModel(
      *
      * @param state The [ScreenState] to set (e.g., Idle, Loading, Success, Error).
      */
-    protected open fun setScreenState(state: ScreenState) {
+    open fun setScreenState(state: ScreenState) {
         _screenStateFlow.value = state
         launch {
             delay(10)
@@ -57,17 +57,17 @@ open class BaseViewModel(
     }
 
     /** Sets the screen state to [ScreenState.Idle]. */
-    protected open fun setIdleScreenState() {
+    open fun setIdleScreenState() {
         setScreenState(ScreenState.Idle())
     }
 
     /** Sets the screen state to [ScreenState.Loading]. */
-    protected open fun setLoadingScreenState() {
+    open fun setLoadingScreenState() {
         setScreenState(ScreenState.Loading())
     }
 
     /** Sets the screen state to [ScreenState.Success]. */
-    protected open fun setSuccessScreenState() {
+    open fun setSuccessScreenState() {
         setScreenState(ScreenState.Success())
     }
 
@@ -76,7 +76,7 @@ open class BaseViewModel(
      *
      * @param throwable The error cause to associate with the error state.
      */
-    protected open fun setErrorScreenState(throwable: Throwable) {
+    open fun setErrorScreenState(throwable: Throwable) {
         setScreenState(ScreenState.Error(throwable))
     }
 

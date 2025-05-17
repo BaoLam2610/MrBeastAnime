@@ -1,0 +1,61 @@
+package com.lambao.mrbeast.presentation.ui.fragment.base.anime_list
+
+import android.os.Bundle
+import android.view.View
+import androidx.annotation.LayoutRes
+import androidx.databinding.DataBindingUtil
+import androidx.databinding.ViewDataBinding
+import com.lambao.base.extension.popBackStack
+import com.lambao.base.presentation.ui.fragment.BaseVMFragment
+import com.lambao.mrbeast_anime.R
+import com.lambao.mrbeast_anime.databinding.FragmentAnimeListBinding
+
+abstract class AnimeListFragment<B : ViewDataBinding, VM : AnimeListViewModel> :
+    BaseVMFragment<FragmentAnimeListBinding, VM>() {
+
+    private var _childBinding: B? = null
+    protected val childBinding: B
+        get() = _childBinding
+            ?: throw IllegalStateException("Binding in ${this::class.java.simpleName} is null")
+
+    @LayoutRes
+    abstract fun getChildLayoutResId(): Int
+
+    abstract fun getTitleScreen(): String
+
+    abstract fun onChildViewReady(savedInstanceState: Bundle?)
+
+    final override fun getLayoutResId() = R.layout.fragment_anime_list
+
+    final override fun onViewReady(savedInstanceState: Bundle?) {
+        if (!binding.layoutChild.isInflated) {
+            binding.layoutChild.viewStub?.layoutResource = getChildLayoutResId()
+            binding.layoutChild.viewStub?.inflate()
+            binding.layoutChild.binding?.root?.let {
+                _childBinding = DataBindingUtil.bind<B>(it)
+            }
+            _childBinding?.apply {
+                lifecycleOwner = viewLifecycleOwner
+                executePendingBindings()
+                onChildViewReady(savedInstanceState)
+            }
+        }
+        setupCommonViews()
+    }
+
+    final override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+    }
+
+    private fun setupCommonViews() {
+        binding.btnBack.setOnClickListener {
+            popBackStack()
+        }
+        binding.tvTitle.text = getTitleScreen()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _childBinding = null
+    }
+}

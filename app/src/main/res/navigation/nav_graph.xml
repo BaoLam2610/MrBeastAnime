@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_homeFragment_to_animeDetailFragment"
             app:destination="@id/animeDetailFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_topAnimeListFragment"
+            app:destination="@id/topAnimeListFragment" />
     </fragment>
 
     <fragment
@@ -36,4 +39,14 @@
         android:name="com.lambao.mrbeast.presentation.ui.fragment.anime_detail.AnimeDetailFragment"
         android:label="AnimeDetailFragment"
         tools:layout="@layout/fragment_anime_detail" />
+
+    <fragment
+        android:id="@+id/topAnimeListFragment"
+        android:name="com.lambao.mrbeast.presentation.ui.fragment.tops.TopAnimeListFragment"
+        android:label="TopAnimeListFragment"
+        tools:layout="@layout/fragment_top_anime_list" >
+        <action
+            android:id="@+id/action_topAnimeListFragment_to_animeDetailFragment"
+            app:destination="@id/animeDetailFragment" />
+    </fragment>
 </navigation>

@@ -1,15 +1,13 @@
 package com.lambao.mrbeast.presentation.ui.fragment.genres
 
 import android.os.Bundle
-import androidx.core.os.bundleOf
 import com.lambao.base.extension.launchWhenCreated
-import com.lambao.base.extension.navigate
 import com.lambao.base.extension.observeLatest
 import com.lambao.base.presentation.ui.fragment.BaseVMFragment
 import com.lambao.base.presentation.ui.view.recycler_view.spacing
-import com.lambao.mrbeast.domain.model.display.DisplayAnimeInfo
 import com.lambao.mrbeast.presentation.ui.common.adapter.anime_info.AnimeContainerAdapter
-import com.lambao.mrbeast.utils.Constants
+import com.lambao.mrbeast.presentation.ui.common.navigator.NavigatorDetail
+import com.lambao.mrbeast.presentation.ui.common.navigator.NavigatorDetailImpl
 import com.lambao.mrbeast_anime.R
 import com.lambao.mrbeast_anime.databinding.FragmentGenresBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -17,6 +15,10 @@ import kotlinx.coroutines.delay
 
 @AndroidEntryPoint
 class GenresFragment : BaseVMFragment<FragmentGenresBinding, GenresViewModel>() {
+
+    private val navigator: NavigatorDetail by lazy {
+        NavigatorDetailImpl(this)
+    }
 
     private val genresAdapter by lazy {
         GenresAdapter()
@@ -28,7 +30,7 @@ class GenresFragment : BaseVMFragment<FragmentGenresBinding, GenresViewModel>() 
 
             },
             onItemClickListener = { item, _ ->
-                handleOpenDetailScreen(item)
+                navigator.navigateGenreToDetail(item)
             }
         )
     }
@@ -69,14 +71,5 @@ class GenresFragment : BaseVMFragment<FragmentGenresBinding, GenresViewModel>() 
             delay(3000)
             viewModel.fetchAnimePopular()
         }
-    }
-
-    private fun handleOpenDetailScreen(item: DisplayAnimeInfo) {
-        navigate(
-            R.id.action_genresFragment_to_animeDetailFragment,
-            bundleOf(
-                Constants.Bundle.ID to item.getId()
-            )
-        )
     }
 }
