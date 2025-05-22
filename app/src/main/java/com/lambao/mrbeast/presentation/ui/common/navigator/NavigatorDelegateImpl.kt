@@ -45,4 +45,13 @@ class NavigatorDelegateImpl(
             )
         )
     }
+
+    override fun navigateSearchToDetail(item: DisplayAnimeInfo) {
+        fragment.navigate(
+            R.id.action_animeSearchFragment_to_animeDetailFragment,
+            bundleOf(
+                Constants.Bundle.ID to item.getId()
+            )
+        )
+    }
 }

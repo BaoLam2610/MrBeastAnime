@@ -3,7 +3,9 @@ package com.lambao.mrbeast.data.model.anime
 import android.os.Parcelable
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
+import com.lambao.base.extension.isFuture
 import com.lambao.base.extension.reformatDate
+import com.lambao.base.extension.toDate
 import com.lambao.mrbeast.data.model.Aired
 import com.lambao.mrbeast.data.model.Broadcast
 import com.lambao.mrbeast.data.model.Info
@@ -13,6 +15,7 @@ import com.lambao.mrbeast.data.model.images.ImagesRemote
 import com.lambao.mrbeast.domain.model.display.DisplayAnimeFullInfo
 import com.lambao.mrbeast.utils.Constants
 import kotlinx.parcelize.Parcelize
+import java.util.Date
 
 @Parcelize
 data class Anime(
@@ -91,14 +94,20 @@ data class Anime(
     }
 
     override fun displaySeasonYear() =
-        if (!season.isNullOrEmpty() && year != null) "${season?.replaceFirstChar { if (it.isLowerCase()) it.titlecase() else it.toString() }}, $year"
+        if (!season.isNullOrEmpty() && year != null) "${season.replaceFirstChar { if (it.isLowerCase()) it.titlecase() else it.toString() }}, $year"
         else ""
 
     override fun displayFavorites() = favorites?.toString() ?: ""
 
+    override fun getAiredFromDate() = aired?.from?.toDate(Constants.DateTime.yyyyMMddTHHmmssHHmm)
+
+    override fun getAiredToDate() = aired?.to?.toDate(Constants.DateTime.yyyyMMddTHHmmssHHmm)
+
     override fun isTvType() = type == Constants.Anime.Type.TV
 
     override fun isMovieType() = type == Constants.Anime.Type.MOVIE
+
+    override fun isUpcoming() = getAiredFromDate()?.isFuture() ?: false
 
     override fun hasBroadcast() = broadcast != null && !broadcast.day.isNullOrEmpty()
 }

@@ -117,16 +117,16 @@ abstract class BaseDialog<B : ViewDataBinding> : DialogFragment() {
     }
 
     @LayoutRes
-    protected abstract fun getLayoutId(): Int
+    protected abstract fun getLayoutResId(): Int
 
-    protected abstract fun onViewReady(savedInstance: Bundle?)
+    protected abstract fun onViewReady(savedInstanceState: Bundle?)
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = DataBindingUtil.inflate(inflater, getLayoutId(), container, false)
+        _binding = DataBindingUtil.inflate(inflater, getLayoutResId(), container, false)
         binding.lifecycleOwner = viewLifecycleOwner
         binding.executePendingBindings()
         return binding.root

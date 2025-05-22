@@ -121,7 +121,7 @@ fun <T> Fragment.navigateForResult(
             val currentBackStackEntry = navController.currentBackStackEntry
             currentBackStackEntry?.let { entry ->
                 val resultFlow = entry.savedStateHandle.getStateFlow<T?>(resultKey, null)
-                lifecycleScope.launch {
+                viewLifecycleOwner.lifecycleScope.launch {
                     resultFlow.collect { result ->
                         result?.let {
                             onResult(it)

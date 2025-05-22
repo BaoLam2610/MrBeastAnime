@@ -44,9 +44,9 @@ class MessageDialog(
         }
     }
 
-    override fun getLayoutId() = R.layout.layout_message_dialog
+    override fun getLayoutResId() = R.layout.layout_message_dialog
 
-    override fun onViewReady(savedInstance: Bundle?) {
+    override fun onViewReady(savedInstanceState: Bundle?) {
         with(binding) {
             title = this@MessageDialog.title
             message = this@MessageDialog.message

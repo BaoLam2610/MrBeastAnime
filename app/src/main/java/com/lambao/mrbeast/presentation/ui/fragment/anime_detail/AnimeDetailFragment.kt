@@ -6,15 +6,15 @@ import com.lambao.base.extension.click
 import com.lambao.base.extension.observeLatest
 import com.lambao.base.extension.popBackStack
 import com.lambao.base.extension.setOnLoadMoreListener
-import com.lambao.base.presentation.ui.fragment.BaseVMFragment
-import com.lambao.base.presentation.ui.fragment.paging.BasePagingFragment
+import com.lambao.base.presentation.ui.dialog.BaseVMDialog
+import com.lambao.base.presentation.ui.fragment.paging.BaseManualPagingFragment
 import com.lambao.mrbeast.utils.Constants
 import com.lambao.mrbeast_anime.R
 import com.lambao.mrbeast_anime.databinding.FragmentAnimeDetailBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class AnimeDetailFragment : BaseVMFragment<FragmentAnimeDetailBinding, AnimeDetailViewModel>(),
+class AnimeDetailFragment : BaseVMDialog<FragmentAnimeDetailBinding, AnimeDetailViewModel>(),
     TabLayout.OnTabSelectedListener {
 
     private val argId by lazy {
@@ -25,7 +25,10 @@ class AnimeDetailFragment : BaseVMFragment<FragmentAnimeDetailBinding, AnimeDeta
 
     override fun getViewModelClass() = AnimeDetailViewModel::class.java
 
+    override fun getTheme() = com.lambao.base.R.style.full_screen_dialog
+
     override fun onViewReady(savedInstanceState: Bundle?) {
+        dialog?.window?.attributes?.windowAnimations = com.lambao.base.R.style.dialog_animation
         binding.btnBack.click {
             popBackStack()
         }
@@ -91,7 +94,7 @@ class AnimeDetailFragment : BaseVMFragment<FragmentAnimeDetailBinding, AnimeDeta
     private fun setupNestedScrollListener() {
         binding.nestedScrollView.setOnLoadMoreListener {
             val currentFragment = childFragmentManager.fragments.find { it.isVisible }
-            if (currentFragment is BasePagingFragment<*, *>) {
+            if (currentFragment is BaseManualPagingFragment<*, *>) {
                 currentFragment.tryLoadMore()
             }
         }

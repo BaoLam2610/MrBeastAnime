@@ -5,7 +5,7 @@ import android.os.Bundle
 import com.lambao.base.extension.getParcelableCompat
 import com.lambao.base.extension.launchWhenCreated
 import com.lambao.base.extension.observeLatest
-import com.lambao.base.presentation.ui.fragment.BaseVMFragment
+import com.lambao.base.presentation.ui.fragment.paging.BaseManualPagingFragment
 import com.lambao.base.presentation.ui.view.recycler_view.spacing
 import com.lambao.mrbeast.utils.Constants
 import com.lambao.mrbeast_anime.R
@@ -16,7 +16,7 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class AnimePicturesFragment :
-    BaseVMFragment<FragmentAnimePicturesBinding, AnimePicturesViewModel>() {
+    BaseManualPagingFragment<FragmentAnimePicturesBinding, AnimePicturesViewModel>() {
 
     companion object {
         fun newInstance(data: AnimePicturesArgument?): AnimePicturesFragment {

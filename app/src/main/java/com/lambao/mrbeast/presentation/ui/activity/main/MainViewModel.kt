@@ -16,7 +16,7 @@ class MainViewModel @Inject constructor(
     private val _shouldShowBottomNav = MutableStateFlow(true)
     val shouldShowBottomNav = _shouldShowBottomNav.asStateFlow()
 
-    fun setShowBottomNav(isShow: Boolean) {
+    private fun setShowBottomNav(isShow: Boolean) {
         launch {
             _shouldShowBottomNav.emit(isShow)
         }
@@ -26,7 +26,9 @@ class MainViewModel @Inject constructor(
         val listFragmentIdHideShowBottomNav = listOf(
             R.id.animeDetailFragment,
             R.id.topAnimeListFragment,
-            R.id.seasonAnimeListFragment
+            R.id.seasonAnimeListFragment,
+            R.id.animeSearchFragment,
+            R.id.animeFilterBottomSheet
         )
         setShowBottomNav(fragmentId !in listFragmentIdHideShowBottomNav)
     }

@@ -89,7 +89,7 @@
                     android:layout_marginTop="16dp"
                     android:background="@drawable/bg_corner_4"
                     android:text="@string/play"
-                    android:visibility="@{viewModel.anime != null ? View.VISIBLE : View.GONE, default=gone}"
+                    android:visibility="@{viewModel.shouldShowButtonPlay ? View.VISIBLE : View.GONE, default=gone}"
                     app:layout_constraintTop_toBottomOf="@id/tvTitle"
                     tools:visibility="visible" />
 

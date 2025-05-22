@@ -7,4 +7,5 @@ interface NavigatorDelegate {
     fun navigateTopAnimeToDetail(item: DisplayAnimeInfo)
     fun navigateSeasonAnimeToDetail(item: DisplayAnimeInfo)
     fun navigateGenreToDetail(item: DisplayAnimeInfo)
+    fun navigateSearchToDetail(item: DisplayAnimeInfo)
 }

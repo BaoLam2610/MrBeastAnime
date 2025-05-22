@@ -1,9 +1,17 @@
 package com.lambao.mrbeast.data.repository.anime
 
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
 import com.google.gson.Gson
 import com.lambao.base.data.remote.BaseRemoteDataSource
 import com.lambao.base.presentation.handler.dispatcher.DispatcherProvider
+import com.lambao.mrbeast.data.remote.paging.AnimeCharactersPagingSource
+import com.lambao.mrbeast.data.remote.paging.AnimeEpisodesPagingSource
+import com.lambao.mrbeast.data.remote.paging.AnimePicturesPagingSource
+import com.lambao.mrbeast.data.remote.paging.AnimeSearchPagingSource
+import com.lambao.mrbeast.data.remote.paging.AnimeVideosEpisodesPagingSource
 import com.lambao.mrbeast.data.remote.params.anime.AnimeParams
+import com.lambao.mrbeast.data.remote.params.search.SearchParams
 import com.lambao.mrbeast.data.remote.service.AnimeService
 import javax.inject.Inject
 
@@ -31,4 +39,68 @@ class AnimeRepositoryImpl @Inject constructor(
     override fun getAnimeCharacters(params: AnimeParams) = safeApiCall {
         animeService.getAnimeCharacters(params.id)
     }
+
+    override fun getAnimeSearch(params: SearchParams) = safeApiCall {
+        animeService.getAnimeSearch(params.toQueryMap())
+    }
+
+    override fun getAnimeEpisodesPaginated(params: AnimeParams) = Pager(
+        config = PagingConfig(
+            pageSize = params.limit,
+            initialLoadSize = params.limit,
+            prefetchDistance = 5,
+            enablePlaceholders = false
+        ),
+        pagingSourceFactory = {
+            AnimeEpisodesPagingSource(this, params)
+        }
+    ).flow
+
+    override fun getAnimeVideosEpisodesPaginated(params: AnimeParams) = Pager(
+        config = PagingConfig(
+            pageSize = params.limit,
+            initialLoadSize = params.limit,
+            prefetchDistance = 5,
+            enablePlaceholders = false
+        ),
+        pagingSourceFactory = {
+            AnimeVideosEpisodesPagingSource(this, params)
+        }
+    ).flow
+
+    override fun getAnimePicturesPaginated(params: AnimeParams) = Pager(
+        config = PagingConfig(
+            pageSize = params.limit,
+            initialLoadSize = params.limit,
+            prefetchDistance = 5,
+            enablePlaceholders = false
+        ),
+        pagingSourceFactory = {
+            AnimePicturesPagingSource(this, params)
+        }
+    ).flow
+
+    override fun getAnimeCharactersPaginated(params: AnimeParams) = Pager(
+        config = PagingConfig(
+            pageSize = params.limit,
+            initialLoadSize = params.limit,
+            prefetchDistance = 5,
+            enablePlaceholders = false
+        ),
+        pagingSourceFactory = {
+            AnimeCharactersPagingSource(this, params)
+        }
+    ).flow
+
+    override fun getAnimeSearchPaginated(params: SearchParams) = Pager(
+        config = PagingConfig(
+            pageSize = params.limit,
+            initialLoadSize = params.limit,
+            prefetchDistance = 5,
+            enablePlaceholders = false
+        ),
+        pagingSourceFactory = {
+            AnimeSearchPagingSource(this, params)
+        }
+    ).flow
 }

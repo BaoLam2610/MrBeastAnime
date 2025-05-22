@@ -37,4 +37,9 @@ interface AnimeService {
     suspend fun getAnimeCharacters(
         @Path("id") id: String
     ): ApiResponse<List<AnimeCharacter>>
+
+    @GET("anime")
+    suspend fun getAnimeSearch(
+        @QueryMap queryMap: Map<String, String?>
+    ): ApiResponse<List<Anime>>
 }

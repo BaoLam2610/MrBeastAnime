@@ -3,6 +3,7 @@ package com.lambao.mrbeast.presentation.ui.fragment.home
 import android.os.Bundle
 import androidx.core.os.bundleOf
 import androidx.viewpager2.widget.ViewPager2
+import com.lambao.base.extension.click
 import com.lambao.base.extension.launchWhenCreated
 import com.lambao.base.extension.navigate
 import com.lambao.base.extension.observeLatest
@@ -14,6 +15,8 @@ import com.lambao.mrbeast.domain.model.type.SeasonType
 import com.lambao.mrbeast.presentation.ui.common.adapter.anime_info.AnimeContainerAdapter
 import com.lambao.mrbeast.presentation.ui.common.navigator.NavigatorDelegate
 import com.lambao.mrbeast.presentation.ui.common.navigator.NavigatorDelegateImpl
+import com.lambao.mrbeast.presentation.ui.fragment.base.anime_list.AnimeListArgument
+import com.lambao.mrbeast.presentation.ui.fragment.seasons.SeasonAnimeListArgument
 import com.lambao.mrbeast.utils.Constants
 import com.lambao.mrbeast_anime.R
 import com.lambao.mrbeast_anime.databinding.FragmentHomeBinding
@@ -47,6 +50,9 @@ class HomeFragment : BaseVMFragment<FragmentHomeBinding, HomeViewModel>() {
         binding.rvInfo.spacing {
             top = 32
             bottom = 16
+        }
+        binding.btnSearch.click {
+            navigate(R.id.action_homeFragment_to_animeSearchFragment)
         }
         setupViewPager()
     }
@@ -102,8 +108,10 @@ class HomeFragment : BaseVMFragment<FragmentHomeBinding, HomeViewModel>() {
                     navigate(
                         R.id.action_homeFragment_to_topAnimeListFragment,
                         bundleOf(
-                            Constants.Bundle.TITLE to getString(R.string.anime_tv_series),
-                            Constants.Bundle.TYPE to Constants.QueryParams.Type.TV
+                            Constants.Bundle.ARG to AnimeListArgument(
+                                title = getString(R.string.anime_tv_series),
+                                type = Constants.QueryParams.Type.TV
+                            )
                         )
                     )
                 }
@@ -112,8 +120,10 @@ class HomeFragment : BaseVMFragment<FragmentHomeBinding, HomeViewModel>() {
                     navigate(
                         R.id.action_homeFragment_to_seasonAnimeListFragment,
                         bundleOf(
-                            Constants.Bundle.TITLE to getString(R.string.anime_movie),
-                            Constants.Bundle.SEASON_TYPE to SeasonType.NOW
+                            Constants.Bundle.ARG to SeasonAnimeListArgument(
+                                seasonType = SeasonType.NOW,
+                                title = getString(R.string.anime_movie),
+                            )
                         )
                     )
                 }
@@ -122,8 +132,10 @@ class HomeFragment : BaseVMFragment<FragmentHomeBinding, HomeViewModel>() {
                     navigate(
                         R.id.action_homeFragment_to_seasonAnimeListFragment,
                         bundleOf(
-                            Constants.Bundle.TITLE to getString(R.string.upcoming),
-                            Constants.Bundle.SEASON_TYPE to SeasonType.UPCOMING
+                            Constants.Bundle.ARG to SeasonAnimeListArgument(
+                                seasonType = SeasonType.UPCOMING,
+                                title = getString(R.string.upcoming),
+                            )
                         )
                     )
                 }

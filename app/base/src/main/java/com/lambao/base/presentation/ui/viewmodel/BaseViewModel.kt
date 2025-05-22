@@ -14,6 +14,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
@@ -177,6 +178,9 @@ open class BaseViewModel(
 
                 else -> setIdleScreenState()
             }
+        }.catch {
+            setErrorScreenState(it)
+            onError?.invoke(it)
         }.launchIn(viewModelScope)
     }
 
@@ -215,6 +219,9 @@ open class BaseViewModel(
 
                 else -> setIdleScreenState()
             }
+        }.catch {
+            setErrorScreenState(it)
+            onError?.invoke(it)
         }.launchIn(viewModelScope)
     }
 
@@ -265,6 +272,9 @@ open class BaseViewModel(
 
                 else -> setLoadingScreenState()
             }
+        }.catch {
+            setErrorScreenState(it)
+            onError?.invoke(it)
         }.launchIn(viewModelScope)
     }
 
@@ -324,6 +334,9 @@ open class BaseViewModel(
 
                 else -> setLoadingScreenState()
             }
+        }.catch {
+            setErrorScreenState(it)
+            onError?.invoke(it)
         }.launchIn(viewModelScope)
     }
 
@@ -363,6 +376,9 @@ open class BaseViewModel(
                     onError?.invoke(throwable)
                 }
             }
+        }.catch {
+            setErrorScreenState(it)
+            onError?.invoke(it)
         }.launchIn(viewModelScope)
     }
 

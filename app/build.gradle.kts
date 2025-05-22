@@ -86,6 +86,10 @@ dependencies {
 
     /* Youtube player */
     implementation(libs.pierfrancescosoffritti.androidyoutubeplayer)
+
+    /* Paging 3 */
+    implementation(libs.androidx.paging.runtime.ktx)
+
 }
 
 /* Hilt: Allow references to generated code*/

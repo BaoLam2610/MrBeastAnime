@@ -38,6 +38,11 @@ class AnimeDetailViewModel @Inject constructor(
     private val _anime = MutableStateFlow<DisplayAnimeFullInfo?>(null)
     val anime = _anime.asStateFlow()
 
+    private val _shouldShowButtonPlay = _anime.map {
+        return@map it != null && !it.isUpcoming()
+    }.stateIn(viewModelScope, SharingStarted.Lazily, false)
+    val shouldShowButtonPlay get() = _shouldShowButtonPlay
+
     private val _screenTypes = _anime.map {
         if (it == null) return@map emptyList()
         if (it.getId().isNullOrEmpty()) return@map emptyList()
@@ -95,7 +100,7 @@ class AnimeDetailViewModel @Inject constructor(
                 )
             )
         }
-    }.stateIn(viewModelScope, SharingStarted.Lazily, emptyList<AnimeDetailScreenType>())
+    }.stateIn(viewModelScope, SharingStarted.Lazily, emptyList())
     val screenTypes get() = _screenTypes
 
     private val _fragments = _screenTypes.map {
