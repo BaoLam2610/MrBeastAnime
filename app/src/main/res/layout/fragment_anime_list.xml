@@ -55,19 +55,12 @@
             app:layout_constraintTop_toTopOf="parent"
             app:tint="@color/background_secondary" />
 
-        <androidx.core.widget.NestedScrollView
-            android:id="@+id/nestedScrollView"
+        <ViewStub
+            android:id="@+id/layoutChild"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_marginTop="12dp"
-            android:fillViewport="true"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/btnBack">
-
-            <ViewStub
-                android:id="@+id/layoutChild"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-        </androidx.core.widget.NestedScrollView>
+            app:layout_constraintTop_toBottomOf="@id/btnBack" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

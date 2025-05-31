@@ -11,6 +11,15 @@ object Constants {
 
     const val PREF_FILE_NAME = "mrbeast_anime_pref"
 
+    object Database {
+        const val DB_PATH = "mrbeast_anime.db"
+        const val DB_NAME = "mrbeast_anime.db"
+    }
+
+    object Key {
+        const val DEFAULT = "DEFAULT"
+    }
+
     object Anime {
         object Type {
             const val TV = "TV"
@@ -61,6 +70,31 @@ object Constants {
             const val R = "r"
             const val RX = "rx"
         }
+
+        object Status {
+            const val AIRING = "airing"
+            const val COMPLETE = "complete"
+            const val UPCOMING = "upcoming"
+        }
+
+        object OrderBy {
+            const val MAL_ID = "mal_id"
+            const val TITLE = "title"
+            const val START_DATE = "start_date"
+            const val END_DATE = "end_date"
+            const val EPISODES = "episodes"
+            const val SCORE = "score"
+            const val SCORED_BY = "scored_by"
+            const val RANK = "rank"
+            const val POPULARITY = "popularity"
+            const val MEMBERS = "members"
+            const val FAVORITES = "favorites"
+        }
+
+        object Sort {
+            const val ASC = "asc"
+            const val DESC = "desc"
+        }
     }
 
     object Bundle {
@@ -76,10 +110,25 @@ object Constants {
         const val CONTINUING = "CONTINUING"
         const val SFW = "SFW"
         const val SEASON_TYPE = "SEASON_TYPE"
+        const val Q = "Q"
+        const val SCORE = "SCORE"
+        const val MIN_SCORE = "MIN_SCORE"
+        const val MAX_SCORE = "MAX_SCORE"
+        const val STATUS = "STATUS"
+        const val GENRES = "GENRES"
+        const val GENRES_EXCLUDE = "GENRES_EXCLUDE"
+        const val ORDER_BY = "ORDER_BY"
+        const val SORT = "SORT"
+        const val LETTER = "LETTER"
+        const val PRODUCERS = "PRODUCERS"
+        const val START_DATE = "START_DATE"
+        const val END_DATE = "END_DATE"
+        const val RESULT = "RESULT"
     }
 
     object DateTime {
         const val yyyyMMddTHHmmssHHmm = "yyyy-MM-dd'T'HH:mm:ss+HH:mm"
+        const val yyyyMMddTHHmmssZ = "yyyy-MM-dd'T'HH:mm:ssZ"
         const val ddMMyyyy = "dd/MM/yyyy"
         const val ddMMyyyyHHmm = "dd/MM/yyyy HH:mm"
     }

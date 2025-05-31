@@ -4,7 +4,7 @@ import com.lambao.base.presentation.handler.dispatcher.DispatcherProvider
 import com.lambao.base.presentation.ui.viewmodel.BaseViewModel
 import com.lambao.mrbeast.data.remote.params.top.TopParams
 import com.lambao.mrbeast.domain.model.display.DisplayTopAnimeInfo
-import com.lambao.mrbeast.domain.usecase.GetTopAnimeUseCase
+import com.lambao.mrbeast.domain.usecase.top.GetTopAnimeUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

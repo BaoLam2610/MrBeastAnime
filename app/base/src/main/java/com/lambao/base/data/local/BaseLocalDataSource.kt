@@ -21,7 +21,7 @@ abstract class BaseLocalDataSource(
 
     protected open fun getQueryFailedMessage() = "Failed to query local data"
 
-    protected open fun <T> safeCall(localCall: suspend () -> T): Flow<Resource<T>> = flow {
+    open fun <T> safeCall(localCall: suspend () -> T): Flow<Resource<T>> = flow {
         emit(Resource.Loading())
         val result = localCall()
         emit(Resource.Success(data = result))

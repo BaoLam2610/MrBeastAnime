@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="item"
+            type="com.lambao.mrbeast.domain.model.Selectable&lt;AnimeFilter>" />
+
+        <import type="com.lambao.mrbeast.domain.model.display.filter.AnimeFilter" />
+    </data>
+
+    <androidx.appcompat.widget.AppCompatCheckedTextView
+        android:id="@+id/tvTitle"
+        style="@style/regular_14"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:checked="@{item.selected}"
+        android:paddingHorizontal="12dp"
+        android:paddingVertical="6dp"
+        android:text="@{item.data.displayText}"
+        tools:text="Title" />
+</layout>

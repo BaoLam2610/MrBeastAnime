@@ -1,5 +1,8 @@
 package com.lambao.mrbeast.domain.model.display
 
+import com.lambao.base.extension.toDate
+import java.util.Date
+
 interface DisplayAnimeFullInfo : DisplayAnimeInfo {
     fun displayType(): String
     fun displaySynopsis(): String
@@ -17,8 +20,12 @@ interface DisplayAnimeFullInfo : DisplayAnimeInfo {
     fun displaySeasonYear(): String
     fun displayFavorites(): String
 
+    fun getAiredFromDate(): Date?
+    fun getAiredToDate(): Date?
+
     fun isTvType(): Boolean
     fun isMovieType(): Boolean
+    fun isUpcoming(): Boolean
     fun hasBroadcast(): Boolean
 
     fun shouldDisplayType(): Boolean = displayType().isNotEmpty()

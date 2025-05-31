@@ -1,12 +1,15 @@
 package com.lambao.base.extension
 
+import android.content.Context
 import android.content.res.Resources.getSystem
 import android.os.Bundle
 import android.os.Parcelable
 import android.util.SparseArray
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.core.text.HtmlCompat
 import androidx.core.view.children
 import androidx.core.widget.NestedScrollView
@@ -88,5 +91,45 @@ fun NestedScrollView.setOnLoadMoreListener(onLoadMore: () -> Unit) {
                 }
             }
         }
+    }
+}
+
+/**
+ * Extension function to hide the soft keyboard from a View.
+ *
+ * This function should typically be called on the View that currently has focus
+ * or a parent View.
+ */
+fun View.hideKeyboard() {
+    val imm = ContextCompat.getSystemService(context, InputMethodManager::class.java)
+    imm?.hideSoftInputFromWindow(windowToken, 0)
+}
+
+/**
+ * Extension function to hide the soft keyboard using a Context.
+ *
+ * This is useful when you don't have a direct reference to the focused View,
+ * but you have the current Activity or Fragment context.
+ * It attempts to find the currently focused view in the window.
+ *
+ * @param view The current view in the window, typically `activity.currentFocus` or `fragment.view`.
+ *             If null, it might not always work reliably.
+ */
+fun Context.hideKeyboard(view: View?) {
+    val imm = ContextCompat.getSystemService(this, InputMethodManager::class.java)
+    imm?.hideSoftInputFromWindow(view?.windowToken, 0)
+}
+
+/**
+ * Extension function to show the soft keyboard and request focus for a View.
+ *
+ * This is typically called on an EditText or other focusable input View.
+ */
+fun View.showKeyboard() {
+    if (requestFocus()) {
+        val imm = ContextCompat.getSystemService(context, InputMethodManager::class.java)
+        // Using SHOW_IMPLICIT can be more reliable in some cases
+        // than SHOW_FORCED which is generally discouraged.
+        imm?.showSoftInput(this, InputMethodManager.SHOW_IMPLICIT)
     }
 }

@@ -32,7 +32,8 @@ fun Fragment.navigate(
             currentDestination.className == this::class.java.name
         ) {
             navController.navigate(
-                actionId, args,
+                actionId,
+                args,
                 navOptions ?: navOptions {
                     anim {
                         enter = R.anim.fade_in
@@ -43,6 +44,28 @@ fun Fragment.navigate(
                 }
             )
         }
+    } catch (e: Exception) {
+        e.printStackTrace()
+    }
+}
+
+fun Fragment.tryNavigate(
+    @IdRes actionId: Int,
+    args: Bundle? = null,
+    navOptions: NavOptions.Builder.() -> Unit = {},
+) {
+    try {
+        findNavController().navigate(
+            actionId,
+            args,
+            NavOptions.Builder()
+                .setEnterAnim(R.anim.fade_in)
+                .setExitAnim(R.anim.fade_out)
+                .setPopEnterAnim(R.anim.fade_in)
+                .setPopExitAnim(R.anim.fade_out)
+                .apply(navOptions)
+                .build()
+        )
     } catch (e: Exception) {
         e.printStackTrace()
     }
@@ -121,7 +144,7 @@ fun <T> Fragment.navigateForResult(
             val currentBackStackEntry = navController.currentBackStackEntry
             currentBackStackEntry?.let { entry ->
                 val resultFlow = entry.savedStateHandle.getStateFlow<T?>(resultKey, null)
-                lifecycleScope.launch {
+                viewLifecycleOwner.lifecycleScope.launch {
                     resultFlow.collect { result ->
                         result?.let {
                             onResult(it)

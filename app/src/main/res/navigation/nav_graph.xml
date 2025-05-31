@@ -19,6 +19,12 @@
         <action
             android:id="@+id/action_homeFragment_to_seasonAnimeListFragment"
             app:destination="@id/seasonAnimeListFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_animeSearchFragment"
+            app:destination="@id/animeSearchFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_animeFilterBottomSheet"
+            app:destination="@id/animeFilterBottomSheet" />
     </fragment>
 
     <fragment
@@ -29,19 +35,20 @@
         <action
             android:id="@+id/action_genresFragment_to_animeDetailFragment"
             app:destination="@id/animeDetailFragment" />
+        <action
+            android:id="@+id/action_genresFragment_to_animeSearchFragment"
+            app:destination="@id/animeSearchFragment" />
     </fragment>
 
-    <fragment
-        android:id="@+id/searchFragment"
-        android:name="com.lambao.mrbeast.presentation.ui.fragment.search.SearchFragment"
-        android:label="fragment_search"
-        tools:layout="@layout/fragment_search" />
-
-    <fragment
+    <dialog
         android:id="@+id/animeDetailFragment"
         android:name="com.lambao.mrbeast.presentation.ui.fragment.anime_detail.AnimeDetailFragment"
         android:label="AnimeDetailFragment"
-        tools:layout="@layout/fragment_anime_detail" />
+        tools:layout="@layout/fragment_anime_detail">
+        <action
+            android:id="@+id/action_animeDetailFragment_to_animeRatingFragment"
+            app:destination="@id/animeRatingFragment" />
+    </dialog>
 
     <fragment
         android:id="@+id/topAnimeListFragment"
@@ -51,6 +58,9 @@
         <action
             android:id="@+id/action_topAnimeListFragment_to_animeDetailFragment"
             app:destination="@id/animeDetailFragment" />
+        <action
+            android:id="@+id/action_topAnimeListFragment_to_animeSearchFragment"
+            app:destination="@id/animeSearchFragment" />
     </fragment>
 
     <fragment
@@ -61,5 +71,43 @@
         <action
             android:id="@+id/action_seasonAnimeListFragment_to_animeDetailFragment"
             app:destination="@id/animeDetailFragment" />
+        <action
+            android:id="@+id/action_seasonAnimeListFragment_to_animeSearchFragment"
+            app:destination="@id/animeSearchFragment" />
     </fragment>
+
+    <fragment
+        android:id="@+id/animeSearchFragment"
+        android:name="com.lambao.mrbeast.presentation.ui.fragment.anime_search.AnimeSearchFragment"
+        android:label="AnimeSearchFragment"
+        tools:layout="@layout/fragment_anime_search">
+        <action
+            android:id="@+id/action_animeSearchFragment_to_animeDetailFragment"
+            app:destination="@id/animeDetailFragment" />
+        <action
+            android:id="@+id/action_animeSearchFragment_to_animeFilterBottomSheet"
+            app:destination="@id/animeFilterBottomSheet" />
+    </fragment>
+
+    <dialog
+        android:id="@+id/animeFilterBottomSheet"
+        android:name="com.lambao.mrbeast.presentation.ui.fragment.anime_filter.AnimeFilterBottomSheet"
+        android:label="AnimeFilterBottomSheet"
+        tools:layout="@layout/fragment_anime_filter" />
+
+    <dialog
+        android:id="@+id/animeReviewDetailFragment"
+        android:name="com.lambao.mrbeast.presentation.ui.fragment.anime_rating.detail.AnimeReviewDetailFragment"
+        android:label="AnimeReviewDetailFragment"
+        tools:layout="@layout/fragment_anime_review_detail" />
+
+    <dialog
+        android:id="@+id/animeRatingFragment"
+        android:name="com.lambao.mrbeast.presentation.ui.fragment.anime_rating.AnimeRatingFragment"
+        android:label="AnimeRatingFragment"
+        tools:layout="@layout/fragment_anime_rating">
+        <action
+            android:id="@+id/action_animeRatingFragment_to_animeReviewDetailFragment"
+            app:destination="@id/animeReviewDetailFragment" />
+    </dialog>
 </navigation>

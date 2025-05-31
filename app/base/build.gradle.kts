@@ -63,4 +63,7 @@ dependencies {
     /* Glide */
     implementation(libs.glide)
     implementation(libs.glide.transformations)
+
+    /* Paging 3 */
+    implementation(libs.androidx.paging.runtime.ktx)
 }

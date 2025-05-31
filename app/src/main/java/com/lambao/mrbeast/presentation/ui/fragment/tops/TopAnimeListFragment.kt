@@ -2,13 +2,13 @@ package com.lambao.mrbeast.presentation.ui.fragment.tops
 
 import android.os.Bundle
 import com.lambao.base.extension.observeLatest
-import com.lambao.base.extension.setOnLoadMoreListener
+import com.lambao.base.presentation.ui.recycler_view.paging.DefaultLoadStateAdapter
+import com.lambao.base.presentation.ui.view.recycler_view.setupGridLayoutManagerWithFooterSpan
 import com.lambao.base.presentation.ui.view.recycler_view.spacing
 import com.lambao.mrbeast.domain.model.display.DisplayTopAnimeInfo
 import com.lambao.mrbeast.presentation.ui.common.navigator.NavigatorDelegate
 import com.lambao.mrbeast.presentation.ui.common.navigator.NavigatorDelegateImpl
 import com.lambao.mrbeast.presentation.ui.fragment.base.anime_list.AnimeListFragment
-import com.lambao.mrbeast.utils.Constants
 import com.lambao.mrbeast_anime.R
 import com.lambao.mrbeast_anime.databinding.FragmentTopAnimeListBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -17,33 +17,19 @@ import dagger.hilt.android.AndroidEntryPoint
 class TopAnimeListFragment :
     AnimeListFragment<DisplayTopAnimeInfo, FragmentTopAnimeListBinding, TopAnimeListViewModel>() {
 
-    private val argTitle by lazy {
-        arguments?.getString(Constants.Bundle.TITLE) ?: ""
-    }
-
-    private val argType by lazy {
-        arguments?.getString(Constants.Bundle.TYPE) ?: ""
-    }
-
-    private val argFilter by lazy {
-        arguments?.getString(Constants.Bundle.FILTER) ?: ""
-    }
-
-    private val argSfw by lazy {
-        arguments?.getBoolean(Constants.Bundle.SFW)
-    }
-
-    private val argRating by lazy {
-        arguments?.getString(Constants.Bundle.RATING) ?: ""
-    }
-
     private val navigator: NavigatorDelegate by lazy {
         NavigatorDelegateImpl(this)
     }
 
     private val topAnimeAdapter by lazy {
-        TopAnimeListAdapter { item, position ->
+        TopAnimeListAdapter { item, _ ->
             navigator.navigateTopAnimeToDetail(item)
+        }
+    }
+
+    private val loadStateAdapter by lazy {
+        DefaultLoadStateAdapter {
+            topAnimeAdapter.retry()
         }
     }
 
@@ -51,43 +37,40 @@ class TopAnimeListFragment :
 
     override fun getViewModelClass() = TopAnimeListViewModel::class.java
 
-    override fun getTitleScreen() = argTitle
+    override fun getTitleScreen() = argData?.title ?: ""
 
     override fun onChildViewReady(savedInstanceState: Bundle?) {
-        childBinding.rvData.adapter = topAnimeAdapter
+        childBinding.rvData.adapter = topAnimeAdapter.withLoadStateFooter(loadStateAdapter)
         childBinding.rvData.spacing {
             top = 8
             bottom = 8
             start = 8
             end = 8
         }
-        setupNestedScrollListener()
+        childBinding.rvData.setupGridLayoutManagerWithFooterSpan(
+            requireContext(),
+            2
+        )
     }
 
     override fun initObserve() {
         childBinding.viewModel = viewModel
-
-        observeLatest(viewModel.items) {
-            topAnimeAdapter.submitList(it)
-        }
-
         with(viewModel) {
-            setType(argType)
-            setFilter(argFilter)
-            setRating(argRating)
-            setSfw(argSfw)
+            setType(argData?.type ?: "")
+            setFilter(argData?.filter ?: "")
+            setRating(argData?.rating ?: "")
+            setSfw(argData?.sfw)
             if (shouldLoadData().value) {
-                fetchData()
                 setLoadData(false)
             }
         }
-    }
 
-    private fun setupNestedScrollListener() {
-        binding.nestedScrollView.setOnLoadMoreListener {
-            if (viewModel.hasMoreItems()) {
-                viewModel.loadMoreItems()
-            }
+        observeLatest(viewModel.getTopAnimePaginated()) {
+            topAnimeAdapter.submitData(it)
+        }
+
+        topAnimeAdapter.addLoadStateListener { loadState ->
+            viewModel.handleLoadStates(loadState, topAnimeAdapter.itemCount)
         }
     }
 }

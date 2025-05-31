@@ -9,9 +9,4 @@
         android:id="@+id/genresFragment"
         android:icon="@drawable/id_round_grid_view_24"
         android:title="@string/genres" />
-
-    <item
-        android:id="@+id/searchFragment"
-        android:icon="@drawable/ic_outline_search_24"
-        android:title="@string/search" />
 </menu>

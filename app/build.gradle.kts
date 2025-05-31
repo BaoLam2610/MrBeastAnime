@@ -5,6 +5,7 @@ plugins {
     alias(libs.plugins.kotlin.parcelize)
     alias(libs.plugins.hilt)
     alias(libs.plugins.androidx.navigation.safeargs.kotlin)
+    id("com.google.devtools.ksp")
 }
 
 android {
@@ -86,6 +87,23 @@ dependencies {
 
     /* Youtube player */
     implementation(libs.pierfrancescosoffritti.androidyoutubeplayer)
+
+    /* Paging 3 */
+    implementation(libs.androidx.paging.runtime.ktx)
+
+    /* Splash */
+    implementation(libs.androidx.core.splashscreen)
+
+    /* Room */
+    implementation(libs.androidx.room.ktx)
+    implementation(libs.androidx.room.paging)
+    ksp(libs.androidx.room.compiler)
+
+    /* Flexbox Layout */
+    implementation(libs.flexbox)
+
+    /* MPAndroid Chart*/
+    implementation(libs.mpandroidchart)
 }
 
 /* Hilt: Allow references to generated code*/

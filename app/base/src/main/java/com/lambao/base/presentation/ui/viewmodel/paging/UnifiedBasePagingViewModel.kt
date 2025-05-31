@@ -13,7 +13,7 @@ import kotlinx.coroutines.flow.asStateFlow
  */
 abstract class UnifiedBasePagingViewModel<T : Any>(
     dispatcherProvider: DispatcherProvider
-) : BasePagingViewModel(dispatcherProvider), PagingDelegate {
+) : BaseManualPagingViewModel(dispatcherProvider), PagingDelegate {
 
     // Common state for items shown to the user
     private val _items = MutableStateFlow<List<T>>(emptyList())

@@ -3,6 +3,7 @@ package com.lambao.mrbeast.data.model.genres
 import android.os.Parcelable
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
+import com.lambao.mrbeast.data.local.entity.genres.GenresEntity
 import com.lambao.mrbeast.domain.model.display.genre.DisplayGenre
 import kotlinx.parcelize.Parcelize
 
@@ -15,3 +16,17 @@ data class Genres(
 ) : Parcelable, DisplayGenre {
     override fun displayTitle() = name ?: ""
 }
+
+fun Genres.toEntity() = GenresEntity(
+    malId = malId ?: 0,
+    name = name ?: "",
+    url = url ?: "",
+    count = count ?: 0
+)
+
+fun GenresEntity.toDomain() = Genres(
+    malId = malId,
+    name = name,
+    url = url,
+    count = count
+)

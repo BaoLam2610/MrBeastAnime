@@ -15,6 +15,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import com.lambao.base.R
 import com.lambao.base.data.remote.NetworkException
 import com.lambao.base.presentation.handler.dialog.DialogHandler
 import com.lambao.base.presentation.handler.dialog.DialogHandlerImpl
@@ -119,16 +120,16 @@ abstract class BaseBottomSheet<B : ViewDataBinding> : BottomSheetDialogFragment(
     }
 
     @LayoutRes
-    protected abstract fun getLayoutId(): Int
+    protected abstract fun getLayoutResId(): Int
 
-    protected abstract fun onViewReady(savedInstance: Bundle?)
+    protected abstract fun onViewReady(savedInstanceState: Bundle?)
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = DataBindingUtil.inflate(inflater, getLayoutId(), container, false)
+        _binding = DataBindingUtil.inflate(inflater, getLayoutResId(), container, false)
         binding.lifecycleOwner = viewLifecycleOwner
         binding.executePendingBindings()
         return binding.root
@@ -176,4 +177,6 @@ abstract class BaseBottomSheet<B : ViewDataBinding> : BottomSheetDialogFragment(
         hideLoading()
         _binding = null
     }
+
+    override fun getTheme() = R.style.base_bottom_sheet
 }
