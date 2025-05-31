@@ -8,7 +8,7 @@ import com.lambao.base.presentation.ui.viewmodel.BaseViewModel
 import com.lambao.mrbeast.domain.model.display.DisplaySeasonAnimeInfo
 import com.lambao.mrbeast.domain.model.display.DisplayTopAnimeInfo
 import com.lambao.mrbeast.domain.model.type.HomeType
-import com.lambao.mrbeast.domain.usecase.GetTopAnimeUseCase
+import com.lambao.mrbeast.domain.usecase.top.GetTopAnimeUseCase
 import com.lambao.mrbeast.domain.usecase.seasons.GetSeasonNowUseCase
 import com.lambao.mrbeast.domain.usecase.seasons.GetSeasonUpcomingUseCase
 import com.lambao.mrbeast.presentation.ui.common.adapter.anime_info.AnimeItem

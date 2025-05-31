@@ -1,7 +1,5 @@
 package com.lambao.mrbeast.presentation.ui.fragment.tops
 
-import androidx.lifecycle.viewModelScope
-import androidx.paging.cachedIn
 import androidx.paging.map
 import com.lambao.base.presentation.handler.dispatcher.DispatcherProvider
 import com.lambao.mrbeast.data.remote.params.top.TopParams
@@ -33,6 +31,5 @@ class TopAnimeListViewModel @Inject constructor(
             .map {
                 it.map { item -> item as DisplayTopAnimeInfo }
             }
-            .cachedIn(viewModelScope)
     }
 }

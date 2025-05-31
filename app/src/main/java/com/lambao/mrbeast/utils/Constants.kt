@@ -11,6 +11,11 @@ object Constants {
 
     const val PREF_FILE_NAME = "mrbeast_anime_pref"
 
+    object Database {
+        const val DB_PATH = "mrbeast_anime.db"
+        const val DB_NAME = "mrbeast_anime.db"
+    }
+
     object Key {
         const val DEFAULT = "DEFAULT"
     }
@@ -123,6 +128,7 @@ object Constants {
 
     object DateTime {
         const val yyyyMMddTHHmmssHHmm = "yyyy-MM-dd'T'HH:mm:ss+HH:mm"
+        const val yyyyMMddTHHmmssZ = "yyyy-MM-dd'T'HH:mm:ssZ"
         const val ddMMyyyy = "dd/MM/yyyy"
         const val ddMMyyyyHHmm = "dd/MM/yyyy HH:mm"
     }

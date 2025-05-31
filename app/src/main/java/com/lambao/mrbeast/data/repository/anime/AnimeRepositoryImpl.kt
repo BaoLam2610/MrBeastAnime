@@ -8,9 +8,11 @@ import com.lambao.base.presentation.handler.dispatcher.DispatcherProvider
 import com.lambao.mrbeast.data.remote.paging.AnimeCharactersPagingSource
 import com.lambao.mrbeast.data.remote.paging.AnimeEpisodesPagingSource
 import com.lambao.mrbeast.data.remote.paging.AnimePicturesPagingSource
+import com.lambao.mrbeast.data.remote.paging.AnimeReviewsPagingSource
 import com.lambao.mrbeast.data.remote.paging.AnimeSearchPagingSource
 import com.lambao.mrbeast.data.remote.paging.AnimeVideosEpisodesPagingSource
 import com.lambao.mrbeast.data.remote.params.anime.AnimeParams
+import com.lambao.mrbeast.data.remote.params.anime.AnimeReviewParams
 import com.lambao.mrbeast.data.remote.params.search.SearchParams
 import com.lambao.mrbeast.data.remote.service.AnimeService
 import javax.inject.Inject
@@ -38,6 +40,18 @@ class AnimeRepositoryImpl @Inject constructor(
 
     override fun getAnimeCharacters(params: AnimeParams) = safeApiCall {
         animeService.getAnimeCharacters(params.id)
+    }
+
+    override fun getAnimeRecommendations(params: AnimeParams) = safeApiCall {
+        animeService.getAnimeRecommendations(params.id)
+    }
+
+    override fun getAnimeReviews(params: AnimeReviewParams) = safeApiCall {
+        animeService.getAnimeReviews(params.id, params.toQueryMap())
+    }
+
+    override fun getAnimeStatistics(params: AnimeParams) = safeApiCall {
+        animeService.getAnimeStatistics(params.id)
     }
 
     override fun getAnimeSearch(params: SearchParams) = safeApiCall {
@@ -89,6 +103,18 @@ class AnimeRepositoryImpl @Inject constructor(
         ),
         pagingSourceFactory = {
             AnimeCharactersPagingSource(this, params)
+        }
+    ).flow
+
+    override fun getAnimeReviewsPaginated(params: AnimeReviewParams) = Pager(
+        config = PagingConfig(
+            pageSize = 20,
+            initialLoadSize = 20,
+            prefetchDistance = 5,
+            enablePlaceholders = false
+        ),
+        pagingSourceFactory = {
+            AnimeReviewsPagingSource(this, params)
         }
     ).flow
 

@@ -7,6 +7,7 @@ import com.lambao.base.presentation.ui.viewmodel.BaseViewModel
 import com.lambao.mrbeast.data.model.anime.Anime
 import com.lambao.mrbeast.data.remote.params.anime.AnimeParams
 import com.lambao.mrbeast.domain.model.display.DisplayAnimeFullInfo
+import com.lambao.mrbeast.domain.model.screen.TabLayoutScreenType
 import com.lambao.mrbeast.domain.usecase.anime.GetAnimeFullByIdUseCase
 import com.lambao.mrbeast.presentation.ui.fragment.anime_detail.characters.AnimeCharactersArgument
 import com.lambao.mrbeast.presentation.ui.fragment.anime_detail.characters.AnimeCharactersFragment
@@ -16,6 +17,8 @@ import com.lambao.mrbeast.presentation.ui.fragment.anime_detail.more_info.AnimeM
 import com.lambao.mrbeast.presentation.ui.fragment.anime_detail.more_info.AnimeMoreInfoFragment
 import com.lambao.mrbeast.presentation.ui.fragment.anime_detail.pictures.AnimePicturesArgument
 import com.lambao.mrbeast.presentation.ui.fragment.anime_detail.pictures.AnimePicturesFragment
+import com.lambao.mrbeast.presentation.ui.fragment.anime_detail.recommendations.AnimeRecommendationsArgument
+import com.lambao.mrbeast.presentation.ui.fragment.anime_detail.recommendations.AnimeRecommendationsFragment
 import com.lambao.mrbeast.presentation.ui.fragment.anime_detail.videos_episodes.AnimeVideosEpisodesArgument
 import com.lambao.mrbeast.presentation.ui.fragment.anime_detail.videos_episodes.AnimeVideosEpisodesFragment
 import com.lambao.mrbeast_anime.R
@@ -24,6 +27,7 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import javax.inject.Inject
@@ -35,6 +39,8 @@ class AnimeDetailViewModel @Inject constructor(
     dispatcherProvider: DispatcherProvider
 ) : BaseViewModel(dispatcherProvider) {
 
+    private val _sourceFragmentId = MutableStateFlow(R.id.homeFragment)
+
     private val _anime = MutableStateFlow<DisplayAnimeFullInfo?>(null)
     val anime = _anime.asStateFlow()
 
@@ -43,27 +49,30 @@ class AnimeDetailViewModel @Inject constructor(
     }.stateIn(viewModelScope, SharingStarted.Lazily, false)
     val shouldShowButtonPlay get() = _shouldShowButtonPlay
 
-    private val _screenTypes = _anime.map {
-        if (it == null) return@map emptyList()
-        if (it.getId().isNullOrEmpty()) return@map emptyList()
+    private val _screenTypes = combine(
+        _anime,
+        _sourceFragmentId
+    ) { anime, sourceFragmentId ->
+        if (anime == null) return@combine emptyList()
+        if (anime.getId().isNullOrEmpty()) return@combine emptyList()
         buildList {
-            if (it.isTvType() && it.hasBroadcast()) {
+            if (anime.isTvType() && anime.hasBroadcast()) {
                 add(
-                    AnimeDetailScreenType(
+                    TabLayoutScreenType(
                         title = context.getString(R.string.episode),
                         fragment = AnimeVideosEpisodesFragment.newInstance(
-                            AnimeVideosEpisodesArgument(id = it.getId())
+                            AnimeVideosEpisodesArgument(id = anime.getId())
                         )
                     )
                 )
 
                 add(
-                    AnimeDetailScreenType(
+                    TabLayoutScreenType(
                         title = context.getString(R.string.broadcast),
                         fragment = AnimeEpisodesFragment.newInstance(
                             AnimeEpisodesArgument(
-                                id = it.getId(),
-                                thumbnail = it.displayThumbnail()
+                                id = anime.getId(),
+                                thumbnail = anime.displayThumbnail()
                             )
                         )
                     )
@@ -71,30 +80,42 @@ class AnimeDetailViewModel @Inject constructor(
             }
 
             add(
-                AnimeDetailScreenType(
+                TabLayoutScreenType(
                     title = context.getString(R.string.info),
                     fragment = AnimeMoreInfoFragment.newInstance(
-                        AnimeMoreInfoArgument(it as Anime)
+                        AnimeMoreInfoArgument(anime as Anime)
                     )
                 )
             )
 
             add(
-                AnimeDetailScreenType(
+                TabLayoutScreenType(
                     title = context.getString(R.string.character),
                     fragment = AnimeCharactersFragment.newInstance(
-                        AnimeCharactersArgument(it.getId())
+                        AnimeCharactersArgument(anime.getId())
                     )
                 )
             )
 
             add(
-                AnimeDetailScreenType(
+                TabLayoutScreenType(
                     title = context.getString(R.string.picture),
                     fragment = AnimePicturesFragment.newInstance(
                         AnimePicturesArgument(
-                            id = it.getId(),
-                            trailer = it.trailer
+                            id = anime.getId(),
+                            trailer = anime.trailer
+                        )
+                    )
+                )
+            )
+
+            add(
+                TabLayoutScreenType(
+                    title = context.getString(R.string.recommend),
+                    fragment = AnimeRecommendationsFragment.newInstance(
+                        AnimeRecommendationsArgument(
+                            id = anime.getId(),
+                            sourceFragmentId = sourceFragmentId
                         )
                     )
                 )
@@ -112,6 +133,10 @@ class AnimeDetailViewModel @Inject constructor(
         it.isNotEmpty()
     }.stateIn(viewModelScope, SharingStarted.Lazily, false)
     val shouldShowFullInfo get() = _shouldShowFullInfo
+
+    fun setSourceFragmentId(id: Int?) {
+        _sourceFragmentId.value = id ?: R.id.homeFragment
+    }
 
     fun fetchAnimeInfo(id: String) {
         handleData(getAnimeFullByIdUseCase.invoke(AnimeParams(id = id))) {

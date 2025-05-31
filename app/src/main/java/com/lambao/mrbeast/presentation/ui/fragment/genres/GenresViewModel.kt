@@ -9,7 +9,7 @@ import com.lambao.mrbeast.data.model.genres.Genres
 import com.lambao.mrbeast.domain.model.display.DisplayWatchAnimeInfo
 import com.lambao.mrbeast.domain.model.display.genre.ColorfulGenre
 import com.lambao.mrbeast.domain.model.type.GenreType
-import com.lambao.mrbeast.domain.usecase.genres.GetAnimeGenresUseCase
+import com.lambao.mrbeast.domain.usecase.genres.GetCacheAnimeGenresUseCase
 import com.lambao.mrbeast.domain.usecase.genres.GetRandomBackgroundGenreUseCase
 import com.lambao.mrbeast.domain.usecase.watch.GetWatchPopularEpisodesUseCase
 import com.lambao.mrbeast.domain.usecase.watch.GetWatchPopularPromosUseCase
@@ -20,7 +20,6 @@ import com.lambao.mrbeast.presentation.ui.common.view_model.watch.episodes.Watch
 import com.lambao.mrbeast.presentation.ui.common.view_model.watch.episodes.WatchPopularEpisodesViewModel
 import com.lambao.mrbeast.presentation.ui.common.view_model.watch.promos.WatchPopularPromosDelegate
 import com.lambao.mrbeast.presentation.ui.common.view_model.watch.promos.WatchPopularPromosViewModel
-import com.lambao.mrbeast.utils.Constants
 import com.lambao.mrbeast_anime.R
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -35,7 +34,7 @@ import javax.inject.Inject
 @HiltViewModel
 class GenresViewModel @Inject constructor(
     @ApplicationContext private val context: Context,
-    private val getAnimeGenresUseCase: GetAnimeGenresUseCase,
+    private val getCacheAnimeGenresUseCase: GetCacheAnimeGenresUseCase,
     getRandomBackgroundGenreUseCase: GetRandomBackgroundGenreUseCase,
     getWatchPopularEpisodesUseCase: GetWatchPopularEpisodesUseCase,
     getWatchPopularPromosUseCase: GetWatchPopularPromosUseCase,
@@ -94,7 +93,7 @@ class GenresViewModel @Inject constructor(
     val animeDisplayList get() = _animeDisplayList
 
     fun getAnimeGenres() {
-        handleData(getAnimeGenresUseCase.invoke(Constants.QueryParams.Filter.GENRES)) {
+        handleData(getCacheAnimeGenresUseCase.invoke()) {
             _genres.emit(it)
         }
     }

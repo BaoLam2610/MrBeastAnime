@@ -8,6 +8,12 @@
         <variable
             name="score"
             type="String" />
+
+        <variable
+            name="shouldShowArrowNext"
+            type="Boolean" />
+
+        <import type="android.view.View" />
     </data>
 
     <LinearLayout
@@ -35,5 +41,12 @@
             android:text="@{score}"
             android:textColor="@color/grey_900"
             tools:text="3.6" />
+
+        <ImageView
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:adjustViewBounds="true"
+            android:src="@drawable/ic_keyboard_arrow_right_16"
+            android:visibility="@{shouldShowArrowNext ? View.VISIBLE : View.GONE, default=gone}" />
     </LinearLayout>
 </layout>

@@ -1,4 +1,4 @@
-package com.lambao.mrbeast.domain.usecase
+package com.lambao.mrbeast.domain.usecase.top
 
 import com.lambao.base.data.Resource
 import com.lambao.base.domain.FlowUseCase

@@ -7,4 +7,5 @@ plugins {
     alias(libs.plugins.hilt) apply false
     alias(libs.plugins.androidx.navigation.safeargs.kotlin) apply false
     alias(libs.plugins.kotlin.parcelize) apply false
+    id("com.google.devtools.ksp") version "2.0.21-1.0.27" apply false
 }

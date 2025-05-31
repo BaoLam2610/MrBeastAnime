@@ -21,6 +21,7 @@
     <string name="empty_broadcast">Chưa có phát sóng nào</string>
     <string name="empty_characters">Chưa có nhân vật nào</string>
     <string name="empty_pictures">Chưa có ảnh nào</string>
+    <string name="empty_review">Chưa có đánh giá nào</string>
     <string name="broadcast">Phát sóng</string>
     <string name="anime_type">Loại Anime</string>
     <string name="type">Thể loại</string>
@@ -62,4 +63,14 @@
     <string name="order_by">Xếp theo</string>
     <string name="sort">Sắp xếp</string>
     <string name="reset">Đặt lại</string>
+    <string name="recommend">Gợi ý</string>
+    <string name="score_in_10">%s/10</string>
+    <string name="watching">Đang xem</string>
+    <string name="watched">Đã xem</string>
+    <string name="on_hold_watch">Tạm dừng xem</string>
+    <string name="dropped_watch">Đã bỏ xem</string>
+    <string name="plan_to_watch">Có kế hoạch xem</string>
+    <string name="statistic">Thống kê</string>
+    <string name="chart_watch_status">Biểu đồ trạng thái xem</string>
+    <string name="chart_point">Biểu đồ điểm</string>
 </resources>

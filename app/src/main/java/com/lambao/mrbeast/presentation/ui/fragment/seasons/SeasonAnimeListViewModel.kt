@@ -1,7 +1,5 @@
 package com.lambao.mrbeast.presentation.ui.fragment.seasons
 
-import androidx.lifecycle.viewModelScope
-import androidx.paging.cachedIn
 import androidx.paging.map
 import com.lambao.base.presentation.handler.dispatcher.DispatcherProvider
 import com.lambao.mrbeast.data.remote.params.seasons.SeasonsParams
@@ -47,7 +45,7 @@ class SeasonAnimeListViewModel @Inject constructor(
             )
         ).map {
             it.map { item -> item as DisplaySeasonAnimeInfo }
-        }.cachedIn(viewModelScope)
+        }
     }
 
     private fun getSeasonUpcomingPaginated() = getPagingData {
@@ -62,6 +60,6 @@ class SeasonAnimeListViewModel @Inject constructor(
             )
         ).map {
             it.map { item -> item as DisplaySeasonAnimeInfo }
-        }.cachedIn(viewModelScope)
+        }
     }
 }

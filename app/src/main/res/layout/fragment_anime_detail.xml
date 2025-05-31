@@ -78,6 +78,7 @@
                     app:layout_constraintStart_toEndOf="@id/tvTitle"
                     app:layout_constraintTop_toBottomOf="@id/ivThumbnail"
                     app:score="@{viewModel.anime.displayScore()}"
+                    app:shouldShowArrowNext="@{true}"
                     tools:visibility="visible" />
 
                 <androidx.appcompat.widget.AppCompatButton
