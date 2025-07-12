@@ -104,6 +104,9 @@ dependencies {
 
     /* MPAndroid Chart*/
     implementation(libs.mpandroidchart)
+
+    /* Work Manager */
+    implementation(libs.androidx.work.runtime.ktx)
 }
 
 /* Hilt: Allow references to generated code*/
