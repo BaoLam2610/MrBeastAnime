@@ -23,6 +23,8 @@ timber = "5.0.1"
 glide = "4.16.0"
 glideTransformations = "4.3.0"
 youtubePlayer = "12.1.1"
+googleFirebaseAppdistribution = "5.1.1"
+googleGmsGoogleServices = "4.4.3"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -68,4 +70,6 @@ kotlin-parcelize = { id = "org.jetbrains.kotlin.plugin.parcelize", version.ref =
 google-devtools-ksp = { id = "com.google.devtools.ksp", version.ref = "kotlin" }
 
 hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
+google-firebase-appdistribution = { id = "com.google.firebase.appdistribution", version.ref = "googleFirebaseAppdistribution" }
+google-gms-google-services = { id = "com.google.gms.google-services", version.ref = "googleGmsGoogleServices" }
 

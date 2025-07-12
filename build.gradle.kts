@@ -8,4 +8,6 @@ plugins {
     alias(libs.plugins.androidx.navigation.safeargs.kotlin) apply false
     alias(libs.plugins.kotlin.parcelize) apply false
     id("com.google.devtools.ksp") version "2.1.21-2.0.1" apply false
+    alias(libs.plugins.google.firebase.appdistribution) apply false
+    alias(libs.plugins.google.gms.google.services) apply false
 }

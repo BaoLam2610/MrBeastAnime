@@ -6,25 +6,33 @@ plugins {
     alias(libs.plugins.hilt)
     alias(libs.plugins.androidx.navigation.safeargs.kotlin)
     id("com.google.devtools.ksp")
+    alias(libs.plugins.google.firebase.appdistribution)
+    alias(libs.plugins.google.gms.google.services)
 }
 
 android {
     namespace = "com.lambao.mrbeast_anime"
     compileSdk = 35
+    buildToolsVersion = "35.0.0"
 
     defaultConfig {
         applicationId = "com.lambao.mrbeast_anime"
         minSdk = 24
         targetSdk = 35
         versionCode = 1
-        versionName = "1.0"
+        versionName = "1.0.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
-        release {
+        debug {
+            isShrinkResources = false
             isMinifyEnabled = false
+        }
+        release {
+            isShrinkResources = true
+            isMinifyEnabled = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
@@ -46,6 +54,19 @@ android {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
             excludes += "/META-INF/gradle/incremental.annotation.processors"
+        }
+    }
+
+    flavorDimensions += "version"
+    productFlavors {
+        create("develop") {
+            dimension = "version"
+            firebaseAppDistribution {
+                appId = "1:253049909295:android:cc6486064eb7292e1c16da"
+                serviceCredentialsFile = "$rootDir/app/firebase-key.json"
+                releaseNotes = getLastCommitMessage()
+                testersFile = "$rootDir/app/testers.txt"
+            }
         }
     }
 }
@@ -109,4 +130,16 @@ dependencies {
 /* Hilt: Allow references to generated code*/
 kapt {
     correctErrorTypes = true
+}
+
+fun getLastCommitMessage(): String {
+    return try {
+        val process = ProcessBuilder("git", "log", "-1", "--pretty=%B")
+            .redirectErrorStream(true)
+            .start()
+
+        process.inputStream.bufferedReader().readText().trim()
+    } catch (e: Exception) {
+        "No commit message found"
+    }
 }
