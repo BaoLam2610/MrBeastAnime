@@ -25,51 +25,82 @@ glideTransformations = "4.3.0"
 youtubePlayer = "12.1.1"
 googleFirebaseAppdistribution = "5.1.1"
 googleGmsGoogleServices = "4.4.3"
+coroutines = "1.8.1"
+datastore = "1.0.0"
 
 [libraries]
+# ===== ANDROID CORE LIBRARIES =====
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 androidx-core-splashscreen = { module = "androidx.core:core-splashscreen", version.ref = "coreSplashscreen" }
-androidx-lifecycle-viewmodel-ktx = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "lifecycle" }
-androidx-navigation-ui-ktx = { module = "androidx.navigation:navigation-ui-ktx", version.ref = "navigation" }
-androidx-navigation-fragment-ktx = { module = "androidx.navigation:navigation-fragment-ktx", version.ref = "navigation" }
-androidx-navigation-runtime-ktx = { module = "androidx.navigation:navigation-runtime-ktx", version.ref = "navigation" }
-androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
 androidx-activity = { group = "androidx.activity", name = "activity", version.ref = "activity" }
 androidx-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
-androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
+
+# ===== LIFECYCLE & VIEWMODEL =====
+androidx-lifecycle-viewmodel-ktx = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "lifecycle" }
+
+# ===== NAVIGATION COMPONENT =====
+androidx-navigation-ui-ktx = { module = "androidx.navigation:navigation-ui-ktx", version.ref = "navigation" }
+androidx-navigation-fragment-ktx = { module = "androidx.navigation:navigation-fragment-ktx", version.ref = "navigation" }
+androidx-navigation-runtime-ktx = { module = "androidx.navigation:navigation-runtime-ktx", version.ref = "navigation" }
+
+# ===== PAGING & ROOM DATABASE =====
 androidx-paging-runtime-ktx = { module = "androidx.paging:paging-runtime-ktx", version.ref = "pagingRuntimeKtx" }
 androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
 androidx-room-ktx = { module = "androidx.room:room-ktx", version.ref = "room" }
 androidx-room-paging = { module = "androidx.room:room-paging", version.ref = "room" }
-flexbox = { module = "com.google.android.flexbox:flexbox", version.ref = "flexbox" }
-mpandroidchart = { module = "com.github.PhilJay:MPAndroidChart", version.ref = "mpandroidchart" }
-pierfrancescosoffritti-androidyoutubeplayer = { module = "com.pierfrancescosoffritti.androidyoutubeplayer:core", version.ref = "youtubePlayer" }
-junit = { group = "junit", name = "junit", version.ref = "junit" }
-material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 
+# ===== DATA STORAGE =====
+androidx-datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "datastore" }
+
+# ===== TESTING =====
+androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
+androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
+junit = { group = "junit", name = "junit", version.ref = "junit" }
+
+# ===== UI & MATERIAL DESIGN =====
+material = { group = "com.google.android.material", name = "material", version.ref = "material" }
+flexbox = { module = "com.google.android.flexbox:flexbox", version.ref = "flexbox" }
+
+# ===== CHARTS & VISUALIZATION =====
+mpandroidchart = { module = "com.github.PhilJay:MPAndroidChart", version.ref = "mpandroidchart" }
+
+# ===== MEDIA & PLAYER =====
+pierfrancescosoffritti-androidyoutubeplayer = { module = "com.pierfrancescosoffritti.androidyoutubeplayer:core", version.ref = "youtubePlayer" }
+
+# ===== DEPENDENCY INJECTION (HILT) =====
 hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hilt" }
 hilt-android-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hilt" }
 
+# ===== NETWORKING (RETROFIT) =====
 retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
 retrofit-converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "retrofit" }
 logging-interceptor = { module = "com.squareup.okhttp3:logging-interceptor", version.ref = "loggingInterceptor" }
 
+# ===== LOGGING & UTILITIES =====
 timber = { module = "com.jakewharton.timber:timber", version.ref = "timber" }
 
+# ===== IMAGE LOADING (GLIDE) =====
 glide = { module = "com.github.bumptech.glide:glide", version.ref = "glide" }
 glide-transformations = { module = "jp.wasabeef:glide-transformations", version.ref = "glideTransformations" }
 
+# ===== COROUTINES =====
+kotlinx-coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "coroutines" }
+
 [plugins]
+# ===== ANDROID & KOTLIN PLUGINS =====
 android-application = { id = "com.android.application", version.ref = "agp" }
-androidx-navigation-safeargs-kotlin = { id = "androidx.navigation.safeargs.kotlin", version.ref = "navigation" }
 android-library = { id = "com.android.library", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-kapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlin" }
 kotlin-parcelize = { id = "org.jetbrains.kotlin.plugin.parcelize", version.ref = "kotlin" }
 google-devtools-ksp = { id = "com.google.devtools.ksp", version.ref = "kotlin" }
 
+# ===== NAVIGATION & HILT =====
+androidx-navigation-safeargs-kotlin = { id = "androidx.navigation.safeargs.kotlin", version.ref = "navigation" }
 hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
+
+# ===== GOOGLE SERVICES =====
 google-firebase-appdistribution = { id = "com.google.firebase.appdistribution", version.ref = "googleFirebaseAppdistribution" }
 google-gms-google-services = { id = "com.google.gms.google-services", version.ref = "googleGmsGoogleServices" }
 

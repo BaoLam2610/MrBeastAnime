@@ -73,6 +73,7 @@ android {
 
 dependencies {
     implementation(project(":app:base"))
+    implementation(project(":data"))
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
