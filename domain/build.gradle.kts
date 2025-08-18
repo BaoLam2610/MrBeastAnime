@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace = "com.lambao.data"
+    namespace = "com.lambao.domain"
     compileSdk = 35
 
     defaultConfig {
@@ -36,15 +36,10 @@ android {
 dependencies {
     // Core module dependency
     implementation(project(":core"))
-
-    // Networking
-    implementation(libs.retrofit)
-    implementation(libs.retrofit.converter.gson)
-    implementation(libs.logging.interceptor)
     
-    // Paging
+    // Coroutines
+    implementation(libs.kotlinx.coroutines.android)
+    
+    // Paging 3
     implementation(libs.androidx.paging.runtime.ktx)
-    
-    // Preferences
-    implementation(libs.androidx.datastore.preferences)
 }
