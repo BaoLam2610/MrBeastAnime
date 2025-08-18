@@ -58,7 +58,7 @@ abstract class BaseRemoteDataSource(
         val response = apiCall()
         
         if (response.isSuccess) {
-            emit(Resource.Success<T>(data = response.data, paging = response.pagination))
+            emit(Resource.Success<T>(data = response.data, pageInfo = response.pagination))
         } else {
             emit(Resource.Error<T>(throwable = errorParser.parseErrorResponse(response)))
         }
