@@ -1,29 +1,7 @@
 package com.lambao.data.paging
 
 import com.google.gson.annotations.SerializedName
-
-/**
- * Interface defining pagination information for API responses.
- * 
- * This interface provides a contract for pagination data that can be implemented
- * by different pagination response formats.
- */
-interface Paging {
-    /** Whether there is a next page available */
-    val hasNextPage: Boolean?
-    
-    /** Current page number */
-    val currentPage: Int?
-    
-    /** Total number of pages */
-    val totalPages: Int?
-    
-    /** Total number of items across all pages */
-    val totalItems: Int?
-    
-    /** Number of items per page */
-    val perPage: Int?
-}
+import com.lambao.core.types.PageInfo
 
 /**
  * Data class representing pagination information from API responses.
@@ -48,7 +26,7 @@ data class Pagination(
     
     @SerializedName("items") 
     val items: PageItem? = null
-) : Paging {
+) : PageInfo {
     override val totalPages: Int? get() = lastVisiblePage
     override val totalItems: Int? get() = items?.total
     override val perPage: Int? get() = items?.perPage

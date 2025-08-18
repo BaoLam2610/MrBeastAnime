@@ -1,7 +1,7 @@
 package com.lambao.data.network
 
 import com.lambao.core.dispatcher.DispatcherProvider
-import com.lambao.data.core.Resource
+import com.lambao.core.types.Resource
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow

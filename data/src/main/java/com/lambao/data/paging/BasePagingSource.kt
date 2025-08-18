@@ -2,7 +2,7 @@ package com.lambao.data.paging
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import com.lambao.data.core.Resource
+import com.lambao.core.types.Resource
 import kotlinx.coroutines.flow.Flow
 
 /**
@@ -75,7 +75,7 @@ abstract class BasePagingSource<P : Any, T : Any>(
      */
     private fun createSuccessResult(response: Resource.Success<List<T>>, page: Int): LoadResult<Int, T> {
         val data = response.data ?: emptyList()
-        val pagination = response.paging
+        val pagination = response.pageInfo
         val nextPageKey = calculateNextPageKey(pagination, page)
 
         return LoadResult.Page(
@@ -88,7 +88,7 @@ abstract class BasePagingSource<P : Any, T : Any>(
     /**
      * Calculate the next page key based on pagination information.
      */
-    private fun calculateNextPageKey(pagination: Paging?, page: Int): Int? {
+    private fun calculateNextPageKey(pagination: com.lambao.core.types.PageInfo?, page: Int): Int? {
         return if (pagination?.hasNextPage == true) {
             (pagination.currentPage ?: page) + PREVIOUS_PAGE_OFFSET
         } else {

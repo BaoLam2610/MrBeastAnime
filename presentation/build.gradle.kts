@@ -5,18 +5,15 @@ plugins {
 }
 
 android {
-    namespace = "com.lambao.base"
+    namespace = "com.lambao.presentation"
     compileSdk = 35
 
     defaultConfig {
         minSdk = 24
-
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
     }
-    dataBinding {
-        enable = true
-    }
+
     buildTypes {
         release {
             isMinifyEnabled = false
@@ -26,48 +23,49 @@ android {
             )
         }
     }
+    
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
     }
+    
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_17.toString()
+    }
+    
+    buildFeatures {
+        dataBinding = true
     }
 }
 
 dependencies {
-
-    implementation(project(":data"))
+    // Core module dependency
     implementation(project(":core"))
-    implementation(project(":domain"))
-    implementation(project(":presentation"))
+    
+    // AndroidX Core
     implementation(libs.androidx.core.ktx)
+    
+    // AndroidX AppCompat
     implementation(libs.androidx.appcompat)
-    implementation(libs.androidx.lifecycle.viewmodel.ktx)
+    
+    // Material Design
     implementation(libs.material)
-    testImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(libs.androidx.espresso.core)
-
-    /* Retrofit 2 */
-    implementation(libs.retrofit)
-    implementation(libs.retrofit.converter.gson)
-
-    /* Logging Interceptor */
-    implementation(libs.logging.interceptor)
-
-    /* Timber */
-    implementation(libs.timber)
-
-    /* Navigation Component */
+    
+    // Activity
+    implementation(libs.androidx.activity)
+    
+    // Lifecycle
+    implementation(libs.androidx.lifecycle.viewmodel.ktx)
+    
+    // Navigation Component
     implementation(libs.androidx.navigation.fragment.ktx)
     implementation(libs.androidx.navigation.ui.ktx)
     implementation(libs.androidx.navigation.runtime.ktx)
 
-    /* Glide */
+    // Glide
     implementation(libs.glide)
     implementation(libs.glide.transformations)
 
-    /* Paging 3 */
+    // Paging 3
     implementation(libs.androidx.paging.runtime.ktx)
 }
