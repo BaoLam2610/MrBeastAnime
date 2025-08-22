@@ -2,6 +2,8 @@ package com.lambao.data.local
 
 import com.lambao.core.dispatcher.DispatcherProvider
 import com.lambao.core.types.Resource
+import com.lambao.core.error.local.LocalException
+import com.lambao.core.error.local.LocalErrorType
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
@@ -16,7 +18,7 @@ import java.io.IOException
  *
  * @param dispatcherProvider Provider for coroutine dispatchers
  */
-abstract class BaseLocalDataSource(
+abstract class LocalDataSource(
     private val dispatcherProvider: DispatcherProvider
 ) {
     /**

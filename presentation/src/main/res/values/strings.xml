@@ -17,4 +17,28 @@
     <string name="failed_to_open_media_picker">Failed to open media picker</string>
     <string name="failed_to_open_camera">Failed to open camera</string>
     <string name="retry">Thử lại</string>
+
+    <!-- Network Error Titles -->
+    <string name="error_title_no_internet">No Internet Connection</string>
+    <string name="error_title_server_error">Server Error</string>
+    <string name="error_title_request_error">Request Error</string>
+    <string name="error_title_network_error">Network Error</string>
+
+    <!-- Network Error Messages -->
+    <string name="error_network_no_connection">No internet connection. Please check your network settings.</string>
+    <string name="error_network_timeout">Request timed out. Please try again.</string>
+    <string name="error_network_server_error">Server error. Please try again later.</string>
+    <string name="error_network_bad_gateway">Bad gateway. Please try again later.</string>
+    <string name="error_network_service_unavailable">Service unavailable. Please try again later.</string>
+    <string name="error_network_gateway_timeout">Gateway timeout. Please try again later.</string>
+    <string name="error_network_bad_request">Invalid request. Please check your input.</string>
+    <string name="error_network_unauthorized">Authentication required. Please log in again.</string>
+    <string name="error_network_forbidden">Access denied. You don't have permission for this action.</string>
+    <string name="error_network_not_found">Resource not found. Please check and try again.</string>
+    <string name="error_network_unprocessable_entity">Invalid data. Please check your input.</string>
+    <string name="error_network_method_not_allowed">This action is not allowed.</string>
+    <string name="error_network_not_modified">No changes detected.</string>
+    <string name="error_network_too_many_requests">Too many requests. Please try again later.</string>
+    <string name="error_network_not_implemented">This feature is not available yet.</string>
+    <string name="error_network_unknown">Network error occurred. Please try again.</string>
 </resources>

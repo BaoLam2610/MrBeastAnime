@@ -1,8 +1,8 @@
-package com.lambao.data.network
+package com.lambao.core.error.network
 
 /**
  * Exception class representing network-related errors.
- * 
+ *
  * This class extends Throwable and provides additional context about network errors,
  * including the error type and HTTP status code.
  *
@@ -17,14 +17,16 @@ data class NetworkException(
     override val message: String? = null,
     override val cause: Throwable? = null
 ) : Throwable(message, cause) {
-    
+
     /**
      * Create a NetworkException with just type and message.
      */
     constructor(type: NetworkErrorType, message: String?) : this(type, null, message, null)
-    
+
     /**
      * Create a NetworkException with type, code, and message.
      */
     constructor(type: NetworkErrorType, code: Int, message: String?) : this(type, code, message, null)
 }
+
+

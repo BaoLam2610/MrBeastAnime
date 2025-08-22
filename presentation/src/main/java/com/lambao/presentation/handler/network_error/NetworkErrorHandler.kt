@@ -1,6 +1,6 @@
 package com.lambao.presentation.handler.network_error
 
-import com.lambao.data.network.NetworkException
+import com.lambao.core.error.network.NetworkException
 
 /**
  * Interface for handling network errors in the presentation layer.

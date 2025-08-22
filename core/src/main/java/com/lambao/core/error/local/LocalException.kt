@@ -1,8 +1,8 @@
-package com.lambao.data.local
+package com.lambao.core.error.local
 
 /**
  * Exception class representing local storage errors.
- * 
+ *
  * This class extends Throwable and provides context about local storage errors,
  * including the error type and additional details.
  *
@@ -15,9 +15,11 @@ data class LocalException(
     override val message: String? = null,
     override val cause: Throwable? = null
 ) : Throwable(message, cause) {
-    
+
     /**
      * Create a LocalException with just type and message.
      */
     constructor(type: LocalErrorType, message: String?) : this(type, message, null)
 }
+
+

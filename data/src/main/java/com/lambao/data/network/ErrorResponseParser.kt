@@ -2,6 +2,8 @@ package com.lambao.data.network
 
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import com.lambao.core.error.network.NetworkErrorType
+import com.lambao.core.error.network.NetworkException
 import retrofit2.Response
 
 /**

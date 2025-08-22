@@ -1,11 +1,15 @@
 package com.lambao.presentation.handler.network_error
 
+import android.Manifest
 import android.content.Context
 import android.content.Intent
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.provider.Settings
-import com.lambao.data.network.NetworkException
+import androidx.annotation.RequiresPermission
+import com.lambao.core.error.network.NetworkErrorType
+import com.lambao.core.error.network.NetworkException
+import com.lambao.presentation.R
 import com.lambao.presentation.handler.dialog.DialogHandler
 
 class NetworkErrorHandlerImpl(
@@ -20,6 +24,7 @@ class NetworkErrorHandlerImpl(
 		}
 	}
 
+	@RequiresPermission(Manifest.permission.ACCESS_NETWORK_STATE)
 	override fun handleErrorWithRetry(
 		networkException: NetworkException,
 		retryAction: () -> Unit
@@ -27,8 +32,8 @@ class NetworkErrorHandlerImpl(
 		if (shouldShowError(networkException)) {
 			val message = getUserFriendlyMessage(networkException)
 			val options = NetworkErrorOptions(
-				showRetry = true,
-				showSettings = !isNetworkAvailable(),
+				showRetry = shouldShowRetry(networkException.type),
+				showSettings = shouldShowSettings(networkException.type),
 				customMessage = message,
 				onRetry = retryAction,
 				onSettings = { openNetworkSettings() }
@@ -61,6 +66,8 @@ class NetworkErrorHandlerImpl(
 				dialogHandler.showAlertDialog(
 					title = title,
 					message = message,
+					positiveText = "OK",
+					negativeText = null,
 					onDismissListener = options.onDismiss
 				)
 			}
@@ -68,45 +75,109 @@ class NetworkErrorHandlerImpl(
 	}
 
 	override fun shouldShowError(networkException: NetworkException): Boolean {
-		val message = networkException.message ?: ""
-		return when {
-			!isNetworkAvailable() -> true
-			message.contains("500") -> true
-			message.contains("502") -> true
-			message.contains("503") -> true
-			message.contains("504") -> true
-			message.contains("timeout", ignoreCase = true) -> true
-			message.contains("connection refused", ignoreCase = true) -> true
-			message.contains("400") -> false
-			message.contains("401") -> false
-			message.contains("403") -> false
-			message.contains("404") -> false
-			message.contains("422") -> false
-			else -> true
+		return when (networkException.type) {
+			NetworkErrorType.NO_NETWORK,
+			NetworkErrorType.TIMEOUT,
+			NetworkErrorType.SERVER_ERROR,
+			NetworkErrorType.BAD_GATEWAY,
+			NetworkErrorType.SERVICE_UNAVAILABLE,
+			NetworkErrorType.GATEWAY_TIMEOUT -> true
+
+			NetworkErrorType.BAD_REQUEST,
+			NetworkErrorType.UNAUTHORIZED,
+			NetworkErrorType.FORBIDDEN,
+			NetworkErrorType.NOT_FOUND,
+			NetworkErrorType.UNPROCESSABLE_ENTITY,
+			NetworkErrorType.NOT_MODIFIED,
+			NetworkErrorType.TOO_MANY_REQUESTS,
+			NetworkErrorType.METHOD_NOT_ALLOWED -> false
+
+			NetworkErrorType.NOT_IMPLEMENTED,
+			NetworkErrorType.UNKNOWN -> true
 		}
 	}
 
 	override fun getUserFriendlyMessage(networkException: NetworkException): String {
-		val message = networkException.message ?: ""
-		return when {
-			!isNetworkAvailable() -> "No internet connection. Please check your network settings."
-			message.contains("500") -> "Server error. Please try again later."
-			message.contains("502") -> "Bad gateway. Please try again later."
-			message.contains("503") -> "Service unavailable. Please try again later."
-			message.contains("504") -> "Gateway timeout. Please try again later."
-			message.contains("timeout", ignoreCase = true) -> "Request timed out. Please try again."
-			message.contains("connection refused", ignoreCase = true) -> "Connection refused. Please try again."
-			message.contains("400") -> "Invalid request. Please check your input."
-			message.contains("401") -> "Authentication required. Please log in again."
-			message.contains("403") -> "Access denied. You don't have permission for this action."
-			message.contains("404") -> "Resource not found. Please check and try again."
-			message.contains("422") -> "Invalid data. Please check your input."
-			else -> message.ifBlank { "Network error occurred. Please try again." }
+		// Prefer stable mapping based on type; fall back to provided message
+		return when (networkException.type) {
+			NetworkErrorType.NO_NETWORK -> context.getString(R.string.error_network_no_connection)
+			NetworkErrorType.TIMEOUT -> context.getString(R.string.error_network_timeout)
+			NetworkErrorType.SERVER_ERROR -> context.getString(R.string.error_network_server_error)
+			NetworkErrorType.BAD_GATEWAY -> context.getString(R.string.error_network_bad_gateway)
+			NetworkErrorType.SERVICE_UNAVAILABLE -> context.getString(R.string.error_network_service_unavailable)
+			NetworkErrorType.GATEWAY_TIMEOUT -> context.getString(R.string.error_network_gateway_timeout)
+			NetworkErrorType.BAD_REQUEST -> networkException.message
+				?: context.getString(R.string.error_network_bad_request)
+
+			NetworkErrorType.UNAUTHORIZED -> networkException.message
+				?: context.getString(R.string.error_network_unauthorized)
+
+			NetworkErrorType.FORBIDDEN -> networkException.message
+				?: context.getString(R.string.error_network_forbidden)
+
+			NetworkErrorType.NOT_FOUND -> networkException.message
+				?: context.getString(R.string.error_network_not_found)
+
+			NetworkErrorType.UNPROCESSABLE_ENTITY -> networkException.message
+				?: context.getString(R.string.error_network_unprocessable_entity)
+
+			NetworkErrorType.METHOD_NOT_ALLOWED -> networkException.message
+				?: context.getString(R.string.error_network_method_not_allowed)
+
+			NetworkErrorType.NOT_MODIFIED -> networkException.message
+				?: context.getString(R.string.error_network_not_modified)
+
+			NetworkErrorType.TOO_MANY_REQUESTS -> networkException.message
+				?: context.getString(R.string.error_network_too_many_requests)
+
+			NetworkErrorType.NOT_IMPLEMENTED -> networkException.message
+				?: context.getString(R.string.error_network_not_implemented)
+
+			NetworkErrorType.UNKNOWN -> networkException.message
+				?: context.getString(R.string.error_network_unknown)
 		}
 	}
 
-	private fun getDefaultErrorTitle(@Suppress("UNUSED_PARAMETER") networkException: NetworkException): String {
-		return if (!isNetworkAvailable()) "No Internet Connection" else "Network Error"
+	private fun getDefaultErrorTitle(networkException: NetworkException): String {
+		return when (networkException.type) {
+			NetworkErrorType.NO_NETWORK, NetworkErrorType.TIMEOUT -> context.getString(R.string.error_title_no_internet)
+			NetworkErrorType.SERVER_ERROR, NetworkErrorType.BAD_GATEWAY, NetworkErrorType.SERVICE_UNAVAILABLE, NetworkErrorType.GATEWAY_TIMEOUT -> context.getString(
+				R.string.error_title_server_error
+			)
+
+			NetworkErrorType.BAD_REQUEST, NetworkErrorType.UNAUTHORIZED, NetworkErrorType.FORBIDDEN, NetworkErrorType.NOT_FOUND, NetworkErrorType.UNPROCESSABLE_ENTITY, NetworkErrorType.NOT_MODIFIED, NetworkErrorType.TOO_MANY_REQUESTS, NetworkErrorType.METHOD_NOT_ALLOWED -> context.getString(
+				R.string.error_title_request_error
+			)
+
+			NetworkErrorType.NOT_IMPLEMENTED, NetworkErrorType.UNKNOWN -> context.getString(R.string.error_title_network_error)
+		}
+	}
+
+	private fun shouldShowRetry(type: NetworkErrorType): Boolean {
+		return when (type) {
+			NetworkErrorType.SERVER_ERROR,
+			NetworkErrorType.BAD_GATEWAY,
+			NetworkErrorType.SERVICE_UNAVAILABLE,
+			NetworkErrorType.GATEWAY_TIMEOUT,
+			NetworkErrorType.TIMEOUT -> true
+
+			NetworkErrorType.NO_NETWORK -> false // prefer settings
+			NetworkErrorType.BAD_REQUEST,
+			NetworkErrorType.UNAUTHORIZED,
+			NetworkErrorType.FORBIDDEN,
+			NetworkErrorType.NOT_FOUND,
+			NetworkErrorType.UNPROCESSABLE_ENTITY,
+			NetworkErrorType.NOT_MODIFIED,
+			NetworkErrorType.METHOD_NOT_ALLOWED,
+			NetworkErrorType.TOO_MANY_REQUESTS,
+			NetworkErrorType.NOT_IMPLEMENTED,
+			NetworkErrorType.UNKNOWN -> false
+		}
+	}
+
+	@RequiresPermission(Manifest.permission.ACCESS_NETWORK_STATE)
+	private fun shouldShowSettings(type: NetworkErrorType): Boolean {
+		return type == NetworkErrorType.NO_NETWORK && !isNetworkAvailable()
 	}
 
 	private fun showRetryDialog(
@@ -118,7 +189,7 @@ class NetworkErrorHandlerImpl(
 			title = title,
 			message = message,
 			positiveText = options.retryText,
-			negativeText = "Cancel",
+			negativeText = context.getString(R.string.cancel),
 			onPositiveListener = options.onRetry,
 			onDismissListener = options.onDismiss
 		)
@@ -133,13 +204,14 @@ class NetworkErrorHandlerImpl(
 			title = title,
 			message = message,
 			positiveText = options.settingsText,
-			negativeText = "Cancel",
+			negativeText = context.getString(R.string.cancel),
 			onPositiveListener = options.onSettings,
 			onDismissListener = options.onDismiss
 		)
 	}
 
-	private fun isNetworkAvailable(): Boolean {
+	@RequiresPermission(Manifest.permission.ACCESS_NETWORK_STATE)
+    private fun isNetworkAvailable(): Boolean {
 		val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
 		val network = connectivityManager.activeNetwork ?: return false
 		val activeNetwork = connectivityManager.getNetworkCapabilities(network) ?: return false

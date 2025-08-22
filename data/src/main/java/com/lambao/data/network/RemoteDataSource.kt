@@ -2,6 +2,8 @@ package com.lambao.data.network
 
 import com.lambao.core.dispatcher.DispatcherProvider
 import com.lambao.core.types.Resource
+import com.lambao.core.error.network.NetworkException
+import com.lambao.core.error.network.NetworkErrorType
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
@@ -19,7 +21,7 @@ import java.io.IOException
  * @param dispatcherProvider Provider for coroutine dispatchers
  * @param errorParser Parser for error responses (injectable for testing)
  */
-abstract class BaseRemoteDataSource(
+abstract class RemoteDataSource(
     private val dispatcherProvider: DispatcherProvider,
     private val errorParser: ErrorResponseParser = ErrorResponseParser()
 ) {
@@ -58,9 +60,9 @@ abstract class BaseRemoteDataSource(
         val response = apiCall()
         
         if (response.isSuccess) {
-            emit(Resource.Success<T>(data = response.data, pageInfo = response.pagination))
+            emit(Resource.Success(data = response.data, pageInfo = response.pagination))
         } else {
-            emit(Resource.Error<T>(throwable = errorParser.parseErrorResponse(response)))
+            emit(Resource.Error(throwable = errorParser.parseErrorResponse(response)))
         }
     }.flowOn(coroutineDispatcher)
         .catch { e -> emit(Resource.Error(throwable = mapExceptionToNetworkError(e))) }
