@@ -1,6 +1,6 @@
 package com.lambao.mrbeast.presentation.ui.common.adapter.anime_info
 
-import com.lambao.base.presentation.ui.recycler_view.BaseDiffAdapter
+import com.lambao.presentation.ui.recycler_view.BaseDiffAdapter
 import com.lambao.mrbeast.domain.model.display.DisplayAnimeInfo
 import com.lambao.mrbeast_anime.R
 import com.lambao.mrbeast_anime.databinding.ItemAnimeInfoBinding

@@ -2,10 +2,10 @@ package com.lambao.mrbeast.presentation.ui.fragment.anime_rating
 
 import android.os.Bundle
 import com.google.android.material.tabs.TabLayout
-import com.lambao.base.extension.click
-import com.lambao.base.extension.getParcelableCompat
-import com.lambao.base.extension.observeLatest
-import com.lambao.base.extension.popBackStack
+import com.lambao.presentation.extension.click
+import com.lambao.presentation.extension.getParcelableCompat
+import com.lambao.presentation.extension.observeLatest
+import com.lambao.presentation.extension.popBackStack
 import com.lambao.base.presentation.ui.dialog.BaseVMDialog
 import com.lambao.mrbeast.utils.Constants
 import com.lambao.mrbeast_anime.R

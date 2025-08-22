@@ -1,11 +1,7 @@
 package com.lambao.presentation.extension
 
-import android.Manifest
 import android.content.Context
-import android.content.pm.PackageManager
-import android.os.Build
 import android.widget.Toast
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 
@@ -19,21 +15,12 @@ fun Context.getAppName(): String {
     }
 }
 
-fun Context.hasStoragePermission(): Boolean {
-    return if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
-        ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED &&
-            ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED
-    } else {
-        true
-    }
-}
-
 fun Context.showToast(message: String, duration: Int = Toast.LENGTH_SHORT) {
     Toast.makeText(this, message, duration).show()
 }
 
 fun FragmentActivity.showToast(message: String) {
-    applicationContext.showToast(message)
+    this.showToast(message = message, duration = Toast.LENGTH_SHORT)
 }
 
 fun Fragment.showToast(message: String) {

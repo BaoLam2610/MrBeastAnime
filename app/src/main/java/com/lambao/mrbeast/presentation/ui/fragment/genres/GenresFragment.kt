@@ -1,8 +1,8 @@
 package com.lambao.mrbeast.presentation.ui.fragment.genres
 
 import android.os.Bundle
-import com.lambao.base.extension.launchWhenCreated
-import com.lambao.base.extension.observeLatest
+import com.lambao.presentation.extension.launchWhenCreated
+import com.lambao.presentation.extension.observeLatest
 import com.lambao.base.presentation.ui.fragment.BaseVMFragment
 import com.lambao.base.presentation.ui.view.recycler_view.spacing
 import com.lambao.mrbeast.presentation.ui.common.adapter.anime_info.AnimeContainerAdapter

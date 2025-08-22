@@ -48,15 +48,15 @@ abstract class BaseActivity<B : ViewDataBinding> : AppCompatActivity() {
         onViewReady(savedInstanceState)
     }
 
-    fun showLoading() {
+    open fun showLoading() {
         loadingHandler.showLoading()
     }
 
-    fun hideLoading() {
+    open fun hideLoading() {
         loadingHandler.hideLoading()
     }
 
-    fun handleNetworkError(networkException: NetworkException) {
+    open fun handleNetworkError(networkException: NetworkException) {
         networkErrorHandler.handleError(networkException)
     }
 

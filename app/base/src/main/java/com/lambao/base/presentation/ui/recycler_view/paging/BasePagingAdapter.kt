@@ -6,8 +6,8 @@ import androidx.annotation.LayoutRes
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.paging.PagingDataAdapter
-import com.lambao.base.extension.click
-import com.lambao.base.presentation.ui.recycler_view.BaseDiffItemCallBack
+import com.lambao.presentation.extension.click
+import com.lambao.presentation.ui.recycler_view.BaseDiffItemCallBack
 import com.lambao.base.presentation.ui.recycler_view.BaseRecyclerViewHolder
 
 /**

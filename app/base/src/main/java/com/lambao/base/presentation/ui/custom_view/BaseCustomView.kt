@@ -9,8 +9,8 @@ import android.widget.FrameLayout
 import androidx.annotation.LayoutRes
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
-import com.lambao.base.extension.restoreInstanceState
-import com.lambao.base.extension.saveInstanceState
+import com.lambao.presentation.extension.restoreInstanceState
+import com.lambao.presentation.extension.saveInstanceState
 
 abstract class BaseCustomView<B : ViewDataBinding> : FrameLayout {
 

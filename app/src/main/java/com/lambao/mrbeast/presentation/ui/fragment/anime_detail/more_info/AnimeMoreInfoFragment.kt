@@ -1,8 +1,8 @@
 package com.lambao.mrbeast.presentation.ui.fragment.anime_detail.more_info
 
 import android.os.Bundle
-import com.lambao.base.extension.getParcelableCompat
-import com.lambao.base.extension.observeLatest
+import com.lambao.presentation.extension.getParcelableCompat
+import com.lambao.presentation.extension.observeLatest
 import com.lambao.base.presentation.ui.fragment.BaseVMFragment
 import com.lambao.base.presentation.ui.view.recycler_view.spacing
 import com.lambao.mrbeast.domain.model.PairText

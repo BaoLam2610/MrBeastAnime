@@ -12,6 +12,14 @@ import androidx.navigation.navOptions
 import com.lambao.presentation.R
 import kotlinx.coroutines.launch
 
+
+/**
+ * Performs a safe navigation from a Fragment using the provided directions.
+ *
+ * @param actionId The ID of the navigation action to perform
+ * @param navOptions Optional navigation options to customize the transition
+ * @param args Optional Bundle containing navigation arguments
+ */
 fun Fragment.navigate(
     @IdRes actionId: Int,
     args: Bundle? = null,
@@ -63,6 +71,12 @@ fun Fragment.tryNavigate(
     }
 }
 
+/**
+ * Pops the back stack from the current Fragment's NavController.
+ * Moves to the previous destination in the navigation stack if possible.
+ *
+ * @return true if the back stack was popped successfully, false otherwise
+ */
 fun Fragment.popBackStack(): Boolean {
     return try {
         findNavController().popBackStack()
@@ -72,6 +86,11 @@ fun Fragment.popBackStack(): Boolean {
     }
 }
 
+/**
+ * Checks if there is a previous destination in the back stack that can be navigated to.
+ *
+ * @return true if there is a previous destination, false otherwise
+ */
 fun Fragment.canGoBack(): Boolean {
     return try {
         findNavController().previousBackStackEntry != null
@@ -81,6 +100,11 @@ fun Fragment.canGoBack(): Boolean {
     }
 }
 
+/**
+ * Gets the current Fragment instance from the NavController.
+ *
+ * @return The current Fragment if available, null otherwise
+ */
 fun Fragment.getCurrentFragment(): Fragment? {
     return try {
         val navController = findNavController()
@@ -95,6 +119,15 @@ fun Fragment.getCurrentFragment(): Fragment? {
     }
 }
 
+/**
+ * Navigates to another Fragment and listens for a result returned from it using StateFlow.
+ *
+ * @param actionId The ID of the navigation action to perform
+ * @param args Optional Bundle containing navigation arguments
+ * @param navOptions Optional navigation options to customize the transition
+ * @param resultKey The key to identify the result data
+ * @param onResult Callback to handle the result when the destination Fragment returns data
+ */
 fun <T> Fragment.navigateForResult(
     @IdRes actionId: Int,
     args: Bundle? = null,
@@ -115,7 +148,7 @@ fun <T> Fragment.navigateForResult(
                     resultFlow.collect { result ->
                         result?.let {
                             onResult(it)
-                            entry.savedStateHandle[resultKey] = null
+                            entry.savedStateHandle[resultKey] = null // Reset the result
                         }
                     }
                 }
@@ -127,6 +160,12 @@ fun <T> Fragment.navigateForResult(
     }
 }
 
+/**
+ * Sets a result to be returned to the previous Fragment before popping the back stack.
+ *
+ * @param resultKey The key to identify the result data
+ * @param result The result data to return
+ */
 fun <T> Fragment.setNavigationResult(resultKey: String, result: T) {
     try {
         val navController = findNavController()
@@ -135,5 +174,3 @@ fun <T> Fragment.setNavigationResult(resultKey: String, result: T) {
         e.printStackTrace()
     }
 }
-
-

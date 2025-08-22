@@ -4,7 +4,7 @@ import android.os.Bundle
 import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.ViewModelProvider
 import com.lambao.base.data.remote.NetworkException
-import com.lambao.base.extension.observeLatest
+import com.lambao.presentation.extension.observeLatest
 import com.lambao.base.presentation.ui.state.ScreenState
 import com.lambao.base.presentation.ui.viewmodel.BaseViewModel
 

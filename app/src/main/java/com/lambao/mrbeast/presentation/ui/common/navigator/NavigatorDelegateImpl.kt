@@ -2,7 +2,7 @@ package com.lambao.mrbeast.presentation.ui.common.navigator
 
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
-import com.lambao.base.extension.navigate
+import com.lambao.presentation.extension.navigate
 import com.lambao.mrbeast.domain.model.display.DisplayAnimeInfo
 import com.lambao.mrbeast.presentation.ui.fragment.anime_detail.AnimeDetailArgument
 import com.lambao.mrbeast.utils.Constants

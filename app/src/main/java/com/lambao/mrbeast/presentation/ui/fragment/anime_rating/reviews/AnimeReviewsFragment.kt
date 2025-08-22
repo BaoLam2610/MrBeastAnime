@@ -5,8 +5,8 @@ import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.recyclerview.widget.DividerItemDecoration
 import com.google.android.material.divider.MaterialDividerItemDecoration
-import com.lambao.base.extension.observeLatest
-import com.lambao.base.extension.tryNavigate
+import com.lambao.presentation.extension.observeLatest
+import com.lambao.presentation.extension.tryNavigate
 import com.lambao.base.presentation.ui.fragment.BaseVMFragment
 import com.lambao.base.presentation.ui.recycler_view.paging.DefaultLoadStateAdapter
 import com.lambao.base.presentation.ui.view.recycler_view.spacing

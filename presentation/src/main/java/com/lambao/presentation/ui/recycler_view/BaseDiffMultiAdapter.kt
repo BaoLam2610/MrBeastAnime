@@ -1,46 +1,19 @@
 package com.lambao.presentation.ui.recycler_view
 
-import android.view.LayoutInflater
-import android.view.ViewGroup
-import androidx.annotation.LayoutRes
-import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
-import androidx.recyclerview.widget.ListAdapter
 
-abstract class BaseDiffMultiAdapter<T : Any, B : ViewDataBinding>(
+abstract class BaseDiffMultiAdapter<T : Any>(
     areItemsTheSame: (T, T) -> Boolean = { old, new -> old == new },
     areContentsTheSame: (T, T) -> Boolean = { old, new -> old == new },
-    private val onItemClickListener: ((item: T, position: Int) -> Unit)? = null
-) : ListAdapter<T, BaseRecyclerViewHolder<B>>(
-    BaseDiffItemCallBack<T>(
-        diffItems = areItemsTheSame,
-        diffContents = areContentsTheSame
-    )
+    onItemClickListener: ((item: T, position: Int) -> Unit)? = null
+) : BaseDiffAdapter<T, ViewDataBinding>(
+    areItemsTheSame = areItemsTheSame,
+    areContentsTheSame = areContentsTheSame,
+    onItemClickListener = onItemClickListener
 ) {
+    protected abstract fun getViewType(item: T, position: Int): Int
 
-    @LayoutRes
-    protected abstract fun getLayoutId(viewType: Int): Int
-
-    protected abstract fun bind(binding: B, item: T, position: Int)
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseRecyclerViewHolder<B> {
-        val binding: B = DataBindingUtil.inflate(
-            LayoutInflater.from(parent.context),
-            getLayoutId(viewType),
-            parent,
-            false
-        )
-        return BaseRecyclerViewHolder(binding)
-    }
-
-    override fun onBindViewHolder(holder: BaseRecyclerViewHolder<B>, position: Int) {
-        bind(holder.binding, getItem(position), position)
-        onItemClickListener?.let { listener ->
-            holder.itemView.setOnClickListener {
-                listener.invoke(getItem(position), position)
-            }
-        }
+    override fun getItemViewType(position: Int): Int {
+        return getViewType(getItem(position), position)
     }
 }
-
-

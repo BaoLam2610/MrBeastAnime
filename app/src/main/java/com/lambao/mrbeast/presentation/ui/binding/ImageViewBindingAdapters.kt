@@ -2,10 +2,10 @@ package com.lambao.mrbeast.presentation.ui.binding
 
 import android.widget.ImageView
 import androidx.databinding.BindingAdapter
-import com.lambao.base.extension.loadBlurImage
-import com.lambao.base.extension.loadCircleImage
-import com.lambao.base.extension.loadImage
-import com.lambao.base.extension.loadRoundedImage
+import com.lambao.presentation.extension.loadBlurImage
+import com.lambao.presentation.extension.loadCircleImage
+import com.lambao.presentation.extension.loadImage
+import com.lambao.presentation.extension.loadRoundedImage
 
 object ImageViewBindingAdapters {
 

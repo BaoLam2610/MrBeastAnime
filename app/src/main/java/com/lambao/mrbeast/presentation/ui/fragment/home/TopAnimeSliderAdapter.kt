@@ -1,7 +1,7 @@
 package com.lambao.mrbeast.presentation.ui.fragment.home
 
-import com.lambao.base.extension.click
-import com.lambao.base.presentation.ui.recycler_view.BaseDiffAdapter
+import com.lambao.presentation.extension.click
+import com.lambao.presentation.ui.recycler_view.BaseDiffAdapter
 import com.lambao.mrbeast.domain.model.display.DisplayTopAnimeInfo
 import com.lambao.mrbeast_anime.R
 import com.lambao.mrbeast_anime.databinding.ItemTopAnimeSliderBinding

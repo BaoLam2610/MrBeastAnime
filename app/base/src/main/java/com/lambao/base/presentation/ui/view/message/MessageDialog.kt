@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import android.view.Window
 import com.lambao.base.R
 import com.lambao.base.databinding.LayoutMessageDialogBinding
-import com.lambao.base.extension.click
+import com.lambao.presentation.extension.click
 import com.lambao.base.presentation.ui.dialog.BaseDialog
 
 class MessageDialog(

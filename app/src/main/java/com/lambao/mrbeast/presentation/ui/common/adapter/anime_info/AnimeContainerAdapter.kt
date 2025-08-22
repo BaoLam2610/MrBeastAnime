@@ -1,8 +1,8 @@
 package com.lambao.mrbeast.presentation.ui.common.adapter.anime_info
 
 import androidx.databinding.ViewDataBinding
-import com.lambao.base.extension.click
-import com.lambao.base.presentation.ui.recycler_view.BaseDiffMultiAdapter
+import com.lambao.presentation.extension.click
+import com.lambao.presentation.ui.recycler_view.BaseDiffMultiAdapter
 import com.lambao.base.presentation.ui.view.recycler_view.linearSpacing
 import com.lambao.mrbeast.domain.model.display.DisplayAnimeInfo
 import com.lambao.mrbeast.domain.model.type.InfoType

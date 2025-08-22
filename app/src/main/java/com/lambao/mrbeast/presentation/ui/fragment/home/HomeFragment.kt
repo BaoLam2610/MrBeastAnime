@@ -3,10 +3,10 @@ package com.lambao.mrbeast.presentation.ui.fragment.home
 import android.os.Bundle
 import androidx.core.os.bundleOf
 import androidx.viewpager2.widget.ViewPager2
-import com.lambao.base.extension.click
-import com.lambao.base.extension.launchWhenCreated
-import com.lambao.base.extension.navigate
-import com.lambao.base.extension.observeLatest
+import com.lambao.presentation.extension.click
+import com.lambao.presentation.extension.launchWhenCreated
+import com.lambao.presentation.extension.navigate
+import com.lambao.presentation.extension.observeLatest
 import com.lambao.base.presentation.ui.fragment.BaseVMFragment
 import com.lambao.base.presentation.ui.view.recycler_view.spacing
 import com.lambao.mrbeast.domain.model.type.HomeType

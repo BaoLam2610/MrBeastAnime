@@ -1,7 +1,7 @@
 package com.lambao.mrbeast.presentation.ui.common.adapter
 
 import androidx.databinding.ViewDataBinding
-import com.lambao.base.presentation.ui.recycler_view.BaseDiffAdapter
+import com.lambao.presentation.ui.recycler_view.BaseDiffAdapter
 import com.lambao.mrbeast.domain.model.DisplayText
 import com.lambao.mrbeast.domain.model.Selectable
 

@@ -3,7 +3,7 @@ package com.lambao.mrbeast.presentation.ui.binding
 import android.view.View
 import androidx.annotation.DrawableRes
 import androidx.databinding.BindingAdapter
-import com.lambao.base.extension.click
+import com.lambao.presentation.extension.click
 
 object ViewBindingAdapters {
 

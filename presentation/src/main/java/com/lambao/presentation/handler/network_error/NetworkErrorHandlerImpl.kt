@@ -66,7 +66,7 @@ class NetworkErrorHandlerImpl(
 				dialogHandler.showAlertDialog(
 					title = title,
 					message = message,
-					positiveText = "OK",
+					positiveText = context.getString(R.string.ok),
 					negativeText = null,
 					onDismissListener = options.onDismiss
 				)
@@ -98,7 +98,6 @@ class NetworkErrorHandlerImpl(
 	}
 
 	override fun getUserFriendlyMessage(networkException: NetworkException): String {
-		// Prefer stable mapping based on type; fall back to provided message
 		return when (networkException.type) {
 			NetworkErrorType.NO_NETWORK -> context.getString(R.string.error_network_no_connection)
 			NetworkErrorType.TIMEOUT -> context.getString(R.string.error_network_timeout)

@@ -75,15 +75,15 @@ abstract class BaseDialog<B : ViewDataBinding> : DialogFragment() {
         }
     }
 
-    fun showLoading() {
+    open fun showLoading() {
         loadingHandler.showLoading()
     }
 
-    fun hideLoading() {
+    open fun hideLoading() {
         loadingHandler.hideLoading()
     }
 
-    fun handleNetworkError(networkException: NetworkException) {
+    open fun handleNetworkError(networkException: NetworkException) {
         networkErrorHandler.handleError(networkException)
     }
 

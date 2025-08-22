@@ -99,8 +99,8 @@ class PermissionHandlerImpl(
     override fun promptOpenSettings() {
         dialogHandler.showAlertDialog(
             message = settingsMessage,
-            positiveText = "Settings",
-            negativeText = "Cancel",
+            positiveText = activity.getString(R.string.settings),
+            negativeText = activity.getString(R.string.cancel),
             onPositiveListener = { openAppSettings() }
         )
     }

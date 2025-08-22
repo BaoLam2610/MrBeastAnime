@@ -1,6 +1,7 @@
 package com.lambao.base.presentation.ui.recycler_view
 
 import androidx.databinding.ViewDataBinding
+import com.lambao.presentation.ui.recycler_view.BaseRecyclerAdapter
 
 abstract class BaseRecyclerMultiAdapter<T>(
     onItemClickListener: ((item: T, position: Int) -> Unit)? = null

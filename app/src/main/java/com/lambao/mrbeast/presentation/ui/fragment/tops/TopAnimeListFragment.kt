@@ -1,7 +1,7 @@
 package com.lambao.mrbeast.presentation.ui.fragment.tops
 
 import android.os.Bundle
-import com.lambao.base.extension.observeLatest
+import com.lambao.presentation.extension.observeLatest
 import com.lambao.base.presentation.ui.recycler_view.paging.DefaultLoadStateAdapter
 import com.lambao.base.presentation.ui.view.recycler_view.setupGridLayoutManagerWithFooterSpan
 import com.lambao.base.presentation.ui.view.recycler_view.spacing

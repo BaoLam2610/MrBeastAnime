@@ -5,7 +5,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updatePadding
-import com.lambao.base.extension.findNavController
+import com.lambao.presentation.extension.findNavController
 import com.lambao.base.extension.setupWithNavController2
 import com.lambao.base.presentation.ui.activity.BaseVMActivity
 import com.lambao.base.utils.log

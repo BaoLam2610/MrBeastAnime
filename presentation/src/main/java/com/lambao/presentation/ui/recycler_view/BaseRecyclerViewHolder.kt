@@ -6,5 +6,3 @@ import androidx.recyclerview.widget.RecyclerView
 class BaseRecyclerViewHolder<B : ViewDataBinding>(
     val binding: B,
 ) : RecyclerView.ViewHolder(binding.root)
-
-

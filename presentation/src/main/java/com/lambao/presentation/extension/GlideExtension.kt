@@ -24,6 +24,14 @@ import jp.wasabeef.glide.transformations.BlurTransformation
 import jp.wasabeef.glide.transformations.GrayscaleTransformation
 import java.io.File
 
+/**
+ * Loads an image from a URL into the ImageView.
+ *
+ * @param url The URL of the image to load.
+ * @param placeholder Optional drawable to show while loading.
+ * @param error Optional drawable to show if loading fails.
+ * @param diskCacheStrategy Cache strategy for the image.
+ */
 fun ImageView.loadImage(
     url: String?,
     @DrawableRes placeholder: Int? = null,
@@ -41,6 +49,13 @@ fun ImageView.loadImage(
         .into(this)
 }
 
+/**
+ * Loads an image from a resource ID into the ImageView.
+ *
+ * @param resourceId The resource ID of the image.
+ * @param placeholder Optional drawable to show while loading.
+ * @param error Optional drawable to show if loading fails.
+ */
 fun ImageView.loadImage(
     @DrawableRes resourceId: Int,
     @DrawableRes placeholder: Int? = null,
@@ -57,6 +72,13 @@ fun ImageView.loadImage(
         .into(this)
 }
 
+/**
+ * Loads an image from a Uri into the ImageView.
+ *
+ * @param uri The Uri of the image to load.
+ * @param placeholder Optional drawable to show while loading.
+ * @param error Optional drawable to show if loading fails.
+ */
 fun ImageView.loadImage(
     uri: Uri?,
     @DrawableRes placeholder: Int? = null,
@@ -73,6 +95,13 @@ fun ImageView.loadImage(
         .into(this)
 }
 
+/**
+ * Loads an image from a Bitmap into the ImageView.
+ *
+ * @param bitmap The Bitmap to load.
+ * @param placeholder Optional drawable to show while loading.
+ * @param error Optional drawable to show if loading fails.
+ */
 fun ImageView.loadImage(
     bitmap: Bitmap?,
     @DrawableRes placeholder: Int? = null,
@@ -89,6 +118,13 @@ fun ImageView.loadImage(
         .into(this)
 }
 
+/**
+ * Loads an image from a File into the ImageView.
+ *
+ * @param file The File containing the image.
+ * @param placeholder Optional drawable to show while loading.
+ * @param error Optional drawable to show if loading fails.
+ */
 fun ImageView.loadImage(
     file: File?,
     @DrawableRes placeholder: Int? = null,
@@ -105,6 +141,13 @@ fun ImageView.loadImage(
         .into(this)
 }
 
+/**
+ * Loads an image from a byte array into the ImageView.
+ *
+ * @param bytes The byte array containing the image data.
+ * @param placeholder Optional drawable to show while loading.
+ * @param error Optional drawable to show if loading fails.
+ */
 fun ImageView.loadImage(
     bytes: ByteArray?,
     @DrawableRes placeholder: Int? = null,
@@ -121,6 +164,13 @@ fun ImageView.loadImage(
         .into(this)
 }
 
+/**
+ * Loads a Drawable into the ImageView.
+ *
+ * @param drawable The Drawable to load.
+ * @param placeholder Optional drawable to show while loading.
+ * @param error Optional drawable to show if loading fails.
+ */
 fun ImageView.loadDrawable(
     drawable: Drawable?,
     @DrawableRes placeholder: Int? = null,
@@ -137,6 +187,13 @@ fun ImageView.loadDrawable(
         .into(this)
 }
 
+/**
+ * Loads a circular cropped image from a URL into the ImageView.
+ *
+ * @param url The URL of the image to load.
+ * @param placeholder Optional drawable to show while loading.
+ * @param error Optional drawable to show if loading fails.
+ */
 fun ImageView.loadCircleImage(
     url: String?,
     @DrawableRes placeholder: Int? = null,
@@ -154,6 +211,13 @@ fun ImageView.loadCircleImage(
         .into(this)
 }
 
+/**
+ * Loads a circular cropped image from a resource ID into the ImageView.
+ *
+ * @param resourceId The resource ID of the image.
+ * @param placeholder Optional drawable to show while loading.
+ * @param error Optional drawable to show if loading fails.
+ */
 fun ImageView.loadCircleImage(
     @DrawableRes resourceId: Int,
     @DrawableRes placeholder: Int? = null,
@@ -171,6 +235,13 @@ fun ImageView.loadCircleImage(
         .into(this)
 }
 
+/**
+ * Loads a circular cropped image from a Uri into the ImageView.
+ *
+ * @param uri The Uri of the image to load.
+ * @param placeholder Optional drawable to show while loading.
+ * @param error Optional drawable to show if loading fails.
+ */
 fun ImageView.loadCircleImage(
     uri: Uri?,
     @DrawableRes placeholder: Int? = null,
@@ -188,6 +259,13 @@ fun ImageView.loadCircleImage(
         .into(this)
 }
 
+/**
+ * Loads a circular cropped image from a Bitmap into the ImageView.
+ *
+ * @param bitmap The Bitmap to load.
+ * @param placeholder Optional drawable to show while loading.
+ * @param error Optional drawable to show if loading fails.
+ */
 fun ImageView.loadCircleImage(
     bitmap: Bitmap?,
     @DrawableRes placeholder: Int? = null,
@@ -205,6 +283,13 @@ fun ImageView.loadCircleImage(
         .into(this)
 }
 
+/**
+ * Loads a circular cropped image from a File into the ImageView.
+ *
+ * @param file The File containing the image.
+ * @param placeholder Optional drawable to show while loading.
+ * @param error Optional drawable to show if loading fails.
+ */
 fun ImageView.loadCircleImage(
     file: File?,
     @DrawableRes placeholder: Int? = null,
@@ -222,6 +307,13 @@ fun ImageView.loadCircleImage(
         .into(this)
 }
 
+/**
+ * Loads a circular cropped image from a byte array into the ImageView.
+ *
+ * @param bytes The byte array containing the image data.
+ * @param placeholder Optional drawable to show while loading.
+ * @param error Optional drawable to show if loading fails.
+ */
 fun ImageView.loadCircleImage(
     bytes: ByteArray?,
     @DrawableRes placeholder: Int? = null,
@@ -239,6 +331,38 @@ fun ImageView.loadCircleImage(
         .into(this)
 }
 
+/**
+ * Loads a circular cropped image from a Drawable into the ImageView.
+ *
+ * @param drawable The Drawable to load.
+ * @param placeholder Optional drawable to show while loading.
+ * @param error Optional drawable to show if loading fails.
+ */
+fun ImageView.loadCircleImage(
+    drawable: Drawable?,
+    @DrawableRes placeholder: Int? = null,
+    @DrawableRes error: Int? = null
+) {
+    Glide.with(this)
+        .load(drawable)
+        .apply(RequestOptions().circleCrop())
+        .apply {
+            placeholder?.let { placeholder(it) }
+            error?.let { error(it) }
+            diskCacheStrategy(DiskCacheStrategy.NONE)
+        }
+        .transition(DrawableTransitionOptions.withCrossFade())
+        .into(this)
+}
+
+/**
+ * Loads an image with rounded corners from a URL into the ImageView.
+ *
+ * @param url The URL of the image to load.
+ * @param cornerRadiusDp The radius of the rounded corners in dp.
+ * @param placeholder Optional drawable to show while loading.
+ * @param error Optional drawable to show if loading fails.
+ */
 fun ImageView.loadRoundedImage(
     url: String?,
     cornerRadiusDp: Int,
@@ -248,7 +372,12 @@ fun ImageView.loadRoundedImage(
     val cornerRadiusPx = cornerRadiusDp.toDp
     Glide.with(this)
         .load(url)
-        .apply(RequestOptions().transform(CenterCrop(), RoundedCorners(cornerRadiusPx)))
+        .apply(
+            RequestOptions().transform(
+                CenterCrop(),
+                RoundedCorners(cornerRadiusPx)
+            )
+        )
         .apply {
             placeholder?.let { placeholder(it) }
             error?.let { error(it) }
@@ -258,6 +387,14 @@ fun ImageView.loadRoundedImage(
         .into(this)
 }
 
+/**
+ * Loads an image with rounded corners from a resource ID into the ImageView.
+ *
+ * @param resourceId The resource ID of the image.
+ * @param cornerRadiusDp The radius of the rounded corners in dp.
+ * @param placeholder Optional drawable to show while loading.
+ * @param error Optional drawable to show if loading fails.
+ */
 fun ImageView.loadRoundedImage(
     @DrawableRes resourceId: Int,
     cornerRadiusDp: Int,
@@ -267,7 +404,12 @@ fun ImageView.loadRoundedImage(
     val cornerRadiusPx = cornerRadiusDp.toDp
     Glide.with(this)
         .load(resourceId)
-        .apply(RequestOptions().transform(CenterCrop(), RoundedCorners(cornerRadiusPx)))
+        .apply(
+            RequestOptions().transform(
+                CenterCrop(),
+                RoundedCorners(cornerRadiusPx)
+            )
+        )
         .apply {
             placeholder?.let { placeholder(it) }
             error?.let { error(it) }
@@ -277,6 +419,14 @@ fun ImageView.loadRoundedImage(
         .into(this)
 }
 
+/**
+ * Loads an image with rounded corners from a Uri into the ImageView.
+ *
+ * @param uri The Uri of the image to load.
+ * @param cornerRadiusDp The radius of the rounded corners in dp.
+ * @param placeholder Optional drawable to show while loading.
+ * @param error Optional drawable to show if loading fails.
+ */
 fun ImageView.loadRoundedImage(
     uri: Uri?,
     cornerRadiusDp: Int,
@@ -286,7 +436,12 @@ fun ImageView.loadRoundedImage(
     val cornerRadiusPx = cornerRadiusDp.toDp
     Glide.with(this)
         .load(uri)
-        .apply(RequestOptions().transform(CenterCrop(), RoundedCorners(cornerRadiusPx)))
+        .apply(
+            RequestOptions().transform(
+                CenterCrop(),
+                RoundedCorners(cornerRadiusPx)
+            )
+        )
         .apply {
             placeholder?.let { placeholder(it) }
             error?.let { error(it) }
@@ -296,6 +451,14 @@ fun ImageView.loadRoundedImage(
         .into(this)
 }
 
+/**
+ * Loads an image with rounded corners from a Bitmap into the ImageView.
+ *
+ * @param bitmap The Bitmap to load.
+ * @param cornerRadiusDp The radius of the rounded corners in dp.
+ * @param placeholder Optional drawable to show while loading.
+ * @param error Optional drawable to show if loading fails.
+ */
 fun ImageView.loadRoundedImage(
     bitmap: Bitmap?,
     cornerRadiusDp: Int,
@@ -305,7 +468,12 @@ fun ImageView.loadRoundedImage(
     val cornerRadiusPx = cornerRadiusDp.toDp
     Glide.with(this)
         .load(bitmap)
-        .apply(RequestOptions().transform(CenterCrop(), RoundedCorners(cornerRadiusPx)))
+        .apply(
+            RequestOptions().transform(
+                CenterCrop(),
+                RoundedCorners(cornerRadiusPx)
+            )
+        )
         .apply {
             placeholder?.let { placeholder(it) }
             error?.let { error(it) }
@@ -315,6 +483,14 @@ fun ImageView.loadRoundedImage(
         .into(this)
 }
 
+/**
+ * Loads an image with rounded corners from a File into the ImageView.
+ *
+ * @param file The File containing the image.
+ * @param cornerRadiusDp The radius of the rounded corners in dp.
+ * @param placeholder Optional drawable to show while loading.
+ * @param error Optional drawable to show if loading fails.
+ */
 fun ImageView.loadRoundedImage(
     file: File?,
     cornerRadiusDp: Int,
@@ -324,7 +500,12 @@ fun ImageView.loadRoundedImage(
     val cornerRadiusPx = cornerRadiusDp.toDp
     Glide.with(this)
         .load(file)
-        .apply(RequestOptions().transform(CenterCrop(), RoundedCorners(cornerRadiusPx)))
+        .apply(
+            RequestOptions().transform(
+                CenterCrop(),
+                RoundedCorners(cornerRadiusPx)
+            )
+        )
         .apply {
             placeholder?.let { placeholder(it) }
             error?.let { error(it) }
@@ -334,6 +515,14 @@ fun ImageView.loadRoundedImage(
         .into(this)
 }
 
+/**
+ * Loads an image with rounded corners from a byte array into the ImageView.
+ *
+ * @param bytes The byte array containing the image data.
+ * @param cornerRadiusDp The radius of the rounded corners in dp.
+ * @param placeholder Optional drawable to show while loading.
+ * @param error Optional drawable to show if loading fails.
+ */
 fun ImageView.loadRoundedImage(
     bytes: ByteArray?,
     cornerRadiusDp: Int,
@@ -343,7 +532,12 @@ fun ImageView.loadRoundedImage(
     val cornerRadiusPx = cornerRadiusDp.toDp
     Glide.with(this)
         .load(bytes)
-        .apply(RequestOptions().transform(CenterCrop(), RoundedCorners(cornerRadiusPx)))
+        .apply(
+            RequestOptions().transform(
+                CenterCrop(),
+                RoundedCorners(cornerRadiusPx)
+            )
+        )
         .apply {
             placeholder?.let { placeholder(it) }
             error?.let { error(it) }
@@ -353,10 +547,135 @@ fun ImageView.loadRoundedImage(
         .into(this)
 }
 
+/**
+ * Loads an image with rounded corners from a Drawable into the ImageView.
+ *
+ * @param drawable The Drawable to load.
+ * @param cornerRadiusDp The radius of the rounded corners in dp.
+ * @param placeholder Optional drawable to show while loading.
+ * @param error Optional drawable to show if loading fails.
+ */
+fun ImageView.loadRoundedImage(
+    drawable: Drawable?,
+    cornerRadiusDp: Int,
+    @DrawableRes placeholder: Int? = null,
+    @DrawableRes error: Int? = null
+) {
+    val cornerRadiusPx = cornerRadiusDp.toDp
+    Glide.with(this)
+        .load(drawable)
+        .apply(
+            RequestOptions().transform(
+                CenterCrop(),
+                RoundedCorners(cornerRadiusPx)
+            )
+        )
+        .apply {
+            placeholder?.let { placeholder(it) }
+            error?.let { error(it) }
+            diskCacheStrategy(DiskCacheStrategy.NONE)
+        }
+        .transition(DrawableTransitionOptions.withCrossFade())
+        .into(this)
+}
+
+/**
+ * Loads an image with custom size from a URL into the ImageView.
+ *
+ * @param url The URL of the image to load.
+ * @param width The desired width of the image in pixels.
+ * @param height The desired height of the image in pixels.
+ * @param placeholder Optional drawable to show while loading.
+ * @param error Optional drawable to show if loading fails.
+ */
+fun ImageView.loadImageWithSize(
+    url: String?,
+    width: Int,
+    height: Int,
+    @DrawableRes placeholder: Int? = null,
+    @DrawableRes error: Int? = null
+) {
+    Glide.with(this)
+        .load(url)
+        .override(width, height)
+        .apply {
+            placeholder?.let { placeholder(it) }
+            error?.let { error(it) }
+            diskCacheStrategy(DiskCacheStrategy.ALL)
+        }
+        .transition(DrawableTransitionOptions.withCrossFade())
+        .into(this)
+}
+
+/**
+ * Loads a blurred image from a URL into the ImageView (requires Glide Transformations library).
+ *
+ * @param url The URL of the image to load.
+ * @param blurRadius The blur radius (1-25, default 10 for performance).
+ * @param placeholder Optional drawable to show while loading.
+ * @param error Optional drawable to show if loading fails.
+ */
+fun ImageView.loadBlurImage(
+    url: String?,
+    blurRadius: Int = 10,
+    @DrawableRes placeholder: Int? = null,
+    @DrawableRes error: Int? = null
+) {
+    Glide.with(this)
+        .load(url)
+        .apply(RequestOptions.bitmapTransform(BlurTransformation(blurRadius)))
+        .apply {
+            placeholder?.let { placeholder(it) }
+            error?.let { error(it) }
+            diskCacheStrategy(DiskCacheStrategy.ALL)
+        }
+        .transition(DrawableTransitionOptions.withCrossFade())
+        .into(this)
+}
+
+/**
+ * Loads a grayscale image from a URL into the ImageView.
+ *
+ * @param url The URL of the image to load.
+ * @param placeholder Optional drawable to show while loading.
+ * @param error Optional drawable to show if loading fails.
+ */
+fun ImageView.loadGrayscaleImage(
+    url: String?,
+    @DrawableRes placeholder: Int? = null,
+    @DrawableRes error: Int? = null
+) {
+    Glide.with(this)
+        .load(url)
+        .apply(RequestOptions().transform(GrayscaleTransformation()))
+        .apply {
+            placeholder?.let { placeholder(it) }
+            error?.let { error(it) }
+            diskCacheStrategy(DiskCacheStrategy.ALL)
+        }
+        .transition(DrawableTransitionOptions.withCrossFade())
+        .into(this)
+}
+
+/**
+ * Preloads an image from a URL to cache without displaying it.
+ *
+ * @param url The URL of the image to preload.
+ */
 fun Context.preloadImage(url: String?) {
-    Glide.with(this).load(url).diskCacheStrategy(DiskCacheStrategy.ALL).preload()
+    Glide.with(this)
+        .load(url)
+        .diskCacheStrategy(DiskCacheStrategy.ALL)
+        .preload()
 }
 
+/**
+ * Loads an image and retrieves the Bitmap asynchronously.
+ *
+ * @param url The URL of the image to load.
+ * @param onBitmapLoaded Callback invoked when the Bitmap is loaded.
+ * @param onError Callback invoked if loading fails with the exception, if available.
+ */
 fun Context.loadBitmap(
     url: String?,
     onBitmapLoaded: (Bitmap) -> Unit,
@@ -379,6 +698,15 @@ fun Context.loadBitmap(
         })
 }
 
+/**
+ * Loads an image with a listener for load success or failure.
+ *
+ * @param url The URL of the image to load.
+ * @param onSuccess Callback invoked when the image loads successfully.
+ * @param onError Callback invoked if loading fails.
+ * @param placeholder Optional drawable to show while loading.
+ * @param error Optional drawable to show if loading fails.
+ */
 fun ImageView.loadImageWithListener(
     url: String?,
     @DrawableRes placeholder: Int? = null,
@@ -418,15 +746,26 @@ fun ImageView.loadImageWithListener(
         .into(this)
 }
 
-fun <T> RequestBuilder<T>.skipMemoryCache(): RequestBuilder<T> =
-    this.apply(RequestOptions().skipMemoryCache(true))
+/**
+ * Skip memory cache for this image load.
+ */
+fun <T> RequestBuilder<T>.skipMemoryCache(): RequestBuilder<T> {
+    return this.apply(RequestOptions().skipMemoryCache(true))
+}
 
-fun <T> RequestBuilder<T>.withSignature(signature: String): RequestBuilder<T> =
-    this.apply(RequestOptions().signature(ObjectKey(signature)))
+/**
+ * Use a custom signature to control caching behavior.
+ */
+fun <T> RequestBuilder<T>.withSignature(signature: String): RequestBuilder<T> {
+    return this.apply(RequestOptions().signature(ObjectKey(signature)))
+}
 
+/**
+ * Preload images for faster display.
+ */
 fun Context.preloadImages(urls: List<String>) {
     urls.forEach { url ->
-        if (!url.isNullOrEmpty()) {
+        if (url.isNotEmpty()) {
             Glide.with(this)
                 .load(url)
                 .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
@@ -435,8 +774,9 @@ fun Context.preloadImages(urls: List<String>) {
     }
 }
 
+/**
+ * Clears the current Glide request for the ImageView.
+ */
 fun ImageView.clearGlide() {
     Glide.with(this).clear(this)
 }
-
-

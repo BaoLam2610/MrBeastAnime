@@ -4,9 +4,9 @@ import android.os.Bundle
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DividerItemDecoration
 import com.google.android.material.divider.MaterialDividerItemDecoration
-import com.lambao.base.extension.getParcelableCompat
-import com.lambao.base.extension.launchWhenCreated
-import com.lambao.base.extension.observeLatest
+import com.lambao.presentation.extension.getParcelableCompat
+import com.lambao.presentation.extension.launchWhenCreated
+import com.lambao.presentation.extension.observeLatest
 import com.lambao.base.presentation.ui.fragment.paging.BaseManualPagingFragment
 import com.lambao.mrbeast.utils.Constants
 import com.lambao.mrbeast_anime.R

@@ -3,6 +3,7 @@ package com.lambao.base.extension
 import android.content.Context
 import android.webkit.MimeTypeMap
 import androidx.annotation.WorkerThread
+import com.lambao.presentation.extension.MediaFileType
 import java.io.File
 
 /**

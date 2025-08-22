@@ -1,6 +1,7 @@
 package com.lambao.base.presentation.ui.recycler_view
 
 import androidx.databinding.ViewDataBinding
+import com.lambao.presentation.ui.recycler_view.BaseDiffAdapter
 
 abstract class BaseDiffMultiAdapter<T : Any>(
     areItemsTheSame: (T, T) -> Boolean = { old, new -> old == new },

@@ -33,7 +33,7 @@
     <string name="error_network_gateway_timeout">Gateway timeout. Please try again later.</string>
     <string name="error_network_bad_request">Invalid request. Please check your input.</string>
     <string name="error_network_unauthorized">Authentication required. Please log in again.</string>
-    <string name="error_network_forbidden">Access denied. You don't have permission for this action.</string>
+    <string name="error_network_forbidden">Access denied. You don\'t have permission for this action.</string>
     <string name="error_network_not_found">Resource not found. Please check and try again.</string>
     <string name="error_network_unprocessable_entity">Invalid data. Please check your input.</string>
     <string name="error_network_method_not_allowed">This action is not allowed.</string>
