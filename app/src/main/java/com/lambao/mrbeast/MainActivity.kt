@@ -1,22 +1,33 @@
 package com.lambao.mrbeast
 
 import android.os.Bundle
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-import com.lambao.mrbeast_anime.R
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Scaffold
+import androidx.compose.ui.Modifier
+import com.lambao.core.ui.theme.MrBeastTheme
+import com.lambao.mrbeast.navigation.MrBeastNavigation
 
-
-class MainActivity : AppCompatActivity() {
+/**
+ * Main Activity - Entry point for the app
+ * Uses Jetpack Compose for UI
+ */
+class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        setContentView(R.layout.activity_main)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
+        
+        setContent {
+            MrBeastTheme {
+                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
+                    MrBeastNavigation(
+                        modifier = Modifier.padding(innerPadding)
+                    )
+                }
+            }
         }
     }
 }

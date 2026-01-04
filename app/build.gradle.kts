@@ -1,9 +1,9 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
-    alias(libs.plugins.kotlin.kapt)
     alias(libs.plugins.kotlin.parcelize)
-    alias(libs.plugins.hilt)
+    alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.kotlin.compose.compiler)
     alias(libs.plugins.androidx.navigation.safeargs.kotlin)
     id("com.google.devtools.ksp")
     alias(libs.plugins.google.firebase.appdistribution)
@@ -39,17 +39,20 @@ android {
             )
         }
     }
+    
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
     }
+    
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_17.toString()
     }
+    
     buildFeatures {
-        viewBinding = true
-        dataBinding = true
+        compose = true
     }
+    
     packaging {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
@@ -61,85 +64,81 @@ android {
     productFlavors {
         create("develop") {
             dimension = "version"
-            firebaseAppDistribution {
-                appId = "1:253049909295:android:cc6486064eb7292e1c16da"
-                serviceCredentialsFile = "$rootDir/app/firebase-key.json"
-                releaseNotes = getLastCommitMessage()
-                testersFile = "$rootDir/app/testers.txt"
-            }
+
         }
     }
 }
 
 dependencies {
-    implementation(project(":app:base"))
+    // Core Modules
+    implementation(project(":core"))
+    implementation(project(":core:common"))
+    implementation(project(":core:network"))
+    implementation(project(":core:ui"))
+    implementation(project(":domain"))
+    implementation(project(":data"))
+    
+    // AndroidX Core
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
+    implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.material)
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
-    testImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(libs.androidx.espresso.core)
+    
+    // Jetpack Compose
+    implementation(platform(libs.compose.bom))
+    implementation(libs.compose.ui)
+    implementation(libs.compose.ui.graphics)
+    implementation(libs.compose.ui.tooling.preview)
+    implementation(libs.compose.material3)
+    implementation(libs.compose.material.icons.extended)
+    implementation(libs.androidx.activity.compose)
+    implementation(libs.androidx.lifecycle.viewmodel.compose)
+    implementation(libs.androidx.lifecycle.runtime.compose)
+    debugImplementation(libs.compose.ui.tooling)
+    debugImplementation(libs.compose.ui.test.manifest)
+    
+    // Navigation
+    implementation(libs.androidx.navigation.compose)
+    
+    // Koin DI
+    implementation(libs.koin.core)
+    implementation(libs.koin.android)
+    implementation(libs.koin.androidx.compose)
 
-    /* Hilt */
-    implementation(libs.hilt.android)
-    kapt(libs.hilt.android.compiler)
-
-    /* Retrofit 2 */
-    implementation(libs.retrofit)
-    implementation(libs.retrofit.converter.gson)
-
-    /* Logging Interceptor */
-    implementation(libs.logging.interceptor)
-
-    /* Timber */
+    // Timber
     implementation(libs.timber)
 
-    /* Navigation Component */
-    implementation(libs.androidx.navigation.fragment.ktx)
-    implementation(libs.androidx.navigation.ui.ktx)
-    implementation(libs.androidx.navigation.runtime.ktx)
-
-    /* Glide */
-    implementation(libs.glide)
-    implementation(libs.glide.transformations)
-
-    /* Youtube player */
+    // Youtube player
     implementation(libs.pierfrancescosoffritti.androidyoutubeplayer)
 
-    /* Paging 3 */
+    // Paging 3
     implementation(libs.androidx.paging.runtime.ktx)
+    implementation(libs.androidx.paging.compose)
 
-    /* Splash */
+    // Splash
     implementation(libs.androidx.core.splashscreen)
 
-    /* Room */
+    // Room
     implementation(libs.androidx.room.ktx)
     implementation(libs.androidx.room.paging)
     ksp(libs.androidx.room.compiler)
 
-    /* Flexbox Layout */
+    // Flexbox Layout
     implementation(libs.flexbox)
 
-    /* MPAndroid Chart*/
+    // MPAndroid Chart
     implementation(libs.mpandroidchart)
-}
-
-/* Hilt: Allow references to generated code*/
-kapt {
-    correctErrorTypes = true
-}
-
-fun getLastCommitMessage(): String {
-    return try {
-        val process = ProcessBuilder("git", "log", "-1", "--pretty=%B")
-            .redirectErrorStream(true)
-            .start()
-
-        process.inputStream.bufferedReader().readText().trim()
-    } catch (e: Exception) {
-        "No commit message found"
-    }
+    
+    // Coil for Compose
+    implementation(libs.coil.compose)
+    implementation(libs.coil.network.okhttp)
+    
+    // Testing
+    testImplementation(libs.junit)
+    androidTestImplementation(libs.androidx.junit)
+    androidTestImplementation(libs.androidx.espresso.core)
+    androidTestImplementation(libs.compose.ui.test.junit4)
 }

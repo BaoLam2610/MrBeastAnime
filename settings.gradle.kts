@@ -24,4 +24,9 @@ dependencyResolutionManagement {
 
 rootProject.name = "MrBeast"
 include(":app")
-include(":app:base")
+include(":core")
+include(":core:network")
+include(":core:ui")
+include(":core:common")
+include(":domain")
+include(":data")
